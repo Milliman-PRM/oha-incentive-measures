@@ -12854,6 +12854,8 @@ ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F333,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F3340,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F3341,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F3342,,Primary
+ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F3481,,Primary
+ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F3489,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F310,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F3110,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F3111,,Primary
@@ -12883,6 +12885,8 @@ ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F3172,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F319,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F308,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F328,,Primary
+ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F3281,,Primary
+ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F3289,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F3181,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F39,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F338,,Primary
@@ -12915,6 +12919,11 @@ ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F410,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F411,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F413,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F418,,Primary
+ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F422,,Primary
+ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F423,,Primary
+ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F424,,Primary
+ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F428,,Primary
+ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F429,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F449,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F444,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F445,,Primary
@@ -13238,6 +13247,8 @@ ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F985,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F5000,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F5001,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F5002,,Primary
+ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F5081,,Primary
+ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F5089,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F958,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F959,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F950,,Primary
@@ -13320,6 +13331,7 @@ ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F6381,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F6381,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F633,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F6389,,Primary
+ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F640,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F910,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F919,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F938,,Primary
@@ -13355,6 +13367,7 @@ ED_Visits,Numer_Excl_MH,ICD10CM-Diag,H9325,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F804,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F8081,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F800,,Primary
+ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F8082,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F8089,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F809,,Primary
 ED_Visits,Numer_Excl_MH,ICD10CM-Diag,F82,,Primary

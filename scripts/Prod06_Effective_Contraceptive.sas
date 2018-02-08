@@ -1,5 +1,5 @@
 /*
-### CODE OWNERS: Ben Copeland, Neil Schneider, Michael Menser
+### CODE OWNERS: Ben Copeland, Neil Schneider, Michael Menser, Katherine Castro
 
 ### OBJECTIVE:
 	Calculate the Effective Contraceptive Use quality measure 
@@ -23,7 +23,7 @@ libname M150_Tmp "&M150_Tmp.";
 %FindICDFieldNames()
 
 %let measure_name = eff_contra;
-%let age_limit_expression = between 18 and 50;
+%let age_limit_expression = between 15 and 50;
 %let gender_limit = F;
 %CodeGenClaimsFilter(
 	&measure_name.

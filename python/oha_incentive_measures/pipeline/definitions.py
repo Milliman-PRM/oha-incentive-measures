@@ -234,36 +234,6 @@ class EffectiveContraceptive(PRMSASTask):  # pragma: no cover
         )
         # pylint: enable=arguments-differ
 
-
-class FollowUpMentalHospitialization(PRMSASTask):  # pragma: no cover
-    """Run Prod07_follow_up_mental_hospitalization.sas"""
-
-    requirements = RequirementsContainer(
-        ImportReferences,
-        staging_membership.DeriveParamsFromMembership,
-        poweruser_detail_datamart.ExportSAS,
-    )
-
-    def output(self):
-        names_output = {
-            'results_fuh_mental.sas7bdat'
-        }
-        return [
-            IndyPyLocalTarget(PRM_META[(150, 'out')] / name)
-            for name in names_output
-            ]
-
-    def run(self):  # pylint: disable=arguments-differ
-        """Run the Luigi job"""
-        program = PATH_SCRIPTS / "Prod07_follow_up_mental_hospitalization.sas"
-        super().run(
-            program,
-            path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
-            create_folder=True,
-        )
-        # pylint: enable=arguments-differ
-
-
 class AssessmentsForDHSChildren(PRMSASTask):  # pragma: no cover
     """Run Prod08_Assessments_for_DHS_children.sas"""
 

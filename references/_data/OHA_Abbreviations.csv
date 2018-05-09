@@ -5,7 +5,6 @@ CRC_Screening,Colorectal Cancer Screening,"#,##0.0%",Binary
 Dev_Screening,Developmental Screening 0-36 Months,"#,##0.0%",Binary
 ED_Visits,Ambulatory Care: Emergency Dept Utilization,"#,##0.0",Rate
 Eff_Contra,Effective Contraceptive Use,"#,##0.0%",Binary
-FUH_Mental,Follow-Up after Hospitalization for Mental Illness(NQF 0576),"#,##0.0%",Rate
 DHS_assessments,Assessments within 60 Days for Children in DHS Custody,"#,##0.0%",Binary
 Hypertension,Controlling High Blood Pressure,"#,##0.0%",Binary
 Diabetes_HbA1c,Diabetes: HbA1c Poor Control,"#,##0.0%",Binary

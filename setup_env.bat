@@ -1,5 +1,5 @@
 @echo off
-rem ### CODE OWNERS: Shea Parkes
+rem ### CODE OWNERS: Shea Parkes, Chas Busenburg
 rem
 rem ### OBJECTIVE:
 rem   Setup the environment for CI and Development purposes.

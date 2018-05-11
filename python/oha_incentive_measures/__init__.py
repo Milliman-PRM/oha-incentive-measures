@@ -1,5 +1,5 @@
 """
-## CODE OWNERS: Shea Parkes
+## CODE OWNERS: Shea Parkes, Chas Busenburg
 
 ### OBJECTIVE:
   Mark the root of the package

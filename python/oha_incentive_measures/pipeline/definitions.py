@@ -421,7 +421,6 @@ class CombineAll(PRMSASTask):  # pragma: no cover
         EDVisits,
         EffectiveContraceptive,
         FollowUpMentalHospitialization,
-        AssessmentsForDHSChildren,
     )
 
     def output(self):
@@ -443,6 +442,13 @@ class CombineAll(PRMSASTask):  # pragma: no cover
             create_folder=True,
         )
         # pylint: enable=arguments-differ
+
+
+def inject_dhs_assessments(): #pragma: no cover
+    """Inject DHS assessment tasks into CombineAll"""
+    CombineAll.add_requirements(
+        AssessmentsForDHSChildren,
+    )
 
 
 def inject_emr_measures():  # pragma: no cover

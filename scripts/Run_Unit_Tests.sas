@@ -13,7 +13,7 @@
 options compress = yes mprint;
 %let dir_logs_local = %sysget(UserProfile)\prm_local\OHA_Incentive_Measures_Logs\;
 %put dir_logs_local = &dir_logs_local.;
-%CreateFolder(&dir_logs_local.Error_Check\)
+%CreateFolder(&dir_logs_local.)
 libname lib_log "&dir_logs_local.";
 
 /**** LIBRARIES, LOCATIONS, LITERALS, ETC. GO ABOVE HERE ****/
@@ -22,7 +22,7 @@ libname lib_log "&dir_logs_local.";
 
 
 %RunProductionPrograms(
-/* Where the code is      */ dir_program_src          = %sysget(OHA_INCENTIVE_MEASURES_HOME)\scripts\;
+/* Where the code is      */ dir_program_src          = %sysget(OHA_INCENTIVE_MEASURES_HOME)scripts
 /* Where the logs go      */ ,dir_log_lst_output      = &dir_logs_local.
 /* Where this log goes    */ ,library_process_log     = lib_log
 /* Scrape subfolders      */ ,bool_traverse_subdirs   = True

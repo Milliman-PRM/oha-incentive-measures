@@ -417,7 +417,7 @@ class CopyReferenceFiles(PRMSASTask):  # pragma: no cover
         # pylint: enable=arguments-differ
 
 
-class CombineAllOHA(PRMSASTask):  # pragma: no cover
+class CombineAll(PRMSASTask):  # pragma: no cover
     """Run Prod42_Combine_All.sas"""
 
     requirements = RequirementsContainer(
@@ -457,7 +457,7 @@ class CombineAllOHA(PRMSASTask):  # pragma: no cover
 
 def inject_emr_measures():  # pragma: no cover
     """Inject EMR Mesure tasks into CombineAllOHA"""
-    CombineAllOHA.add_requirements(
+    CombineAll.add_requirements(
         quality_metrics_oha.Hypertension,
         quality_metrics_oha.DiabetesHbA1c,
         quality_metrics_oha.Tobacco,

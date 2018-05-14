@@ -13,19 +13,6 @@ options compress = yes;
 %include "%sysget(ANALYTICS_PIPELINE_HOME)\010_Master\Supp01_Parser.sas" / source2;
 %include "%sysget(ANALYTICS_PIPELINE_HOME)\150_Quality_Metrics\Supp01_Shared.sas";
 
-%AssertThat(%upcase(&quality_metrics.),eq, OHA_INCENTIVE_MEASURES
-			,ReturnMessage=The user has not chosen to run OHA Incentive Measures.  This program does not need run.
-			,FailAction = EndActiveSASSession 
-			);
-
-%AssertThat(
-	%upcase(&anonymize.)
-	,eq
-	,TRUE
-	,ReturnMessage=Clinically based quality measures are only calculated for demostration only.
-	,FailAction=EndActiveSASSession
-	)
-
 %put WARNING: METRIC CALCULATION CODE BELOW IS LIKELY STALE. USERS SHOULD CONSIDER THIS BEFORE ENABLING PROGRAM FOR PRODUCTION PURPOSES;
 
 /* Libnames */

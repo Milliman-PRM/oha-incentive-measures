@@ -17,19 +17,6 @@ options
 %include "%sysget(ANALYTICS_PIPELINE_HOME)\010_Master\Supp01_Parser.sas" / source2;
 %include "%sysget(ANALYTICS_PIPELINE_HOME)\150_Quality_Metrics\Supp01_Shared.sas" / source2; 
 
-%AssertThat(%upcase(&quality_metrics.),eq, OHA_INCENTIVE_MEASURES
-			,ReturnMessage=The user has not chosen to run OHA Incentive Measures.  This program does not need run.
-			,FailAction = EndActiveSASSession 
-			);
-
-%AssertThat(
-	%upcase(&anonymize.)
-	,eq
-	,FALSE
-	,ReturnMessage=Custom quality measures are only allowed for non-demo runs to protect ePHI.
-	,FailAction=EndActiveSASSession
-	)
-
 /* Libnames */
 libname M150_Log "&M150_Log.";
 

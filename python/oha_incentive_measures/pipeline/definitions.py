@@ -17,6 +17,7 @@ from prm.execute.definitions import (
     staging_membership,
     poweruser_detail_datamart,
     staging_emr,
+    ancillary_inputs,
 )
 
 PRM_META = prm.meta.project.parse_project_metadata()
@@ -422,15 +423,15 @@ class CombineAll(PRMSASTask):  # pragma: no cover
 
     requirements = RequirementsContainer(
         ancillary_inputs.Validation,
-        quality_metrics_oha.CopyReferenceFiles,
-        quality_metrics_oha.AlcoholSBIRT,
-        quality_metrics_oha.AdolescentWellCare,
-        quality_metrics_oha.ColorectralCancerScreening,
-        quality_metrics_oha.DevelopmentalScreening,
-        quality_metrics_oha.EDVisits,
-        quality_metrics_oha.EffectiveContraceptive,
-        quality_metrics_oha.FollowUpMentalHospitialization,
-        quality_metrics_oha.AssessmentsForDHSChildren,
+        CopyReferenceFiles,
+        AlcoholSBIRT,
+        AdolescentWellCare,
+        ColorectralCancerScreening,
+        DevelopmentalScreening,
+        EDVisits,
+        EffectiveContraceptive,
+        FollowUpMentalHospitialization,
+        AssessmentsForDHSChildren,
     )
 
     def output(self):
@@ -458,9 +459,7 @@ class CombineAll(PRMSASTask):  # pragma: no cover
 def inject_emr_measures():  # pragma: no cover
     """Inject EMR Mesure tasks into CombineAllOHA"""
     CombineAll.add_requirements(
-        quality_metrics_oha.Hypertension,
-        quality_metrics_oha.DiabetesHbA1c,
-        quality_metrics_oha.Tobacco,
+        Hypertension,
+        DiabetesHbA1c,
+        Tobacco,
     )
-
-

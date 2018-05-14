@@ -10,12 +10,7 @@
 %include "%sysget(INDYHEALTH_LIBRARY_HOME)\include_sas_macros.sas" / source2;
 options compress = yes;
 %include "%sysget(ANALYTICS_PIPELINE_HOME)\010_Master\Supp01_Parser.sas" / source2;
-%include "%GetParentFolder(1)Supp01_Shared.sas" / source2;
-
-%AssertThat(%upcase(&quality_metrics.),eq, OHA_INCENTIVE_MEASURES
-			,ReturnMessage=The user has not chosen to run OHA Incentive Measures.  This program does not need run.
-			,FailAction = EndActiveSASSession 
-			);
+%include "%sysget(ANALYTICS_PIPELINE_HOME)\150_Quality_Metrics\Supp01_Shared.sas" / source2;
 
 /* Libnames */
 libname M015_Out "&M015_Out." access=readonly;

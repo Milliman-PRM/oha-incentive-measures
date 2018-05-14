@@ -16,6 +16,8 @@ options
 	;
 %include "%sysget(ANALYTICS_PIPELINE_HOME)\010_Master\Supp01_Parser.sas" / source2;
 %include "%sysget(ANALYTICS_PIPELINE_HOME)\150_Quality_Metrics\Supp01_Shared.sas" / source2; 
+%include "&M008_cde.Func12_write_breadcrumb_file.sas" / source2;
+
 
 /* Libnames */
 libname M150_Log "&M150_Log.";
@@ -39,5 +41,7 @@ libname M150_Log "&M150_Log.";
 		))
 	,prefix_email_subject=&notification_email_prefix.
 	)
+
+%write_breadcrumb_file(&M150_Out.);
 
 %put System Return Code = &syscc.;

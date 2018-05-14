@@ -7,6 +7,8 @@
 ### DEVELOPER NOTES:
 
 """
+import os
+from pathlib import Path
 
 from indypy.nonstandard.ext_luigi import IndyPyLocalTarget, build_logfile_name
 import prm.meta.project
@@ -20,6 +22,7 @@ from prm.execute.definitions import (
     ancillary_inputs,
 )
 
+PATH_SCRIPTS = Path(os.environ['oha_incentive_measures_home']) / 'scripts'
 PRM_META = prm.meta.project.parse_project_metadata()
 
 # =============================================================================
@@ -47,8 +50,7 @@ class AlcoholSBIRT(PRMSASTask):  # pragma: no cover
 
     def run(self):  # pylint: disable=arguments-differ
         """Run the Luigi job"""
-        program = PRM_META[(150, 'code')] / "OHA_Incentive_Measures" \
-                  / "Prod01_Alcohol_SBIRT.sas"
+        program = PATH_SCRIPTS / "Prod01_Alcohol_SBIRT.sas"
         super().run(
             program,
             path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
@@ -77,8 +79,7 @@ class AdolescentWellCare(PRMSASTask):  # pragma: no cover
 
     def run(self):  # pylint: disable=arguments-differ
         """Run the Luigi job"""
-        program = PRM_META[(150, 'code')] / "OHA_Incentive_Measures" \
-                  / "Prod02_Adolescent_Well_Care.sas"
+        program = PATH_SCRIPTS / "Prod02_Adolescent_Well_Care.sas"
         super().run(
             program,
             path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
@@ -107,8 +108,7 @@ class ColorectralCancerScreening(PRMSASTask):  # pragma: no cover
 
     def run(self):  # pylint: disable=arguments-differ
         """Run the Luigi job"""
-        program = PRM_META[(150, 'code')] / "OHA_Incentive_Measures" \
-                  / "Prod03_Colorectal_Cancer_Screening.sas"
+        program = PATH_SCRIPTS / "Prod03_Colorectal_Cancer_Screening.sas"
         super().run(
             program,
             path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
@@ -137,8 +137,7 @@ class DevelopmentalScreening(PRMSASTask):  # pragma: no cover
 
     def run(self):  # pylint: disable=arguments-differ
         """Run the Luigi job"""
-        program = PRM_META[(150, 'code')] / "OHA_Incentive_Measures" \
-                  / "Prod04_Developmental_Screening.sas"
+        program = PATH_SCRIPTS / "Prod04_Developmental_Screening.sas"
         super().run(
             program,
             path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
@@ -167,8 +166,7 @@ class EDVisits(PRMSASTask):  # pragma: no cover
 
     def run(self):  # pylint: disable=arguments-differ
         """Run the Luigi job"""
-        program = PRM_META[(150, 'code')] / "OHA_Incentive_Measures" \
-                  / "Prod05_ED_Visits.sas"
+        program = PATH_SCRIPTS / "Prod05_ED_Visits.sas"
         super().run(
             program,
             path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
@@ -197,8 +195,7 @@ class EffectiveContraceptive(PRMSASTask):  # pragma: no cover
 
     def run(self):  # pylint: disable=arguments-differ
         """Run the Luigi job"""
-        program = PRM_META[(150, 'code')] / "OHA_Incentive_Measures" \
-                  / "Prod06_Effective_Contraceptive.sas"
+        program = PATH_SCRIPTS / "Prod06_Effective_Contraceptive.sas"
         super().run(
             program,
             path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
@@ -227,8 +224,7 @@ class FollowUpMentalHospitialization(PRMSASTask):  # pragma: no cover
 
     def run(self):  # pylint: disable=arguments-differ
         """Run the Luigi job"""
-        program = PRM_META[(150, 'code')] / "OHA_Incentive_Measures" \
-                  / "Prod07_follow_up_mental_hospitalization.sas"
+        program = PATH_SCRIPTS / "Prod07_follow_up_mental_hospitalization.sas"
         super().run(
             program,
             path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
@@ -257,8 +253,7 @@ class AssessmentsForDHSChildren(PRMSASTask):  # pragma: no cover
 
     def run(self):  # pylint: disable=arguments-differ
         """Run the Luigi job"""
-        program = PRM_META[(150, 'code')] / "OHA_Incentive_Measures" \
-                  / "Prod08_Assessments_for_DHS_children.sas"
+        program = PATH_SCRIPTS / "Prod08_Assessments_for_DHS_children.sas"
         super().run(
             program,
             path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
@@ -288,8 +283,7 @@ class Hypertension(PRMSASTask):  # pragma: no cover
 
     def run(self):  # pylint: disable=arguments-differ
         """Run the Luigi job"""
-        program = PRM_META[(150, 'code')] / "OHA_Incentive_Measures" \
-                  / "Prod09_Hypertension.sas"
+        program = PATH_SCRIPTS / "Prod09_Hypertension.sas"
         super().run(
             program,
             path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
@@ -319,8 +313,7 @@ class DiabetesHbA1c(PRMSASTask):  # pragma: no cover
 
     def run(self):  # pylint: disable=arguments-differ
         """Run the Luigi job"""
-        program = PRM_META[(150, 'code')] / "OHA_Incentive_Measures" \
-                  / "Prod10_Diabetes_HbA1c.sas"
+        program = PATH_SCRIPTS / "Prod10_Diabetes_HbA1c.sas"
         super().run(
             program,
             path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
@@ -350,8 +343,7 @@ class Tobacco(PRMSASTask):  # pragma: no cover
 
     def run(self):  # pylint: disable=arguments-differ
         """Run the Luigi job"""
-        program = PRM_META[(150, 'code')] / "OHA_Incentive_Measures" \
-                  / "Prod11_Tobacco.sas"
+        program = PATH_SCRIPTS / "Prod11_Tobacco.sas"
         super().run(
             program,
             path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
@@ -380,8 +372,7 @@ class DentalSealant(PRMSASTask):  # pragma: no cover
 
     def run(self):  # pylint: disable=arguments-differ
         """Run the Luigi job"""
-        program = PRM_META[(150, 'code')] / "OHA_Incentive_Measures" \
-                  / "Prod12_Dental_Sealant.sas"
+        program = PATH_SCRIPTS / "Prod12_Dental_Sealant.sas"
         super().run(
             program,
             path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
@@ -408,8 +399,7 @@ class CopyReferenceFiles(PRMSASTask):  # pragma: no cover
 
     def run(self):  # pylint: disable=arguments-differ
         """Run the Luigi job"""
-        program = PRM_META[(150, 'code')] / "OHA_Incentive_Measures" \
-                  / "Prod40_Copy_Reference_Files.sas"
+        program = PATH_SCRIPTS / "Prod40_Copy_Reference_Files.sas"
         super().run(
             program,
             path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
@@ -446,8 +436,7 @@ class CombineAll(PRMSASTask):  # pragma: no cover
 
     def run(self):  # pylint: disable=arguments-differ
         """Run the Luigi job"""
-        program = PRM_META[(150, 'code')]  / "OHA_Incentive_Measures" \
-                  / "Prod42_Combine_All.sas"
+        program = PATH_SCRIPTS / "Prod42_Combine_All.sas"
         super().run(
             program,
             path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),

@@ -408,6 +408,33 @@ class CopyReferenceFiles(PRMSASTask):  # pragma: no cover
         # pylint: enable=arguments-differ
 
 
+class InjectCustomMeasures(PRMSASTask):  # pragma: no cover
+    """Run prod41_inject_custom_measures.sas"""
+
+    requirements = RequirementsContainer(
+        CopyReferenceFiles,
+    )
+
+    def output(self):
+        names_output = {
+            'prod41_inject_custom_measures.sas.complete'
+        }
+        return [
+            IndyPyLocalTarget(PRM_META[(150, 'out')] / name)
+            for name in names_output
+            ]
+
+    def run(self):  # pylint: disable=arguments-differ
+        """Run the Luigi job"""
+        program = PATH_SCRIPTS / "prod41_inject_custom_measures.sas"
+        super().run(
+            program,
+            path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
+            create_folder=True,
+        )
+        # pylint: enable=arguments-differ
+
+
 class CombineAll(PRMSASTask):  # pragma: no cover
     """Run Prod42_Combine_All.sas"""
 
@@ -421,6 +448,7 @@ class CombineAll(PRMSASTask):  # pragma: no cover
         EDVisits,
         EffectiveContraceptive,
         FollowUpMentalHospitialization,
+        InjectCustomMeasures,
     )
 
     def output(self):

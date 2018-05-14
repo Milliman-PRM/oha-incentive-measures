@@ -416,3 +416,51 @@ class CopyReferenceFiles(PRMSASTask):  # pragma: no cover
         )
         # pylint: enable=arguments-differ
 
+
+class CombineAllOHA(PRMSASTask):  # pragma: no cover
+    """Run Prod42_Combine_All.sas"""
+
+    requirements = RequirementsContainer(
+        ancillary_inputs.Validation,
+        quality_metrics_oha.CopyReferenceFiles,
+        quality_metrics_oha.AlcoholSBIRT,
+        quality_metrics_oha.AdolescentWellCare,
+        quality_metrics_oha.ColorectralCancerScreening,
+        quality_metrics_oha.DevelopmentalScreening,
+        quality_metrics_oha.EDVisits,
+        quality_metrics_oha.EffectiveContraceptive,
+        quality_metrics_oha.FollowUpMentalHospitialization,
+        quality_metrics_oha.AssessmentsForDHSChildren,
+    )
+
+    def output(self):
+        names_output = {
+            'oha_stacked_results_raw.sas7bdat'
+            'ref_quality_measures.sas7bdat'
+        }
+        return [
+            IndyPyLocalTarget(PRM_META[(150, 'out')] / name)
+            for name in names_output
+            ]
+
+    def run(self):  # pylint: disable=arguments-differ
+        """Run the Luigi job"""
+        program = PRM_META[(150, 'code')]  / "OHA_Incentive_Measures" \
+                  / "Prod42_Combine_All.sas"
+        super().run(
+            program,
+            path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
+            create_folder=True,
+        )
+        # pylint: enable=arguments-differ
+
+
+def inject_emr_measures():  # pragma: no cover
+    """Inject EMR Mesure tasks into CombineAllOHA"""
+    CombineAllOHA.add_requirements(
+        quality_metrics_oha.Hypertension,
+        quality_metrics_oha.DiabetesHbA1c,
+        quality_metrics_oha.Tobacco,
+    )
+
+

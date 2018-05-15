@@ -121,7 +121,7 @@ def assert_references(refs: typing.Mapping) -> None:
             col('grouping_id').isNotNull()
             & col('codesystem').isin({'ICD9CM-Diag', 'ICD10CM-Diag'})
             & (col('diag_type') == 'Primary')
-        ).validate.assert_unique('measure', 'component')
+        ).validate.assert_unique('measure', 'component', 'grouping_id')
     except AssertionError as error:
         error.args = ('Multiple primary diagnosis codes were specified with the same Grouping_ID',)
         raise

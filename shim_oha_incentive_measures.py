@@ -1,5 +1,5 @@
 """
-### CODE OWNERS: Ben Copeland
+### CODE OWNERS: Ben Copeland, Shea Parkes
 
 ### OBJECTIVE:
   Run the OHA Incentive Measures pipeline

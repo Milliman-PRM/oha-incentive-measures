@@ -17,9 +17,6 @@ call "%~dp0setup_env.bat"
 echo %~nx0 %DATE:~-4%-%DATE:~4,2%-%DATE:~7,2% %TIME%: Seeding error level to zero
 set CI_ERRORLEVEL=0
 
-echo %~nx0 %DATE:~-4%-%DATE:~4,2%-%DATE:~7,2% %TIME%: Adding IndyHealth_Library to pythonpath
-call "S:\IndyHealth_Library\setup_env_vars_redirect.bat"
-
 echo %~nx0 !DATE:~-4!-!DATE:~4,2!-!DATE:~7,2! !TIME!: Running SAS unit tests
 python "L:\Jenkins\batch_submit_sas_and_tail_log.py" scripts\Run_Unit_Tests.sas
 if !errorlevel! neq 0 set CI_ERRORLEVEL=!errorlevel!

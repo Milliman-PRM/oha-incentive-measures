@@ -130,7 +130,7 @@ def assert_references(refs: typing.Mapping) -> None:
         refs['oha_codes'].select(
             'measure',
             'component',
-            when(col('codesystem') == 'NCD', 'Outpharmacy').otherwise('Outclaims')
+            when(col('codesystem') == 'NDC', 'Outpharmacy').otherwise('Outclaims')
         ).distinct().validate.assert_unique('measure', 'component')
     except AssertionError as error:
         error.args = ('Multiple aliased source tables will appear in same filter macro variable.',)

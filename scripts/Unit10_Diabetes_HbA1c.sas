@@ -11,7 +11,7 @@
 */
 %include "%sysget(INDYHEALTH_LIBRARY_HOME)\include_sas_macros.sas" / source2;
 options compress = yes;
-%include "%GetParentFolder(1)Supp02_Shared_Testing.sas" / source2;
+%include "%sysget(ANALYTICS_PIPELINE_HOME)\150_Quality_Metrics\Supp02_Shared_Testing.sas" / source2;
 
 /* Libnames */
 %MockLibrary(M015_out,pollute_global=true)

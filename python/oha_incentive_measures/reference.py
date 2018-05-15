@@ -175,7 +175,7 @@ if __name__ == '__main__':  # pragma: no cover
 
     prm.utils.logging_ext.setup_logging_stdout_handler()
 
-    with SparkApp('ref_waste_calculator'):
+    with SparkApp('ref_oha_incentive_measures'):
         RETURN_CODE = main()
 
     sys.exit(RETURN_CODE)

@@ -64,7 +64,7 @@ def assert_references(refs: typing.Mapping) -> None:
 
     try:
         refs['oha_codes'].validate.assert_values({
-            'measure': [df.measure_abbreviation for df in refs['oha_abbreviations'].collect()],
+            'measure': [row.measure_abbreviation for row in refs['oha_abbreviations'].collect()],
         })
     except AssertionError as error:
         error.args = ("Not all OHA code entries have a matching measure name abbreviation.",)

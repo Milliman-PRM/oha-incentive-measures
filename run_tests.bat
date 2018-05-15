@@ -1,14 +1,14 @@
 @echo off
-rem ### CODE OWNERS: Ben Copeland
+rem ### CODE OWNERS: Ben Copeland, Shea Parkes
 rem
 rem ### OBJECTIVE:
-rem   Run ~integration tests for this solution.
+rem   Run the tests for this solution.
 rem
 rem ### DEVELOPER NOTES:
-rem   Intended to test the whole use case.
+rem   <None>
 SETLOCAL ENABLEDELAYEDEXPANSION
 
-echo %~nx0 %DATE:~-4%-%DATE:~4,2%-%DATE:~7,2% %TIME%: Running integration tests for the OHA Incentive Measures
+echo %~nx0 %DATE:~-4%-%DATE:~4,2%-%DATE:~7,2% %TIME%: Running tests for the OHA Incentive Measures
 echo %~nx0 %DATE:~-4%-%DATE:~4,2%-%DATE:~7,2% %TIME%: Running from %~f0
 
 echo %~nx0 %DATE:~-4%-%DATE:~4,2%-%DATE:~7,2% %TIME%: Setting up testing environment
@@ -23,5 +23,5 @@ if !errorlevel! neq 0 set CI_ERRORLEVEL=!errorlevel!
 echo %~nx0 !DATE:~-4!-!DATE:~4,2!-!DATE:~7,2! !TIME!: SAS unit tests finished with ErrorLevel=!ERRORLEVEL!
 
 
-echo %~nx0 %DATE:~-4%-%DATE:~4,2%-%DATE:~7,2% %TIME%: Finshed running integration tests for the OHA Incentive Measures with ErrorLevel=!CI_ERRORLEVEL!
+echo %~nx0 %DATE:~-4%-%DATE:~4,2%-%DATE:~7,2% %TIME%: Finshed running tests for the OHA Incentive Measures with ErrorLevel=!CI_ERRORLEVEL!
 exit /b !CI_ERRORLEVEL!

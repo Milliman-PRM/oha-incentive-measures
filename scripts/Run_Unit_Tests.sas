@@ -1,13 +1,11 @@
 /*
-### CODE OWNERS: Ben Copeland
+### CODE OWNERS: Ben Copeland, Shea Parkes
 
 ### OBJECTIVE:
   Execute all the SAS unit tests embedded in the code base.
 
 ### DEVELOPER NOTES:
-  This program *should* reach completion in a matter of minutes.
-  It should also be ran via Continuous Integration on at least every Pull Request.
-  At this time, it should not depend on any external data.
+  <None>
 */
 %include "%sysget(INDYHEALTH_LIBRARY_HOME)\include_sas_macros.sas" / source2;
 options compress = yes mprint;

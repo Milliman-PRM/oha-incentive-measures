@@ -111,6 +111,10 @@ def assert_references(refs: typing.Mapping) -> None:
          & (col('diag_type') != ''))
     ).head(1)) == 0, 'Unsupported diag types were specified'
 
+    assert refs['oha_codes'].filter(
+        col('code').like('%.%')
+    ).count() == 0, "'Code' column should not contain dots"
+
     try:
         refs['oha_codes'].select(
             'measure',

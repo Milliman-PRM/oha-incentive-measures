@@ -509,6 +509,13 @@ def inject_dhs_assessments(): #pragma: no cover
         AssessmentsForDHSChildren,
     )
 
+	
+def inject_dental_sealant(): #pragma: no cover
+    """Inject Dental Sealants tasks into InjectCustomMeasures"""
+    InjectCustomMeasures.add_requirements(
+        DentalSealant,
+    )
+
 
 def inject_emr_measures():  # pragma: no cover
     """Inject EMR Mesure tasks into InjectCustomMeasures"""

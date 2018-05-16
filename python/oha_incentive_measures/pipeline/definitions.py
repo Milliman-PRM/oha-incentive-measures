@@ -1,5 +1,5 @@
 """
-### CODE OWNERS: Steve Gredell, Chas Busenburg
+### CODE OWNERS: Ben Copeland, Chas Busenburg
 
 ### OBJECTIVE:
   Define tasks for OHA quality metrics

@@ -12,6 +12,8 @@ options compress = yes;
 %include "%sysget(ANALYTICS_PIPELINE_HOME)\150_Quality_Metrics\Supp02_Shared_Testing.sas" / source2;
 
 /* Libnames */
+%MockLibrary(oha_ref,pollute_global=true)
+options set=OHA_INCENTIVE_MEASURES_PATHREF "%sysfunc(pathname(oha_ref))";
 %MockLibrary(M015_out,pollute_global=true)
 %MockLibrary(M035_out,pollute_global=true)
 %MockLibrary(M073_out,pollute_global=true)

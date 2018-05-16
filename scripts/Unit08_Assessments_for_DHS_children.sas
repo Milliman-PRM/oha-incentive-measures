@@ -7,7 +7,7 @@
 */
 %include "%sysget(INDYHEALTH_LIBRARY_HOME)\include_sas_macros.sas" / source2;
 options compress = yes;
-%include "%sysget(ANALYTICS_PIPELINE_HOME)\150_Quality_Metrics\Supp02_Shared_Testing.sas" / source2;
+%include "%sysget(OHA_INCENTIVE_MEASURES_HOME)\scripts\Supp02_Shared_Testing.sas" / source2;
 
 %let Suppress_Parser = True;
 %let DATE_PERFORMANCEYEARSTART = %sysfunc(mdy(1,1,2014));

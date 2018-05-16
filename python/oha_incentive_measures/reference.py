@@ -116,7 +116,7 @@ def assert_references(refs: typing.Mapping) -> None:
             'measure',
             'component',
             'grouping_id',
-            'code_raw',
+            'code',
         ).distinct().filter(
             col('grouping_id').isNotNull()
             & col('codesystem').isin({'ICD9CM-Diag', 'ICD10CM-Diag'})

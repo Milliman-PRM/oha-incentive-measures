@@ -21,6 +21,7 @@ options compress = yes;
 %MockLibrary(M150_out,pollute_global=true)
 %let M150_tmp = %MockDirectoryGetPath();
 %CreateFolder(&M150_tmp.)
+options set=OHA_INCENTIVE_MEASURES_PATHREF "%sysfunc(pathname(oha_ref))";
 
 %let suppress_parser = True;
 %let anonymize = True;
@@ -34,7 +35,7 @@ options compress = yes;
 
 
 /***** SETUP INPUTS *****/
-data M015_out.oha_codes;
+data oha_ref.oha_codes;
 	infile
 		datalines
 		dsd

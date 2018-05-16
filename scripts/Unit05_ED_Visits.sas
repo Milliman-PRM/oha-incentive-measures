@@ -13,6 +13,7 @@ options compress = yes;
 
 /* Libnames */
 %MockLibrary(oha_ref,pollute_global=true)
+options set=OHA_INCENTIVE_MEASURES_PATHREF "%sysfunc(pathname(oha_ref))";
 %MockLibrary(M035_out,pollute_global=true)
 %MockLibrary(M073_out,pollute_global=true)
 %MockLibrary(M150_out,pollute_global=true)

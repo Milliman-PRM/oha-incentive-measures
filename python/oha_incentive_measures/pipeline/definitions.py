@@ -10,7 +10,7 @@
 import os
 from pathlib import Path
 
-import oha_incentive_measures
+import oha_incentive_measures.reference
 from indypy.nonstandard.ext_luigi import IndyPyLocalTarget, build_logfile_name
 import prm.meta.project
 from prm.ext_luigi.base_tasks import PRMSASTask, PRMPythonTask, RequirementsContainer

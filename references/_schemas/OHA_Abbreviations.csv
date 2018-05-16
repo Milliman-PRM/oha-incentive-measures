@@ -1,5 +1,5 @@
 name,datatype,nullable,sas_informat
 measure_abbreviation,string,false,$24.
-measure_description,string,false,$128.
+measure_name,string,false,$128.
 measure_format,string,false,$16.
 measure_calculation_type,string,false,$16.

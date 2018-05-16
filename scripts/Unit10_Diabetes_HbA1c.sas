@@ -14,7 +14,7 @@ options compress = yes;
 %include "%sysget(OHA_INCENTIVE_MEASURES_HOME)\scripts\Supp02_Shared_Testing.sas" / source2;
 
 /* Libnames */
-%MockLibrary(M015_out,pollute_global=true)
+%MockLibrary(oha_ref,pollute_global=true)
 %MockLibrary(M033_out,pollute_global=true)
 %MockLibrary(M035_out,pollute_global=true)
 %MockLibrary(M073_out,pollute_global=true)

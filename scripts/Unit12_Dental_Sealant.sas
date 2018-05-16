@@ -24,7 +24,7 @@ options compress = yes;
 
 %SetupMockLibraries()
 
-data M015_Out.OHA_codes;
+data oha_ref.OHA_codes;
 	infile datalines delimiter = '~' missover dsd;
 	input
 		Measure 	:$24.

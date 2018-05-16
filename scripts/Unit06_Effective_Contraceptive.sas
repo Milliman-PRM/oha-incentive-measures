@@ -37,7 +37,7 @@ options set=OHA_INCENTIVE_MEASURES_PATHREF "%sysfunc(pathname(oha_ref))";
 
 
 /***** SETUP INPUTS *****/
-data M015_out.oha_codes;
+data oha_ref.oha_codes;
 	infile
 		datalines
 		dsd
@@ -74,7 +74,7 @@ proc sql;
 	select distinct
 		code as hcpcs
 		,cat(strip(code)," (description)") as hcpcs_desc length = 256 format = $256.
-	from M015_out.oha_codes
+	from oha_ref.oha_codes
 	where upcase(codesystem) ne "NDC"
 	;
 quit;

@@ -16,7 +16,7 @@ options compress = yes;
 %put WARNING: METRIC CALCULATION CODE BELOW IS LIKELY STALE. USERS SHOULD CONSIDER THIS BEFORE ENABLING PROGRAM FOR PRODUCTION PURPOSES;
 
 /* Libnames */
-libname M015_out "&M015_out." access=readonly;
+libname oha_ref "%sysget(OHA_INCENTIVE_MEASURES_PATHREF)" access=readonly;
 libname M033_out "&M033_out." access=readonly;
 libname M150_tmp "&M150_tmp.";
 libname M150_out "&M150_out.";
@@ -49,12 +49,12 @@ libname M150_out "&M150_out.";
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=denom_diabetes
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=denom_service
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 
 /**** LIBRARIES, LOCATIONS, LITERALS, ETC. GO ABOVE HERE ****/

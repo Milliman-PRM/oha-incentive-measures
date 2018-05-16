@@ -16,13 +16,13 @@ options
 %include "%sysget(ANALYTICS_PIPELINE_HOME)\150_Quality_Metrics\Supp01_Shared.sas" / source2; 
 
 /* Libnames */
-libname M015_Out "&M015_Out." access = readonly;
+libname oha_ref "%sysget(OHA_INCENTIVE_MEASURES_PATHREF)" access = readonly;
 libname M150_Out "&M150_Out.";
 
 /**** LIBRARIES, LOCATIONS, LITERALS, ETC. GO ABOVE HERE ****/
 
 data m150_out.oha_abbreviations;
-	set m015_out.oha_abbreviations;
+	set oha_ref.oha_abbreviations;
 run;
 
 %put System Return Code = &syscc.;

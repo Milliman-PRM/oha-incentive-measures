@@ -15,7 +15,7 @@ options compress = yes;
 %include "%sysget(ANALYTICS_PIPELINE_HOME)\150_Quality_Metrics\Supp01_Shared.sas" / source2;
 
 /* Libnames */
-libname M015_Out "&M015_Out." access=readonly;
+libname oha_ref "%sysget(OHA_INCENTIVE_MEASURES_PATHREF)" access=readonly;
 libname M150_Out "&M150_Out.";
 libname M150_Tmp "&M150_Tmp.";
 %CacheWrapperPRM(035,150)
@@ -24,7 +24,7 @@ libname M150_Tmp "&M150_Tmp.";
 
 %let name_measure = dev_screening;
 %let age_limit_expression = between 1 and 3;
-%CodeGenClaimsFilter(&name_measure.,component=numerator,Reference_Source=m015_out.oha_codes)
+%CodeGenClaimsFilter(&name_measure.,component=numerator,Reference_Source=oha_ref.oha_codes)
 
 /**** LIBRARIES, LOCATIONS, LITERALS, ETC. GO ABOVE HERE ****/
 

@@ -15,6 +15,7 @@ options compress = yes;
 
 /* Libnames */
 libname M015_Out "&M015_Out." access=readonly;
+libname oha_ref "%sysget(OHA_INCENTIVE_MEASURES_PATHREF)" access=readonly;
 libname M150_Out "&M150_Out.";
 libname M150_Tmp "&M150_Tmp.";
 %CacheWrapperPRM(035,150)
@@ -27,17 +28,17 @@ libname M150_Tmp "&M150_Tmp.";
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=numerator_cpthcpcs
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=numerator_icddiag
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=numerator_icdproc
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 /*Bring all numerators back together so we can grab all numerator claims at once.*/
 %let claims_filter_numerator = &claims_filter_numerator_cpthcpcs. or &claims_filter_numerator_icddiag. or &claims_filter_numerator_icdproc.;
@@ -45,12 +46,12 @@ libname M150_Tmp "&M150_Tmp.";
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=numerator_ndc
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=denom_exclusion
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 
 /**** LIBRARIES, LOCATIONS, LITERALS, ETC. GO ABOVE HERE ****/
@@ -319,7 +320,7 @@ of numerator compliancy first*/
 then merge this on to the outclaims to identify numerator exclusion claims.*/
 
 data numerator_exclusion_codes;
-	set m015_out.oha_codes;
+	set oha_ref.oha_codes;
 	where
  		upcase(measure) eq %upcase("&measure_name.")
  		and upcase(component) eq %upcase('Numer_Exclusion')

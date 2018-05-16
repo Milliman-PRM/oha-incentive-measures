@@ -12,6 +12,8 @@ options compress = yes;
 %include "%sysget(ANALYTICS_PIPELINE_HOME)\150_Quality_Metrics\Supp02_Shared_Testing.sas" / source2;
 
 /* Libnames */
+%MockLibrary(oha_ref,pollute_global=true)
+options set=OHA_INCENTIVE_MEASURES_PATHREF "%sysfunc(pathname(oha_ref))";
 %MockLibrary(M015_out,pollute_global=true)
 %MockLibrary(M035_out,pollute_global=true)
 %MockLibrary(M073_out,pollute_global=true)
@@ -35,7 +37,7 @@ options compress = yes;
 
 
 /***** SETUP INPUTS *****/
-data M015_out.oha_codes;
+data oha_ref.oha_codes;
 	infile
 		datalines
 		dsd
@@ -72,7 +74,7 @@ proc sql;
 	select distinct
 		code as hcpcs
 		,cat(strip(code)," (description)") as hcpcs_desc length = 256 format = $256.
-	from M015_out.oha_codes
+	from oha_ref.oha_codes
 	where upcase(codesystem) ne "NDC"
 	;
 quit;

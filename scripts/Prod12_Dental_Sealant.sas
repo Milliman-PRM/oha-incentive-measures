@@ -13,7 +13,7 @@ options compress = yes;
 %include "%sysget(ANALYTICS_PIPELINE_HOME)\010_Master\Supp01_Parser.sas" / source2;
 %include "%sysget(ANALYTICS_PIPELINE_HOME)\150_Quality_Metrics\Supp01_Shared.sas" / source2;
 
-libname M015_Out "&M015_Out." access=readonly;
+libname oha_ref "%sysget(OHA_INCENTIVE_MEASURES_PATHREF)" access=readonly;
 libname M150_Out "&M150_Out.";
 libname M150_Tmp "&M150_Tmp.";
 libname M030_Out "&M030_Out.";
@@ -29,9 +29,9 @@ libname M030_Out "&M030_Out.";
 
 %let Measure_Name = Dental_Sealants;
 %let Age_Adolescent_Between = 6 and 14;
-%CodeGenClaimsFilter(&Measure_Name.,Component = Numer_Seals, Name_Header = sealants,Reference_Source=m015_out.oha_codes);
-%CodeGenClaimsFilter(&Measure_Name.,Component = Numer_Dental_Claim_Code, Name_Header = sealants,Reference_Source=m015_out.oha_codes);
-%CodeGenClaimsFilter(&Measure_Name.,Component = Numer_Dental_Tooth_Code, Name_Header = sealants,Reference_Source=m015_out.oha_codes);
+%CodeGenClaimsFilter(&Measure_Name.,Component = Numer_Seals, Name_Header = sealants,Reference_Source=oha_ref.oha_codes);
+%CodeGenClaimsFilter(&Measure_Name.,Component = Numer_Dental_Claim_Code, Name_Header = sealants,Reference_Source=oha_ref.oha_codes);
+%CodeGenClaimsFilter(&Measure_Name.,Component = Numer_Dental_Tooth_Code, Name_Header = sealants,Reference_Source=oha_ref.oha_codes);
 %let sealants_numer_dental = &sealants_numer_dental_claim_code. and &sealants_numer_dental_tooth_code.;
 %put &=sealants_numer_dental.;
 

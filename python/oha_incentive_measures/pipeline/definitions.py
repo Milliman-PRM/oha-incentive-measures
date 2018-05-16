@@ -1,5 +1,5 @@
 """
-### CODE OWNERS: Steve Gredell, Chas Busenburg
+### CODE OWNERS: Ben Copeland, Chas Busenburg
 
 ### OBJECTIVE:
   Define tasks for OHA quality metrics
@@ -10,12 +10,12 @@
 import os
 from pathlib import Path
 
+import oha_incentive_measures.reference
 from indypy.nonstandard.ext_luigi import IndyPyLocalTarget, build_logfile_name
 import prm.meta.project
-from prm.ext_luigi.base_tasks import PRMSASTask, RequirementsContainer
+from prm.ext_luigi.base_tasks import PRMSASTask, PRMPythonTask, RequirementsContainer
 
 from prm.execute.definitions import (
-    ref_product,
     staging_membership,
     poweruser_detail_datamart,
     staging_emr,
@@ -23,6 +23,7 @@ from prm.execute.definitions import (
 )
 
 PATH_SCRIPTS = Path(os.environ['oha_incentive_measures_home']) / 'scripts'
+PATH_REFDATA = Path(os.environ['oha_incentive_measures_pathref'])
 PRM_META = prm.meta.project.parse_project_metadata()
 
 # =============================================================================
@@ -30,11 +31,41 @@ PRM_META = prm.meta.project.parse_project_metadata()
 # =============================================================================
 
 
+class ImportReferences(PRMPythonTask): # pragma: no cover
+    """Run reference.py"""
+
+    requirements = RequirementsContainer()
+
+    def output(self):
+        names_output = {
+            'oha_abbreviations.parquet',
+            'oha_codes.parquet',
+            'oha_abbreviations.sas7bdat',
+            'oha_codes.sas7bdat',
+        }
+        return [
+            IndyPyLocalTarget(PATH_REFDATA / name)
+            for name in names_output
+        ]
+
+    def run(self):  # pylint: disable=arguments-differ
+        """Run the Luigi job"""
+        program = Path(oha_incentive_measures.reference.__file__)
+        super().run(
+            program,
+            path_log=build_logfile_name(
+                program,
+                PATH_REFDATA,
+            )
+        )
+        # pylint: enable=arguments-differ
+
+
 class AlcoholSBIRT(PRMSASTask):  # pragma: no cover
     """Run Prod01_Alcohol_SBIRT.sas"""
 
     requirements = RequirementsContainer(
-        ref_product.OHACodeSets,
+        ImportReferences,
         staging_membership.DeriveParamsFromMembership,
         poweruser_detail_datamart.ExportSAS,
     )
@@ -63,7 +94,7 @@ class AdolescentWellCare(PRMSASTask):  # pragma: no cover
     """Run Prod02_Adolescent_Well_Care.sas"""
 
     requirements = RequirementsContainer(
-        ref_product.OHACodeSets,
+        ImportReferences,
         staging_membership.DeriveParamsFromMembership,
         poweruser_detail_datamart.ExportSAS,
     )
@@ -92,7 +123,7 @@ class ColorectralCancerScreening(PRMSASTask):  # pragma: no cover
     """Run Prod03_Colorectal_Cancer_Screening.sas"""
 
     requirements = RequirementsContainer(
-        ref_product.OHACodeSets,
+        ImportReferences,
         staging_membership.DeriveParamsFromMembership,
         poweruser_detail_datamart.ExportSAS,
     )
@@ -121,7 +152,7 @@ class DevelopmentalScreening(PRMSASTask):  # pragma: no cover
     """Run Prod04_Developmental_Screening.sas"""
 
     requirements = RequirementsContainer(
-        ref_product.OHACodeSets,
+        ImportReferences,
         staging_membership.DeriveParamsFromMembership,
         poweruser_detail_datamart.ExportSAS,
     )
@@ -150,7 +181,7 @@ class EDVisits(PRMSASTask):  # pragma: no cover
     """Run Prod05_ED_Visits.sas"""
 
     requirements = RequirementsContainer(
-        ref_product.OHACodeSets,
+        ImportReferences,
         staging_membership.DeriveParamsFromMembership,
         poweruser_detail_datamart.ExportSAS,
     )
@@ -179,7 +210,7 @@ class EffectiveContraceptive(PRMSASTask):  # pragma: no cover
     """Run Prod06_Effective_Contraceptive.sas"""
 
     requirements = RequirementsContainer(
-        ref_product.OHACodeSets,
+        ImportReferences,
         staging_membership.DeriveParamsFromMembership,
         poweruser_detail_datamart.ExportSAS,
     )
@@ -208,7 +239,7 @@ class FollowUpMentalHospitialization(PRMSASTask):  # pragma: no cover
     """Run Prod07_follow_up_mental_hospitalization.sas"""
 
     requirements = RequirementsContainer(
-        ref_product.OHACodeSets,
+        ImportReferences,
         staging_membership.DeriveParamsFromMembership,
         poweruser_detail_datamart.ExportSAS,
     )
@@ -237,7 +268,7 @@ class AssessmentsForDHSChildren(PRMSASTask):  # pragma: no cover
     """Run Prod08_Assessments_for_DHS_children.sas"""
 
     requirements = RequirementsContainer(
-        ref_product.OHACodeSets,
+        ImportReferences,
         staging_membership.DeriveParamsFromMembership,
         poweruser_detail_datamart.ExportSAS,
     )
@@ -266,7 +297,7 @@ class Hypertension(PRMSASTask):  # pragma: no cover
     """Run Prod09_Hypertension.sas"""
 
     requirements = RequirementsContainer(
-        ref_product.OHACodeSets,
+        ImportReferences,
         staging_membership.DeriveParamsFromMembership,
         staging_emr.Validation,
         poweruser_detail_datamart.ExportSAS,
@@ -296,7 +327,7 @@ class DiabetesHbA1c(PRMSASTask):  # pragma: no cover
     """Run Prod10_Diabetes_HbA1c.sas"""
 
     requirements = RequirementsContainer(
-        ref_product.OHACodeSets,
+        ImportReferences,
         staging_membership.DeriveParamsFromMembership,
         staging_emr.Validation,
         poweruser_detail_datamart.ExportSAS,
@@ -326,7 +357,7 @@ class Tobacco(PRMSASTask):  # pragma: no cover
     """Run Prod11_Tobacco.sas"""
 
     requirements = RequirementsContainer(
-        ref_product.OHACodeSets,
+        ImportReferences,
         staging_membership.DeriveParamsFromMembership,
         staging_emr.Validation,
         poweruser_detail_datamart.ExportSAS,
@@ -356,7 +387,7 @@ class DentalSealant(PRMSASTask):  # pragma: no cover
     """Run Prod12_Dental_Sealant.sas"""
 
     requirements = RequirementsContainer(
-        ref_product.OHACodeSets,
+        ImportReferences,
         staging_membership.DeriveParamsFromMembership,
         poweruser_detail_datamart.ExportSAS,
     )
@@ -385,7 +416,7 @@ class CopyReferenceFiles(PRMSASTask):  # pragma: no cover
     """Run Prod40_Copy_Reference_Files.sas"""
 
     requirements = RequirementsContainer(
-        ref_product.OHACodeSets,
+        ImportReferences,
     )
 
     def output(self):

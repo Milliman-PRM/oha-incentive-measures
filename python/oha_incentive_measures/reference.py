@@ -55,7 +55,7 @@ def import_flatfile_references(sparkapp: SparkApp) -> typing.Mapping[str, "DataF
 def assert_references(refs: typing.Mapping) -> None:
     """OHA Code Sets should have a few fail early assertions associated with them."""
 
-    for column_name in ['measure_abbreviation', 'measure_description']:
+    for column_name in ['measure_abbreviation', 'measure_name']:
         try:
             refs['oha_abbreviations'].validate.assert_unique(column_name)
         except AssertionError as error:

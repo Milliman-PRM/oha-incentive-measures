@@ -13,7 +13,7 @@ options compress = yes;
 %include "%sysget(ANALYTICS_PIPELINE_HOME)\150_Quality_Metrics\Supp01_Shared.sas" / source2;
 
 /* Libnames */
-libname M015_Out "&M015_Out." access=readonly;
+libname oha_ref "%sysget(OHA_INCENTIVE_MEASURES_PATHREF)" access=readonly;
 libname M150_Out "&M150_Out.";
 libname M150_Tmp "&M150_Tmp.";
 %CacheWrapperPRM(035,150);
@@ -29,32 +29,32 @@ libname M150_Tmp "&M150_Tmp.";
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=denom_exclusion
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=numer_colo
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=numer_flexsig
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=numer_fobt
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=Numer_CT
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=Numer_FIT
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 
 /**** LIBRARIES, LOCATIONS, LITERALS, ETC. GO ABOVE HERE ****/

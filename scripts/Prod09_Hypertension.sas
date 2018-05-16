@@ -16,7 +16,7 @@ options compress = yes;
 %put WARNING: METRIC CALCULATION CODE BELOW IS LIKELY STALE. USERS SHOULD CONSIDER THIS BEFORE ENABLING PROGRAM FOR PRODUCTION PURPOSES;
 
 /* Libnames */
-libname M015_Out "&M015_Out." access=readonly;
+libname oha_ref "%sysget(OHA_INCENTIVE_MEASURES_PATHREF)" access=readonly;
 libname M033_Out "&M033_Out." access=readonly;
 libname M150_Tmp "&M150_Tmp.";
 libname M150_Out "&M150_Out.";
@@ -49,28 +49,28 @@ libname M150_Out "&M150_Out.";
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=denom_hypertens
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=denom_service
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=denom_excl_disease
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=denom_excl_renal
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 
 proc sql noprint;
 	select count(distinct component)
 	into :cnt_pregnancy_components trimmed
-	from M015_out.oha_codes
+	from oha_ref.oha_codes
 	where upcase(measure) eq "%upcase(&measure_name.)"
 		and upcase(component) eqt "DENOM_EXCL_PREGO"
 	;
@@ -82,7 +82,7 @@ quit;
 		%CodeGenClaimsFilter(
 			&measure_name.
 			,component=denom_excl_prego&i_component.
-			,Reference_Source=m015_out.oha_codes
+			,Reference_Source=oha_ref.oha_codes
 			)
 	%end;
 %mend wrap_codegen_preggers;

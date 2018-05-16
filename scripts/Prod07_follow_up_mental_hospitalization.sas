@@ -18,7 +18,7 @@ options compress = yes;
 %include "%sysget(ANALYTICS_PIPELINE_HOME)\150_Quality_Metrics\Supp01_Shared.sas" / source2;
 
 /* Libnames */
-libname M015_Out "&M015_Out." access=readonly;
+libname oha_ref "%sysget(OHA_INCENTIVE_MEASURES_PATHREF)" access=readonly;
 libname M150_Out "&M150_Out.";
 libname M150_Tmp "&M150_Tmp.";
 %CacheWrapperPRM(035,150)
@@ -30,37 +30,37 @@ libname M150_Tmp "&M150_Tmp.";
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=denominator
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=inpatient
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=denom_excl_NAC
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=denom_excl_MHD
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=numerator
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=numer_rev2
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=numerator_TCM
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	)
 
 %let admission_end = %sysfunc(intnx(days, &measure_end., -30));

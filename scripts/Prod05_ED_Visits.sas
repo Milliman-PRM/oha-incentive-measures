@@ -14,7 +14,7 @@ options compress = yes;
 %include "%sysget(ANALYTICS_PIPELINE_HOME)\150_Quality_Metrics\Supp01_Shared.sas" / source2;
 
 /* Libnames */
-libname M015_Out "&M015_Out." access=readonly;
+libname oha_ref "%sysget(OHA_INCENTIVE_MEASURES_PATHREF)" access=readonly;
 libname M150_Out "&M150_Out.";
 libname M150_Tmp "&M150_Tmp.";
 %CacheWrapperPRM(035,150)
@@ -25,30 +25,30 @@ libname M150_Tmp "&M150_Tmp.";
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=numer_cpt
-	,Reference_Source=m015_out.oha_codes);
+	,Reference_Source=oha_ref.oha_codes);
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=Numer_rev
-	,Reference_Source=m015_out.oha_codes);
+	,Reference_Source=oha_ref.oha_codes);
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=Numer_procs
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	);
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=numer_excl_mh
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	);
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=numer_excl_pysch
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	);
 %CodeGenClaimsFilter(
 	&measure_name.
 	,component=Numer_Excl_IP_Stay
-	,Reference_Source=m015_out.oha_codes
+	,Reference_Source=oha_ref.oha_codes
 	);
 
 %let max_er_comments = 3;

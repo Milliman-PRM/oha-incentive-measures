@@ -10,9 +10,10 @@
 import os
 from pathlib import Path
 
+import oha_incentive_measures
 from indypy.nonstandard.ext_luigi import IndyPyLocalTarget, build_logfile_name
 import prm.meta.project
-from prm.ext_luigi.base_tasks import PRMSASTask, RequirementsContainer
+from prm.ext_luigi.base_tasks import PRMSASTask, PRMPythonTask, RequirementsContainer
 
 from prm.execute.definitions import (
     ref_product,
@@ -23,11 +24,42 @@ from prm.execute.definitions import (
 )
 
 PATH_SCRIPTS = Path(os.environ['oha_incentive_measures_home']) / 'scripts'
+PATH_REFDATA = Path(os.environ['oha_incentive_measures_pathref'])
 PRM_META = prm.meta.project.parse_project_metadata()
 
 # =============================================================================
 # LIBRARIES, LOCATIONS, LITERALS, ETC. GO ABOVE HERE
 # =============================================================================
+
+
+class ImportReferences(PRMPythonTask): # pragma: no cover
+    """Run reference.py"""
+
+    requirements = RequirementsContainer()
+
+    def output(self):
+        names_output = {
+            'oha_abbreviations.parquet',
+            'oha_codes.parquet',
+            'oha_abbreviations.sas7bdat',
+            'oha_codes.sas7bdat',
+        }
+        return [
+            IndyPyLocalTarget(PATH_REFDATA / name)
+            for name in names_output
+        ]
+
+    def run(self):  # pylint: disable=arguments-differ
+        """Run the Luigi job"""
+        program = Path(oha_incentive_measures.reference.__file__)
+        super().run(
+            program,
+            path_log=build_logfile_name(
+                program,
+                PATH_REFDATA,
+            )
+        )
+        # pylint: enable=arguments-differ
 
 
 class AlcoholSBIRT(PRMSASTask):  # pragma: no cover

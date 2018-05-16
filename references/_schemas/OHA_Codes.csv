@@ -1,0 +1,7 @@
+name,datatype,nullable,sas_informat
+measure,string,false,$24.
+component,string,false,$32.
+codesystem,string,false,$16.
+code,string,false,$16.
+grouping_id,string,true,$32.
+diag_type,string,true,$16.

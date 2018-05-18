@@ -2,6 +2,10 @@
 
 A non-exhaustive list of what has changed in a more readable form than a commit history.
 
+### v1.0.1
+
+  - Standard measure calculations are now requirements of the custom measure injection, since our current custom measures use/overwrite the standard measure calculations
+
 ### v1.0.0
 
   - Initial release of product component

@@ -57,10 +57,6 @@ libname M150_Tmp "&M150_Tmp.";
 	,Reference_Source=oha_ref.oha_codes
 	)
 
-/* Include cases notified from November 1 of the year prior to the measurement year, to October 31 of the measurement year */
-%let DHS_measure_start = %sysfunc(intnx(month,&Measure_Start.,-2, end));
-%put DHS_measure_start = %sysfunc(putn(&DHS_measure_start.,yymmddd10.));
-
 %let DHS_measure_end = %sysfunc(intnx(month,&Measure_End.,-2, end));
 %put DHS_measure_end = %sysfunc(putn(&DHS_measure_end.,yymmddd10.));
 

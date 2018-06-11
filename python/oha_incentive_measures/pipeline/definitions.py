@@ -444,6 +444,15 @@ class InjectCustomMeasures(PRMSASTask):  # pragma: no cover
 
     requirements = RequirementsContainer(
         CopyReferenceFiles,
+        ancillary_inputs.Validation,
+        CopyReferenceFiles,
+        AlcoholSBIRT,
+        AdolescentWellCare,
+        ColorectralCancerScreening,
+        DevelopmentalScreening,
+        EDVisits,
+        EffectiveContraceptive,
+        FollowUpMentalHospitialization,
     )
 
     def output(self):
@@ -470,15 +479,6 @@ class CombineAll(PRMSASTask):  # pragma: no cover
     """Run Prod42_Combine_All.sas"""
 
     requirements = RequirementsContainer(
-        ancillary_inputs.Validation,
-        CopyReferenceFiles,
-        AlcoholSBIRT,
-        AdolescentWellCare,
-        ColorectralCancerScreening,
-        DevelopmentalScreening,
-        EDVisits,
-        EffectiveContraceptive,
-        FollowUpMentalHospitialization,
         InjectCustomMeasures,
     )
 
@@ -504,15 +504,22 @@ class CombineAll(PRMSASTask):  # pragma: no cover
 
 
 def inject_dhs_assessments(): #pragma: no cover
-    """Inject DHS assessment tasks into CombineAll"""
-    CombineAll.add_requirements(
+    """Inject DHS assessment tasks into InjectCustomMeasures"""
+    InjectCustomMeasures.add_requirements(
         AssessmentsForDHSChildren,
+    )
+
+	
+def inject_dental_sealant(): #pragma: no cover
+    """Inject Dental Sealants tasks into InjectCustomMeasures"""
+    InjectCustomMeasures.add_requirements(
+        DentalSealant,
     )
 
 
 def inject_emr_measures():  # pragma: no cover
-    """Inject EMR Mesure tasks into CombineAllOHA"""
-    CombineAll.add_requirements(
+    """Inject EMR Mesure tasks into InjectCustomMeasures"""
+    InjectCustomMeasures.add_requirements(
         Hypertension,
         DiabetesHbA1c,
         Tobacco,

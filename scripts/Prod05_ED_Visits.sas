@@ -42,7 +42,7 @@ libname M150_Tmp "&M150_Tmp.";
 	);
 %CodeGenClaimsFilter(
 	&measure_name.
-	,component=numer_excl_pysch
+	,component=numer_excl_psych
 	,Reference_Source=oha_ref.oha_codes
 	);
 %CodeGenClaimsFilter(

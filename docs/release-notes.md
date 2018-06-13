@@ -2,6 +2,20 @@
 
 A non-exhaustive list of what has changed in a more readable form than a commit history.
 
+### v1.1.0
+
+- Updated Oregon Health Authority CCO Incentive Measures for 2018.
+    - Changes overview can be found in [CCO Incentive Measure Specification Changes Between 2017 and 2018](http://www.oregon.gov/oha/HPA/ANALYTICS/CCOData/2018%20Incentive%20Measure%20Specification%20Changes%20Summary.pdf)
+      - Updated Ambulatory Care Codes
+      - Adjust start of inclusion period for assessments for children in DHS custody from Jan 1 -> Nov 1
+      - Updated Colorectal Cancer Screen Codes
+      - Updated Effective Contraceptive use incentive measure range age from 18-50 years -> 15-50 years
+      - Updated Diabetes: HbA1c Poor Control Codes
+
+### v1.0.1
+
+  - Standard measure calculations are now requirements of the custom measure injection, since our current custom measures use/overwrite the standard measure calculations
+
 ### v1.0.0
 
   - Initial release of product component

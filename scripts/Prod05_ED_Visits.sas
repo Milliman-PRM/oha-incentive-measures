@@ -143,7 +143,7 @@ proc sql;
 			,claimID
 		from m150_tmp.outclaims_prm
 		where 
-			(&claims_filter_numer_excl_pysch.)
+			(&claims_filter_numer_excl_psych.)
 		) as excl
 	on 
 		clm.member_ID = excl.member_ID

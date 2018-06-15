@@ -42,7 +42,7 @@ libname M150_Tmp "&M150_Tmp.";
 	);
 %CodeGenClaimsFilter(
 	&measure_name.
-	,component=numer_excl_pysch
+	,component=numer_excl_psych
 	,Reference_Source=oha_ref.oha_codes
 	);
 %CodeGenClaimsFilter(
@@ -143,7 +143,7 @@ proc sql;
 			,claimID
 		from m150_tmp.outclaims_prm
 		where 
-			(&claims_filter_numer_excl_pysch.)
+			(&claims_filter_numer_excl_psych.)
 		) as excl
 	on 
 		clm.member_ID = excl.member_ID

@@ -54,3 +54,34 @@ libname M150_Tmp "&M150_Tmp.";
 	,component=Numer_Excl_IP_Stay
 	,Reference_Source=oha_ref.oha_codes
 	);
+	
+%let max_er_comments = 3;
+%let age_limit_expression = ge 18;
+
+/*Bring in predictions in order to decorate comments*/
+%let path_file_pred_source = &M130_Out.custom.pred.pop.sas;
+%put path_file_pred_source = &path_file_pred_source.;
+
+/**** LIBRARIES, LOCATIONS, LITERALS, ETC. GO ABOVE HERE ****/
+
+%macro wrap_denom();
+	proc sql;
+		create table members_denom as
+		select members_age.member_id
+		from (
+			select member_id
+			from M150_tmp.member
+			where floor(yrdif(dob,&measure_end.,"age")) &age_limit_expression.
+			) members_age
+		inner join (
+			select distinct member_id
+			from M150_tmp.outclaims_prm
+			where outclaims_prm.prm_fromdate lt %sysfunc(intnx(month,&measure_end.,36,same))
+				and (&claims_filter_denominator.)
+			) as members_mi
+			on members_age.member_id eq members_mi.member_id
+		order by members_age.member_id
+		;
+	quit;
+%mend wrap_denom;
+%wrap_denom()

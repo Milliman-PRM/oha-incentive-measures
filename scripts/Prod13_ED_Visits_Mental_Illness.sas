@@ -85,3 +85,25 @@ libname M150_Tmp "&M150_Tmp.";
 	quit;
 %mend wrap_denom;
 %wrap_denom()
+
+/* Determine denominator member months */
+
+proc sql;
+	create table denom_memmos
+	as select distinct
+		denom.member_ID
+		,sum(mtime.memmos) as memmos
+	from
+		members_denom as denom
+	left join
+		M150_tmp.member_time as mtime
+	on denom.member_ID = mtime.member_ID
+	where
+		mtime.elig_month ge &Measure_Start. and
+		mtime.elig_month le &Measure_End. and
+		mtime.elig_month lt &runout_start. and
+		mtime.cover_medical eq 'Y'
+	group by denom.member_ID
+	order by denom.member_ID
+	;
+quit;

@@ -387,9 +387,52 @@ data members_numerator;
 		;
 run;
 
+/* Create member-level results table */
+proc sql;
+	create table results as
+	select
+		denom.member_id
+		,coalesce(numer.numerator,0) as numerator
+		,denom.denominator
+		,coalesce(numer.comments,denom.comments) as comments
+		,case calculated numerator
+			when 0 then
+				case
+					when denom.er_visits_pred_prob ge 0.50 then &measure_end.
+					else .
+					end
+			else
+				case
+					when denom.er_visits_pred_prob ge 0.25 then &measure_end.
+					else .
+					end
+			end
+			as comp_quality_date_actionable format = YYMMDDd10.
+	from members_denominator as denom
+	left join members_numerator as numer
+		on denom.member_id eq numer.member_id
+	;
+quit;
 
+/* Calculate metric */
+proc sql noprint;
+	select
+		sum(numerator) as sum_numerator
+		,sum(denominator) as sum_denominator
+		,case
+			when calculated sum_denominator gt 0 then round(coalesce(calculated sum_numerator,0) / calculated sum_denominator,0.0001)
+			else 0
+			end
+			as measure_rate
+	into :sum_numerator trimmed
+		,:sum_denominator trimmed
+		,:measure_rate trimmed
+	from results
+	;
+quit;
+%put sum_numerator = &sum_numerator.;
+%put sum_denominator = &sum_denominator.;
+%put measure_rate = &measure_rate.;
 
-
-%put tryit = %sysfunc(putn(%sysfunc(intnx(month,&measure_end.,-36,same)), yymmdd10.));
 
 %put System Return Code = &syscc.;

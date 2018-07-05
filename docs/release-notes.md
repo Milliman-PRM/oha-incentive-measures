@@ -2,6 +2,9 @@
 
 A non-exhaustive list of what has changed in a more readable form than a commit history.
 
+### v1.0.2
+  - Logic in the Effective Contraceptive Use program has been updated to correctly account for Numerator & Denominator Exclusions.
+
 ### v1.0.1
 
   - Standard measure calculations are now requirements of the custom measure injection, since our current custom measures use/overwrite the standard measure calculations

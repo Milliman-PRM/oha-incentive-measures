@@ -359,8 +359,9 @@ data claims_numerator_exclusion;
 	numerator_exclusion_code_yn $1.
 	;
  
+	numerator_exclusion_code_yn = 'N';
+ 
 	if _n_ = 1 then do;
- 		numerator_exclusion_code_yn = 'N';
  		declare hash hash_diag (dataset:  "numerator_exclusion_diag_munge", duplicate:  "ERROR");
  		rc_diag = hash_diag.DefineKey("code", "icdversion");
  		rc_diag = hash_diag.DefineData("numerator_exclusion_code_yn");

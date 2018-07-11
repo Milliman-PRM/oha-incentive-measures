@@ -389,7 +389,7 @@ run;
 
 /* Create member-level results table */
 proc sql;
-	create table results as
+	create table M150_Out.results_ed_visits_mi as
 	select
 		denom.member_id
 		,coalesce(numer.numerator,0) as numerator
@@ -427,7 +427,7 @@ proc sql noprint;
 	into :sum_numerator trimmed
 		,:sum_denominator trimmed
 		,:measure_rate trimmed
-	from results
+	from M150_Out.results_ed_visits_mi
 	;
 quit;
 %put sum_numerator = &sum_numerator.;

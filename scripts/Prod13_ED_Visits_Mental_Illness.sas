@@ -54,7 +54,7 @@ libname M150_Tmp "&M150_Tmp.";
 	,component=Numer_Excl_IP_Stay
 	,Reference_Source=oha_ref.oha_codes
 	);
-	
+
 %let max_er_comments = 3;
 %let age_limit_expression = ge 18;
 
@@ -78,14 +78,14 @@ proc sql;
 	from
 		M150_tmp.outclaims_prm
 	where
-		outclaims_prm.prm_fromdate gt %sysfunc(intnx(month,&measure_end.,-36,same))  
+		outclaims_prm.prm_fromdate gt %sysfunc(intnx(month,&measure_end.,-36,same))
 		and
 		outclaims_prm.prm_fromdate lt &measure_end.
 		and
 		(&claims_filter_denominator.)
 	group by member_id) members_mi
 	inner join
-			(	
+			(
 			select member_id
 			from M150_tmp.member
 			where floor(yrdif(dob,&measure_end.,"age")) &age_limit_expression.

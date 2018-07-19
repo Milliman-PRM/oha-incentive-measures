@@ -327,10 +327,8 @@ class EDVisitsMI(PRMSASTask):  # pragma: no cover
     """Run Prod13_ED_Visits_Mental_Illness.sas"""
 
     requirements = RequirementsContainer(
-        ImportReferences,
-        staging_membership.DeriveParamsFromMembership,
+        EDVisits,
         staging_emr.Validation,
-        poweruser_detail_datamart.ExportSAS,
     )
 
     def output(self):

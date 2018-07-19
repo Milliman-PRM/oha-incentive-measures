@@ -452,7 +452,7 @@ class InjectCustomMeasures(PRMSASTask):  # pragma: no cover
         DevelopmentalScreening,
         EDVisits,
         EffectiveContraceptive,
-		EDVisitsMI,
+        EDVisitsMI,
     )
 
     def output(self):

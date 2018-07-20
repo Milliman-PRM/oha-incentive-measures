@@ -67,7 +67,7 @@ libname M150_Tmp "&M150_Tmp.";
 /* for inclusion in the denominator. */
 %macro wrap_denom();
 proc sql;
-	create table members_denom as
+	create table members_denominator as
 	select
 		members_age.member_id,
 		members_mi.cnt

@@ -26,36 +26,7 @@ libname M150_Tmp "&M150_Tmp.";
 	&measure_name.
 	,component=Denominator
 	,Reference_Source=oha_ref.oha_codes);
-%CodeGenClaimsFilter(
-	&measure_name.
-	,component=numer_cpt
-	,Reference_Source=oha_ref.oha_codes);
-%CodeGenClaimsFilter(
-	&measure_name.
-	,component=Numer_rev
-	,Reference_Source=oha_ref.oha_codes);
-%CodeGenClaimsFilter(
-	&measure_name.
-	,component=Numer_procs
-	,Reference_Source=oha_ref.oha_codes
-	);
-%CodeGenClaimsFilter(
-	&measure_name.
-	,component=numer_excl_mh
-	,Reference_Source=oha_ref.oha_codes
-	);
-%CodeGenClaimsFilter(
-	&measure_name.
-	,component=numer_excl_psych
-	,Reference_Source=oha_ref.oha_codes
-	);
-%CodeGenClaimsFilter(
-	&measure_name.
-	,component=Numer_Excl_IP_Stay
-	,Reference_Source=oha_ref.oha_codes
-	);
 
-%let max_er_comments = 3;
 %let age_limit_expression = ge 18;
 
 /**** LIBRARIES, LOCATIONS, LITERALS, ETC. GO ABOVE HERE ****/

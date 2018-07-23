@@ -1,5 +1,5 @@
 /*
-### CODE OWNERS: Katherine Castro, Chas Busenburg
+### CODE OWNERS: Katherine Castro
 
 ### OBJECTIVE:
 	Calculate the Disparity Measure: Emergency Department Utilization for Individuals

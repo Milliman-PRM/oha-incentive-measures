@@ -74,7 +74,7 @@ proc sql;
 	from
 	(select
 		member_id,
-		count(distinct claimid) as cnt
+		count(distinct prm_fromdate) as cnt
 	from
 		M150_tmp.outclaims_prm
 	where

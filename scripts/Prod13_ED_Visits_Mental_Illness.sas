@@ -92,7 +92,7 @@ proc sql;
 			) members_age
 	on members_age.member_id = members_mi.member_id
 	where
-		members_mi.cnt gt 2
+		members_mi.cnt ge 2
 	order by member_id
 ;
 quit;

@@ -56,8 +56,7 @@ ED_Visits_MI|Denominator|ICD10CM-Diag|DIAG-2||Primary
 run;
 
 data
-	M035_out.member_time (drop = anticipated_:)
-	unittest.member (keep = member_id dob anticipated_:)
+	M035_out.member
 	;
 	infile
 		datalines
@@ -68,44 +67,26 @@ data
 	input
 		member_id :$40.
 		dob :YYMMDD10.
-		elig_month :YYMMDD10.
-		memmos :best12.
-		cover_medical :$1.
-		anticipated_numerator :best12.
-		anticipated_denominator :best12.
 		;
 	format
 		dob YYMMDDd10.
 		elig_month YYMMDDd10.
 		;
 datalines;
-diag_denom|1920-07-01|2015-01-15|1|Y|2|0.002
-diag_denom|1920-07-01|2015-02-15|1|Y|2|0.002
-excl_one_visit|1920-07-01|2015-01-15|1|Y|2|0.002
-excl_one_visit|1920-07-01|2015-02-15|1|Y|2|0.002
-excl_same_date|1920-07-01|2015-01-15|1|Y|2|0.002
-excl_same_date|1920-07-01|2015-02-15|1|Y|2|0.002
-excl_too_old|1920-07-01|2015-01-15|1|Y|2|0.002
-excl_too_old|1920-07-01|2015-02-15|1|Y|2|0.002
-excl_age_young|2000-07-01|2015-01-15|1|Y|2|0.002
-excl_age_young|2000-07-01|2015-02-15|1|Y|2|0.002
-diag_denom|1920-07-01|2015-01-15|1|Y|2|0.002
-diag_denom|1920-07-01|2015-02-15|1|Y|2|0.002
+diag_denom|1920-07-01
+diag_denom|1920-07-01
+excl_one_visit|1920-07-01
+excl_one_visit|1920-07-01
+excl_same_date|1920-07-01
+excl_same_date|1920-07-01
+excl_too_old|1920-07-01
+excl_too_old|1920-07-01
+excl_age_young|2000-07-01
+excl_age_young|2000-07-01
+diag_denom|1920-07-01
+diag_denom|1920-07-01
 run;
 
-
-proc sql;
-	create table M035_out.member as
-	select distinct
-		*
-	from unittest.member
-	;
-quit;
-%AssertNoDuplicates(
-	M035_out.member
-	,member_id
-	,ReturnMessage=Member table not set up as expected.
-	)
 data M150_out.results_ed_visits;
   infile
     datalines

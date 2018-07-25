@@ -323,6 +323,34 @@ class DiabetesHbA1c(PRMSASTask):  # pragma: no cover
         # pylint: enable=arguments-differ
 
 
+class EDVisitsMI(PRMSASTask):  # pragma: no cover
+    """Run Prod13_ED_Visits_Mental_Illness.sas"""
+
+    requirements = RequirementsContainer(
+        EDVisits,
+        staging_emr.Validation,
+    )
+
+    def output(self):
+        names_output = {
+            'results_ED_Visits_MI.sas7bdat'
+        }
+        return [
+            IndyPyLocalTarget(PRM_META[(150, 'out')] / name)
+            for name in names_output
+            ]
+
+    def run(self):  # pylint: disable=arguments-differ
+        """Run the Luigi job"""
+        program = PATH_SCRIPTS / "Prod13_ED_Visits_Mental_Illness.sas"
+        super().run(
+            program,
+            path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
+            create_folder=True,
+        )
+        # pylint: enable=arguments-differ
+
+
 class Tobacco(PRMSASTask):  # pragma: no cover
     """Run Prod11_Tobacco.sas"""
 
@@ -422,6 +450,7 @@ class InjectCustomMeasures(PRMSASTask):  # pragma: no cover
         DevelopmentalScreening,
         EDVisits,
         EffectiveContraceptive,
+        EDVisitsMI,
     )
 
     def output(self):

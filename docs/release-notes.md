@@ -11,6 +11,7 @@ A non-exhaustive list of what has changed in a more readable form than a commit 
       - Updated Colorectal Cancer Screen Codes
       - Updated Effective Contraceptive use incentive measure range age from 18-50 years -> 15-50 years
       - Updated Diabetes: HbA1c Poor Control Codes
+    - Added calculation of "Disparity Measure: Emergency Department Utilization for Individuals Experiencing Mental Illness"
 
 ### v1.0.2
   - Logic in the Effective Contraceptive Use program has been updated to correctly account for Numerator & Denominator Exclusions.

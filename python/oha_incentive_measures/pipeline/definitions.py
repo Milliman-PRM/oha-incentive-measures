@@ -1,5 +1,5 @@
 """
-### CODE OWNERS: Ben Copeland, Chas Busenburg
+### CODE OWNERS: Ben Copeland, Chas Busenburg, Matthew Hawthorne
 
 ### OBJECTIVE:
   Define tasks for OHA quality metrics
@@ -269,7 +269,7 @@ class Hypertension(PRMSASTask):  # pragma: no cover
     requirements = RequirementsContainer(
         ImportReferences,
         staging_membership.DeriveParamsFromMembership,
-        staging_emr.Validation,
+        staging_emr.ExportEMRSAS,
         poweruser_detail_datamart.ExportSAS,
     )
 
@@ -299,7 +299,7 @@ class DiabetesHbA1c(PRMSASTask):  # pragma: no cover
     requirements = RequirementsContainer(
         ImportReferences,
         staging_membership.DeriveParamsFromMembership,
-        staging_emr.Validation,
+        staging_emr.ExportEMRSAS,
         poweruser_detail_datamart.ExportSAS,
     )
 
@@ -328,7 +328,7 @@ class EDVisitsMI(PRMSASTask):  # pragma: no cover
 
     requirements = RequirementsContainer(
         EDVisits,
-        staging_emr.Validation,
+        staging_emr.ExportEMRSAS,
     )
 
     def output(self):
@@ -357,7 +357,7 @@ class Tobacco(PRMSASTask):  # pragma: no cover
     requirements = RequirementsContainer(
         ImportReferences,
         staging_membership.DeriveParamsFromMembership,
-        staging_emr.Validation,
+        staging_emr.ExportEMRSAS,
         poweruser_detail_datamart.ExportSAS,
     )
 

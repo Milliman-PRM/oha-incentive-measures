@@ -442,7 +442,7 @@ class InjectCustomMeasures(PRMSASTask):  # pragma: no cover
 
     requirements = RequirementsContainer(
         CopyReferenceFiles,
-        ancillary_inputs.Validation,
+        ancillary_inputs.ExportAncillarySAS,
         CopyReferenceFiles,
         AlcoholSBIRT,
         AdolescentWellCare,

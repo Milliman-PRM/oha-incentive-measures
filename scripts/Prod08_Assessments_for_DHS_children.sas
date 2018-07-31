@@ -1,5 +1,5 @@
 /*
-### CODE OWNERS: Aaron Hoch, Ben Copeland, Michael Menser
+### CODE OWNERS: Aaron Hoch, Ben Copeland, Michael Menser, Katherine Castro
 ### OBJECTIVE:
 	Calculate the Assessments within 60 Days for Children in DHS Custody
 ### DEVELOPER NOTES:
@@ -56,6 +56,10 @@ libname M150_Tmp "&M150_Tmp.";
 	,component=Numerator_PRTS
 	,Reference_Source=oha_ref.oha_codes
 	)
+
+/* Include cases notified from November 1 of the year prior to the measurement year, to October 31 of the measurement year */
+%let DHS_measure_start = %sysfunc(intnx(month,&Measure_Start.,-2, end));
+%put DHS_measure_start = %sysfunc(putn(&DHS_measure_start.,yymmddd10.));
 
 %let DHS_measure_end = %sysfunc(intnx(month,&Measure_End.,-2, end));
 %put DHS_measure_end = %sysfunc(putn(&DHS_measure_end.,yymmddd10.));
@@ -121,7 +125,7 @@ proc sql;
 		M150_Tmp.member_time as mtime
 		on dhs.member_ID = mtime.member_ID
 
-	where Report_Date between &Measure_start. and &DHS_measure_end.
+	where Report_Date between &DHS_measure_start. and &DHS_measure_end.
 			and &age_limit_expression.
 			and dhs.branch_code not in ('6050','0060')	/*OHA is excluding children with a ‘6050’ or '0060' branch code, which signifies adoption/guardianship change.*/
 

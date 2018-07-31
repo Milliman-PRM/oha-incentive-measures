@@ -64,8 +64,8 @@ ed_visits|numer_excl_mh|ICD9CM-Diag|DIAG-A||Primary
 ed_visits|numer_excl_mh|ICD9CM-Diag|DIAG-B||Primary
 ed_visits|numer_excl_mh|ICD10CM-Diag|DIAG-A0||Primary
 ed_visits|numer_excl_mh|ICD10CM-Diag|DIAG-B0||Primary
-ed_visits|numer_excl_pysch|CPT|XCPTA||
-ed_visits|numer_excl_pysch|CPT|XCPTB||
+ed_visits|numer_excl_psych|CPT|XCPTA||
+ed_visits|numer_excl_psych|CPT|XCPTB||
 ed_visits|Numer_Excl_IP_Stay|UBREV|UBR1||
 run;
 

@@ -4,7 +4,7 @@ Adolescent_Well_Care,Adolescent Well Care Visits,"#,##0.0%",Binary
 CRC_Screening,Colorectal Cancer Screening,"#,##0.0%",Binary
 Dev_Screening,Developmental Screening 0-36 Months,"#,##0.0%",Binary
 ED_Visits,Ambulatory Care: Emergency Dept Utilization,"#,##0.0",Rate
-ED_Visits_MI,Emergency Dept Utilization for Individuals Experiencing Mental Illness,"#,##0.0",Rate
+ED_Visits_MI,ED Utilization Among Members with Mental Illness,"#,##0.0",Rate
 Eff_Contra,Effective Contraceptive Use,"#,##0.0%",Binary
 DHS_assessments,Assessments within 60 Days for Children in DHS Custody,"#,##0.0%",Binary
 Hypertension,Controlling High Blood Pressure,"#,##0.0%",Binary

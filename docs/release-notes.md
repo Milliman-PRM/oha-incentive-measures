@@ -2,6 +2,9 @@
 
 A non-exhaustive list of what has changed in a more readable form than a commit history.
 
+### v1.2.0
+ - Updated `Emergency Dept Utilization for Individuals Experiencing Mental Illness` to `ED Utilization Among Members with Mental Illness`
+
 ### v1.1.0
 
 - Updated Oregon Health Authority CCO Incentive Measures for 2018.

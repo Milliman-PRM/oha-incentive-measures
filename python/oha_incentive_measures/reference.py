@@ -96,8 +96,8 @@ def assert_references(refs: typing.Mapping) -> None:
                 'SNOMEDCT',
                 'DENTAL',
                 'TOOTH',
-				'LOINC',
-				'RXNORM'
+                'LOINC',
+                'RXNORM',
             ]
         })
     except AssertionError as error:

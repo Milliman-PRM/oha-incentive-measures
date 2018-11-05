@@ -88,7 +88,6 @@ def assert_references(refs: typing.Mapping) -> None:
                 'ICD9CM-Diag',
                 'ICD10CM-Proc',
                 'ICD10CM-Diag',
-                'ICD10CM-Proc',
                 'UBREV',
                 'POS',
                 'NDC',
@@ -97,6 +96,8 @@ def assert_references(refs: typing.Mapping) -> None:
                 'SNOMEDCT',
                 'DENTAL',
                 'TOOTH',
+				'LOINC',
+				'RXNORM'
             ]
         })
     except AssertionError as error:

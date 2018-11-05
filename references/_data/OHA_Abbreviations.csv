@@ -9,5 +9,11 @@ Eff_Contra,Effective Contraceptive Use,"#,##0.0%",Binary
 DHS_assessments,Assessments within 60 Days for Children in DHS Custody,"#,##0.0%",Binary
 Hypertension,Controlling High Blood Pressure,"#,##0.0%",Binary
 Diabetes_HbA1c,Diabetes: HbA1c Poor Control,"#,##0.0%",Binary
-tobacco_use,Tobacco Use Prevalence,"#,##0.0%",Binary
+Depression_Screening,Screening for Clinical Depression and Follow-Up Plan,"#,##0.0%",Binary
+Tobacco_Use,Tobacco Use Prevalence,"#,##0.0%",Binary
+Cigarette_Use,Cigarette Use Prevalence,"#,##0.0%",Binary
+Tobacco_Status,Tobacco Use Status Recorded,"#,##0.0%",Binary
+Childhood_Obesity,Weight Assessment and Counseling for Nutrition and Physical Activity for Children and Adolescents,"#,##0.0%",Binary
+BMI_Screening,Body Mass Index (BMI) Screening and Follow-Up Plan,"#,##0.0%",Binary
 Dental_Sealants,Dental Sealants,"#,##0.0%",Binary
+SBIRT_EHR,SBIRT EHR,"#,##0.0%",Binary

@@ -19,20 +19,14 @@ options compress = yes;
 			);
 
 /* Libnames */
+libname oha_ref "%sysget(OHA_INCENTIVE_MEASURES_PATHREF)" access = readonly;
 libname M035_Out "&M035_Out." access=readonly;
 libname M036_Out "&M036_Out." access=readonly;
-libname M150_Tmp "&M150_Tmp.";
-libname M150_Out "&M150_Out.";
-
 
 /**** LIBRARIES, LOCATIONS, LITERALS, ETC. GO ABOVE HERE ****/
 
-
-
-
-
 data OHA_Abbreviations;
-	set M150_Out.OHA_Abbreviations;
+	set oha_ref.OHA_Abbreviations;
 	format comp_quality_dual 12.;
 	comp_quality_dual = _N_;
 run;

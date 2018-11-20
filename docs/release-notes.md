@@ -2,6 +2,9 @@
 
 A non-exhaustive list of what has changed in a more readable form than a commit history.
 
+### v1.3.1
+ - Removed unnecessary `CopyReferenceFiles` class from Luigi pipeline
+
 ### v1.3.0
  - Added remaining WOH reference codesets
 

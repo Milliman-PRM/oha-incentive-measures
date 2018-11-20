@@ -22,6 +22,7 @@ options compress = yes;
 libname oha_ref "%sysget(OHA_INCENTIVE_MEASURES_PATHREF)" access = readonly;
 libname M035_Out "&M035_Out." access=readonly;
 libname M036_Out "&M036_Out." access=readonly;
+libname M150_Out "&M150_Out.";
 
 /**** LIBRARIES, LOCATIONS, LITERALS, ETC. GO ABOVE HERE ****/
 

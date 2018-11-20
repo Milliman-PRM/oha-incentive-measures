@@ -410,40 +410,12 @@ class DentalSealant(PRMSASTask):  # pragma: no cover
         # pylint: enable=arguments-differ
 
 
-class CopyReferenceFiles(PRMSASTask):  # pragma: no cover
-    """Run Prod40_Copy_Reference_Files.sas"""
-
-    requirements = RequirementsContainer(
-        ImportReferences,
-    )
-
-    def output(self):
-        names_output = {
-            'oha_abbreviations.sas7bdat'
-        }
-        return [
-            IndyPyLocalTarget(PRM_META[(150, 'out')] / name)
-            for name in names_output
-            ]
-
-    def run(self):  # pylint: disable=arguments-differ
-        """Run the Luigi job"""
-        program = PATH_SCRIPTS / "Prod40_Copy_Reference_Files.sas"
-        super().run(
-            program,
-            path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
-            create_folder=True,
-        )
-        # pylint: enable=arguments-differ
-
-
 class InjectCustomMeasures(PRMSASTask):  # pragma: no cover
     """Run prod41_inject_custom_measures.sas"""
 
     requirements = RequirementsContainer(
-        CopyReferenceFiles,
+        ImportReferences,
         ancillary_inputs.Validation,
-        CopyReferenceFiles,
         AlcoholSBIRT,
         AdolescentWellCare,
         ColorectralCancerScreening,

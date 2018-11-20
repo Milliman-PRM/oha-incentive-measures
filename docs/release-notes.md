@@ -4,6 +4,7 @@ A non-exhaustive list of what has changed in a more readable form than a commit 
 
 ### v1.3.1
  - Removed unnecessary `CopyReferenceFiles` class from Luigi pipeline
+ -  Added missing read-write access to M150_Out in the `Prod42_Combine_All.sas program`
 
 ### v1.3.0
  - Added remaining WOH reference codesets

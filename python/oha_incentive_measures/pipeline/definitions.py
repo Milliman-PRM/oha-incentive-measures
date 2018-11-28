@@ -119,7 +119,7 @@ class AdolescentWellCare(PRMSASTask):  # pragma: no cover
         # pylint: enable=arguments-differ
 
 
-class ColorectralCancerScreening(PRMSASTask):  # pragma: no cover
+class ColorectalCancerScreening(PRMSASTask):  # pragma: no cover
     """Run Prod03_Colorectal_Cancer_Screening.sas"""
 
     requirements = RequirementsContainer(
@@ -418,7 +418,7 @@ class InjectCustomMeasures(PRMSASTask):  # pragma: no cover
         ancillary_inputs.Validation,
         AlcoholSBIRT,
         AdolescentWellCare,
-        ColorectralCancerScreening,
+        ColorectalCancerScreening,
         DevelopmentalScreening,
         EDVisits,
         EffectiveContraceptive,

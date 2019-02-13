@@ -32,6 +32,11 @@ libname M150_Tmp "&M150_Tmp.";
 	,Reference_Source=oha_ref.oha_codes
 	)
 %CodeGenClaimsFilter(
+    &measure_name.
+    ,component=denom_exclusion_frail
+    ,Reference_Source=oha_ref.oha_codes
+    )
+%CodeGenClaimsFilter(
 	&measure_name.
 	,component=numer_colo
 	,Reference_Source=oha_ref.oha_codes

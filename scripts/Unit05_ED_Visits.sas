@@ -67,6 +67,8 @@ ed_visits|numer_excl_mh|ICD10CM-Diag|DIAG-B0||Primary
 ed_visits|numer_excl_psych|CPT|XCPTA||
 ed_visits|numer_excl_psych|CPT|XCPTB||
 ed_visits|Numer_Excl_IP_Stay|UBREV|UBR1||
+ed_visits|Denom_Excl_Hospice|CPT|HCPT1||
+ed_visits|Denom_Excl_Hospice|UBREV|HREV||
 run;
 
 data
@@ -117,6 +119,8 @@ two_day_stay|1990-07-01|2015-02-15|1|Y|1|0.001
 two_visits|1990-07-01|2015-02-15|1|Y|2|0.001
 mh_excl_icd10|1920-07-01|2015-01-15|1|Y|0|0.002
 mh_excl_icd10|1920-07-01|2015-02-15|1|Y|0|0.002
+hospice_excl_icd10|1920-07-01|2015-02-15|1|Y|0|0
+hospice_excl_rev|1920-07-01|2015-02-15|1|Y|0|0
 run;
 
 proc sql;
@@ -173,6 +177,10 @@ two_day_stay|2015-02-15|O11a|1|CPT-B|XXXX|XX|XXXXXXX|XXXXXXX|XXXXXXX|N
 two_visits|2015-02-14|O11a|1|XXXXX|REVA|XX|XXXXXXX|XXXXXXX|XXXXXXX|N
 two_visits|2015-02-15|O11a|2|XXXXX|REVB|XX|XXXXXXX|XXXXXXX|XXXXXXX|N
 mh_excl_icd10|2015-02-14|O11a|1|CPT-A|XXXX|XX|DIAG-A0|XXXXXXX|XXXXXXX|N
+hospice_excl_icd10|2015-02-14|O11a|1|XXXXX|REVA|XX|XXXXXXX|XXXXXXX|XXXXXXX|N
+hospice_excl_icd10|2015-01-15|P82b|2|HCPT1|XXXX|XX|XXXXXXX|XXXXXXX|XXXXXXX|N
+hospice_excl_rev|2015-02-14|O11a|1|XXXXX|REVA|XX|XXXXXXX|XXXXXXX|XXXXXXX|N
+hospice_excl_rev|2015-03-15|P82b|2|XXXXX|HREV|XX|XXXXXXX|XXXXXXX|XXXXXXX|N
 run;
 
 /*Simulate prediction output by mimicking R write.foreign*/

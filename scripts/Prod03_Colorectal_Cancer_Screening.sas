@@ -38,6 +38,11 @@ libname M150_Tmp "&M150_Tmp.";
     )
 %CodeGenClaimsFilter(
     &measure_name.
+    ,component=denom_excl_ill
+    ,Reference_Source=oha_ref.oha_codes
+    )
+%CodeGenClaimsFilter(
+    &measure_name.
     ,component=denom_excl_out
     ,Reference_Source=oha_ref.oha_codes
     )

@@ -33,7 +33,37 @@ libname M150_Tmp "&M150_Tmp.";
 	)
 %CodeGenClaimsFilter(
     &measure_name.
-    ,component=denom_exclusion_frail
+    ,component=denom_excl_frail
+    ,Reference_Source=oha_ref.oha_codes
+    )
+%CodeGenClaimsFilter(
+    &measure_name.
+    ,component=denom_excl_out
+    ,Reference_Source=oha_ref.oha_codes
+    )
+%CodeGenClaimsFilter(
+    &measure_name.
+    ,component=denom_excl_obs
+    ,Reference_Source=oha_ref.oha_codes
+    )
+%CodeGenClaimsFilter(
+    &measure_name.
+    ,component=denom_excl_ed
+    ,Reference_Source=oha_ref.oha_codes
+    )
+%CodeGenClaimsFilter(
+    &measure_name.
+    ,component=denom_excl_nacute
+    ,Reference_Source=oha_ref.oha_codes
+    )
+%CodeGenClaimsFilter(
+    &measure_name.
+    ,component=denom_excl_acute
+    ,Reference_Source=oha_ref.oha_codes
+    )
+%CodeGenClaimsFilter(
+    &measure_name.
+    ,component=denom_excl_dem
     ,Reference_Source=oha_ref.oha_codes
     )
 %CodeGenClaimsFilter(

@@ -190,7 +190,7 @@ proc sql;
 	;
 quit;
 
-/* IDENTIFY MEMBERS WITH FRAILTY */
+/*** IDENTIFY MEMBERS WITH FRAILTY ***/
 proc sql;
     create table frailty as
     select distinct
@@ -201,7 +201,7 @@ proc sql;
 	;
 quit;
 
-/* IDENTIFY MEMBERS WITH ADVANCED ILLNESS DIAG AND OUTPATIENT, OBSERVATION, ED, OR NONACUTE INPAT VISITS (AT LEAST 2)*/
+/*** IDENTIFY MEMBERS WITH ADVANCED ILLNESS DIAG AND OUTPATIENT, OBSERVATION, ED, OR NONACUTE INPAT VISITS (AT LEAST 2) ***/
 proc sql;
 	create table visit_advanced_illness (drop = visit_count) as
 	select distinct
@@ -220,7 +220,7 @@ proc sql;
 	;
 quit;
 
-/* IDENTIFY MEMBERS WITH ADVANCED ILLNESS DIAG AND ACUTE INPATIENT VISIT*/
+/*** IDENTIFY MEMBERS WITH ADVANCED ILLNESS DIAG AND ACUTE INPATIENT VISIT ***/
 proc sql;
     create table acute_inpat_advanced_illness as
     select distinct
@@ -233,7 +233,7 @@ proc sql;
     ;
 quit;
 
-/* IDENTIFY MEMBERS WITH RX FOR DEMENTIA MEDICATION*/
+/*** IDENTIFY MEMBERS WITH RX FOR DEMENTIA MEDICATION ***/
 proc sql;
     create table dementia_meds as
     select distinct
@@ -243,7 +243,7 @@ proc sql;
     ;
 quit;
 
-/* UNION ALL POSSIBLE WAYS TO  */
+/*** UNION ALL POSSIBLE WAYS TO HAVE ADVANCED ILLNESS ***/
 data union_advanced_illness;
 set
 	visit_advanced_illness
@@ -254,9 +254,27 @@ by member_id;
 if first.member_id;
 run;
 
-/* IDENTIFY MEMBERS AGE 66 AND OLDER WITH FRAILTY AND ADVANCED ILLNESS */
+/*** IDENTIFY MEMBERS AGE 66 AND OLDER WITH FRAILTY AND ADVANCED ILLNESS ***/
+proc sql;
+    create table frailty_illness_excl as
+        select distinct
+            member.member_id
+        from M150_tmp.member as member
+    inner join (
+        select
+            member_id
+        from frailty
+    ) on member.member_id eq frailty.member_id
+	left join (
+		select
+			member_id
+		from union_advanced_illness
+	) on member.member_id eq union_advanced_illness.member_id
+    where floor(yrdif(member.dob,&measure_end.,"age")) ge 66 and union_advanced_illness.member_id is not null
+    ;
+quit;
 
-/*** KNOCKOUT MEMBERS WITH SPECIFIC CLAIM HISTORIES ***/
+/*** KNOCKOUT MEMBERS WITH SPECIFIC CLAIM HISTORIES OR FRAILTY WITH ADVANCED ILLNESS (AGE 66 AND OLDER) ***/
 proc sql;
 	create table members_denominator as
 	select
@@ -269,7 +287,12 @@ proc sql;
 		where (&claims_filter_denom_exclusion.)
 		) as excluded
 		on members.member_id eq excluded.member_id
-	where excluded.member_id is null
+	left join (
+	    select distinct
+	        member_id
+	    from frailty_illness_excl
+	) on members.member_id eq frailty_illness_excl.member_id
+	where excluded.member_id is null & frailty_illness_excl.member_id is null
 	;
 quit;
 

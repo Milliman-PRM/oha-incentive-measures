@@ -60,6 +60,7 @@ eff_contra|numerator_icdproc|ICD9CM-Proc|PROCA||
 eff_contra|numerator_icddiag|ICD10CM-Diag|DIAGA10||
 eff_contra|numerator_icdproc|ICD10CM-Proc|PROCA10||
 eff_contra|numerator_NDC|NDC|NDCA||
+eff_contra|numerator_permanent|ICD10CM-Diag|PERMA_C||
 eff_contra|numer_exclusion|ICD9CM-Diag|PREGO9||
 eff_contra|numer_exclusion|CPT|PREGO||
 eff_contra|denom_exclusion|ICD9CM-Diag|EXDIAGA||
@@ -111,6 +112,7 @@ multiple_small_elig_gap|1980-07-01|F|2015-01-01|2015-01-28|0|0
 multiple_small_elig_gap|1980-07-01|F|2015-02-01|2015-03-15|0|0
 multiple_small_elig_gap|1980-07-01|F|2015-04-01|2015-05-31|0|0
 all_good|1975-09-01|F|2014-09-01|2015-05-31|1|1
+perma_contra|1975-09-01|F|2014-09-01|2015-05-31|1|1
 med_only|1975-09-01|F|2014-09-01|2015-05-31|1|1
 rx_only|1975-09-01|F|2014-09-01|2015-05-31|1|1
 denom_excl|1970-01-08|F|2014-01-08|2015-05-31|0|0
@@ -167,6 +169,7 @@ too_young|2015-04-15|HCPCA|XXXXXXX|XXXXXXX|09
 large_elig_gap|2015-01-08|XXXXX|DIAGA|XXXXXXX|09
 multiple_small_elig_gap|2015-02-14|XXXXX|XXXXXXX|PROCA|09
 all_good|2015-02-07|CPTA|XXXXXXX|XXXXXXX|09
+perma_contra|2013-01-07|XXXXX|PERMA_C|XXXXXXX|10
 med_only|2015-02-07|HCPCA|XXXXXXX|XXXXXXX|09
 denom_excl|2014-02-07|XCPTA|XXXXXXX|XXXXXXX|09
 denom_excl|2015-02-07|XXXXX|DIAGA|XXXXXXX|09

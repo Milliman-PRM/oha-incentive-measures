@@ -40,8 +40,14 @@ libname M150_Tmp "&M150_Tmp.";
 	,component=numerator_icdproc
 	,Reference_Source=oha_ref.oha_codes
 	)
+%CodeGenClaimsFilter(
+	&measure_name.
+	,Name_Output_Var=claims_filter_numer_perm
+	,component=numerator_permanent
+	,Reference_Source=oha_ref.oha_codes
+)
 /*Bring all numerators back together so we can grab all numerator claims at once.*/
-%let claims_filter_numerator = &claims_filter_numerator_cpthcpcs. or &claims_filter_numerator_icddiag. or &claims_filter_numerator_icdproc.;
+%let claims_filter_numerator = &claims_filter_numer_perm. or &claims_filter_numerator_cpthcpcs. or &claims_filter_numerator_icddiag. or &claims_filter_numerator_icdproc.;
 %put &=claims_filter_numerator.;
 %CodeGenClaimsFilter(
 	&measure_name.
@@ -182,6 +188,7 @@ proc sql;
 				when prm_fromdate ge &measure_start.
 					and prm_fromdate le &measure_end.
 					then 1
+				when (&claims_filter_numer_perm.) then 1
 				else 0
 				end
 				as in_current_measure_period

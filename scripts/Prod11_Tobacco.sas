@@ -65,7 +65,7 @@ data emr_tobacco_recent;
 		;
 	retain numerator;
 
-	if prm_tobacco_status_date ge &measure_start.
+	if prm_tobacco_status_date ge intnx('year', &measure_start., -1, "sameday")
 		and prm_tobacco_status_date le &measure_end. then in_current_measure_period = 1;
 	else in_current_measure_period = 0;
 

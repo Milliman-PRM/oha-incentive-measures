@@ -47,6 +47,9 @@ current|1|1
 former|0|1
 never|0|1
 new|1|1
+prior_current|1|1
+prior_former|0|1
+cross_years_quit|0|1
 quit|0|1
 null_results|0|1
 no_results|0|1
@@ -73,6 +76,10 @@ former|2015-03-15|Former
 never|2015-07-08|Never
 new|2015-01-30|Never
 new|2015-04-30|Current
+prior_current|2014-01-01|Current
+prior_former|2014-03-25|Former
+cross_years_quit|2014-12-01|Current
+cross_years_quit|2015-06-13|Former
 quit|2015-03-15|Current
 quit|2015-09-15|Former
 null_results|2015-08-20|

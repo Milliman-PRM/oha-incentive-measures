@@ -7,7 +7,8 @@ A non-exhaustive list of what has changed in a more readable form than a commit 
  - Update Oregon Health Authority CCO Incentive Measures for 2019
    - Changes overview can be found in [CCO Incentive Measure Specification Changes between 2019 and 2019](https://www.oregon.gov/oha/HPA/ANALYTICS/CCOData/2019-incentive-measure-Specification-Changes-Summary.pdf)
      - Update Cigarette Smoking Prevalence Codes and included year prior to measurement year in status derivation
-     - Update Adolescent Well Care Codes and include hospice exclusion to denominator 
+     - Update Adolescent Well Care Codes and include hospice exclusion to denominator
+     - Update Colorectal Cancer Screening codes and include frailty with advanced illness exclusion to denominator
 
 ### v1.3.1
  - Removed unnecessary `CopyReferenceFiles` class from Luigi pipeline

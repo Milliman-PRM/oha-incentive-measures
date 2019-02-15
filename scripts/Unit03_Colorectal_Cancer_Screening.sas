@@ -60,7 +60,7 @@ crc_screening|denom_excl_acute|CPT|Acute||
 crc_screening|denom_excl_ill|ICD10CM-Diag|exDiag||
 crc_screening|denom_excl_out|HCPCS|OutExHCP||
 crc_screening|denom_excl_obs|HCPCS|ObsExHCP||
-crc_screening|denom_excl_ed|HCPCS|EDExHCP||
+crc_screening|denom_excl_ed|HCPCS|EDHCP||
 crc_screening|denom_excl_nacute|HCPCS|NacuteExHCP||
 crc_screening|denom_excl_dem|NDC|DemExNDC||
 crc_screening|Numer_FOBT|CPT|FOBT||
@@ -131,7 +131,9 @@ found_by_proc|1951-10-04|2014-01-01|2015-05-31|1|1
 denom_excluded_claim_cpt|1955-04-28|2014-01-01|2015-05-31|0|0
 denom_excluded_claim_diag|1955-04-28|2014-01-01|2015-05-31|0|0
 denom_excluded_claim_proc|1955-04-28|2014-01-01|2015-05-31|0|0
-denom_excluded_claim_frail_acute|1955-04-28|2014-01-01|2015-05-31|0|0
+denom_excluded_claim_frail_acute|1940-04-28|2014-01-01|2015-05-31|0|0
+denom_excluded_claim_dementia|1940-04-28|2014-01-01|2015-05-31|0|0
+denom_excluded_claim_frail_ed|1940-04-28|2014-01-01|2015-05-31|0|0
 found_by_diag_icd10|1951-10-04|2014-01-01|2015-05-31|1|1
 found_by_proc_icd10|1951-10-04|2014-01-01|2015-05-31|1|1
 denom_excluded_claim_diag_icd10|1955-04-28|2014-01-01|2015-05-31|0|0
@@ -193,6 +195,9 @@ denom_excluded_claim_proc|2012-01-30|XXXXX|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX|XXXXX
 denom_excluded_claim_proc|2015-01-30|XXXXX|XXXXXXX|FOBT|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX
 denom_excluded_claim_frail_acute|2015-01-30|Frail|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX
 denom_excluded_claim_frail_acute|2015-02-01|Acute|exDiag|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX
+denom_excluded_claim_frail_ed|2015-01-30|Frail|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX
+denom_excluded_claim_frail_ed|2015-02-01|EDHCP|exDiag|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX
+denom_excluded_claim_dementia|2015-01-30|Frail|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX
 found_by_diag_icd10|2015-02-15|XXXXX|XXXXXXX|XXXXXXX|FlxSg10|XXXXXXX|XXXXXXX|XXXXXXX
 found_by_proc_icd10|2015-05-15|XXXXX|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX|FOBT10|XXXXXXX
 denom_excluded_claim_diag_icd10|2012-01-30|XXXXX|exDiag0|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX
@@ -201,6 +206,23 @@ denom_excluded_claim_proc_icd10|2012-01-30|XXXXX|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX
 denom_excluded_claim_proc_icd10|2015-01-30|XXXXX|XXXXXXX|FOBT10|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX
 had_CT_claim|2013-08-15|CT10|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX
 had_FIT_claim|2015-02-12|FIT10|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX|XXXXXXX
+run;
+
+data M073_out.outpharmacy_prm;
+	infile
+		datalines
+		dsd
+		truncover
+		delimiter = "|"
+		;
+	input
+		member_id :$40.
+		prm_fromdate :YYMMDD10.
+		ndc :$10.
+		;
+	format prm_fromdate YYMMDDd10.;
+datalines;
+denom_excluded_claim_dementia|2015-01-30|DemExNDC
 run;
 
 /***** RUN THE PRODUCTION PROGRAM *****/

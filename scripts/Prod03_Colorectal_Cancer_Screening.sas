@@ -190,6 +190,72 @@ proc sql;
 	;
 quit;
 
+/*build out members with frailty*/
+proc sql;
+    create table frailty as
+    select distinct
+        member_id
+    from M150_tmp.outclaims_prm
+    where (&claims_filter_denom_excl_frail.)
+    & (outclaims_prm.prm_fromdate between &measure_start. and &measure_end.)
+	;
+quit;
+
+/*build out members with advanced illness from outpatient or inpatients with advanced illness diagnosis*/
+proc sql;
+	create table visit_advanced_illness (drop = visit_count) as
+	select distinct
+		member_id
+		,count(distinct outclaims_prm.fromdate) as visit_count
+	from M150_tmp.outclaims_prm
+	where
+	    ((&claims_filter_denom_excl_out.)
+	    | (&claims_filter_denom_excl_obs.)
+	    | (&claims_filter_denom_excl_ed.)
+	    | (&claims_filter_denom_excl_nacute.))
+	    & (&claims_filter_denom_excl_ill.)
+	    & (outclaims_prm.prm_fromdate between intnx('year', &measure_start., -1, "sameday") and &measure_end.)
+	group by member_id
+	having calculated visit_count ge 2
+	;
+quit;
+
+/*build out members with advanced illness from acute inpatient with advanced illness diagnosis*/
+proc sql;
+    create table acute_inpat_advanced_illness as
+    select distinct
+        member_id
+    from M150_tmp.outclaims_prm
+    where
+        (&claims_filter_denom_excl_acute.)
+        & (&claims_filter_denom_excl_ill.)
+        & (outclaims_prm.prm_fromdate between intnx('year', &measure_start., -1, "sameday") and &measure_end.)
+    ;
+quit;
+
+/*build out members with advanced illness dimentia medication*/
+proc sql;
+    create table dementia_meds as
+    select distinct
+        member_id
+    from M150_tmp.outpharmacy_prm
+    where (&claims_filter_denom_excl_dem.) & (outpharmacy_prm.prm_fromdate between intnx('year', &measure_start., -1, "sameday") and &measure_end.)
+    ;
+quit;
+
+
+data union_advanced_illness;
+set
+	visit_advanced_illness
+	acute_inpat_advanced_illness
+	dementia_meds
+	;
+by member_id;
+if first.member_id;
+run;
+
+/*apply frailty with advanced illness exclusion to denominator mems age 66 and older*/
+
 /*** KNOCKOUT MEMBERS WITH SPECIFIC CLAIM HISTORIES ***/
 proc sql;
 	create table members_denominator as

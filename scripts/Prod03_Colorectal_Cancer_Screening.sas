@@ -206,7 +206,7 @@ proc sql;
 	create table visit_advanced_illness (drop = visit_count) as
 	select distinct
 		member_id
-		,count(distinct outclaims_prm.fromdate) as visit_count
+		,count(distinct outclaims_prm.prm_fromdate) as visit_count
 	from M150_tmp.outclaims_prm
 	where
 	    ((&claims_filter_denom_excl_out.)

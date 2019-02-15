@@ -24,11 +24,28 @@ libname M150_Tmp "&M150_Tmp.";
 %let Measure_Name = Adolescent_Well_Care;
 %let Age_Adolescent_Between = 12 and 21;
 %CodeGenClaimsFilter(&Measure_Name.,Component = Numerator,Reference_Source=oha_ref.oha_codes)
+%CodeGenClaimsFilter(
+	&measure_name.
+	,name_output_var=denom_excl_hospice
+	,component=Denom_Exclusion_Hospice
+	,Reference_Source=oha_ref.oha_codes
+	);
 
 /**** LIBRARIES, LOCATIONS, LITERALS, ETC. GO ABOVE HERE ****/
 
 
-
+/*Find denom claim exclusions*/
+proc sql;
+	create table denom_excl
+	as select distinct
+		member_id
+	from m150_tmp.outclaims_prm
+	where
+		fromdate ge &measure_start.
+		and fromdate le &measure_end.
+		and &denom_excl_hospice.
+	;
+quit;
 
 
 
@@ -98,6 +115,11 @@ proc sql;
 	select
 		gaps.member_id
 		,any_elig.dob
+		,case
+			when denom_excl.member_id is not null then 'Y'
+			else 'N'
+			end
+			as denom_excluded_yn
 	from elig_gaps as gaps
 	inner join (
 		/*Check that they had any eligibility at all in the measure period.*/
@@ -110,6 +132,8 @@ proc sql;
 			and date_end ge &Measure_Start.
 		) as any_elig on
 		gaps.member_id eq any_elig.member_id
+	left join denom_excl on
+		gaps.member_id eq denom_excl.member_id
 	where
 		gaps.gap_cnt le 1
 		and gaps.gap_days le 45
@@ -127,14 +151,18 @@ proc sql;
 				else 0
 				end
 		) as numerator
-		,cat(
-			'Most recent visit performed '
-			,put(calculated most_recent_visit,MMDDYYs10.)
-			,case
-				when not (calculated most_recent_visit between &Measure_Start. and &Measure_End.) then " (not in performance year)"
-				else ""
-				end
-			) as comment format = $128. length = 128
+		,case
+			when elig.denom_excluded_yn eq 'Y' then 'Excluded due to hospice status'
+			else cat(
+				'Most recent visit performed '
+				,put(calculated most_recent_visit,MMDDYYs10.)
+				,case
+					when not (calculated most_recent_visit between &Measure_Start. and &Measure_End.) then " (not in performance year)"
+					else ""
+					end
+				)
+			end
+			as comment format = $128. length = 128
 	from M150_Tmp.outclaims_prm as outclaims_prm
 	inner join members_denominator as elig
 		on outclaims_prm.member_ID = elig.member_ID
@@ -148,12 +176,20 @@ proc sql;
 	create table M150_Out.Results_&Measure_Name. as
 	select
 		denom.Member_ID
-		,1 as Denominator
+		,case
+			when denom.denom_excluded_yn eq 'Y' then 0
+			else 1
+			end
+			as Denominator
 		,coalesce(visits.numerator,0) as numerator
-		,coalesce(
-			visits.comment
-			,"No qualifying visit"
-			) as comments format = $128. length = 128
+		,case
+			when denom.denom_excluded_yn eq 'Y' then 'Excluded due to hospice status'
+			else coalesce(
+				visits.comment
+				,"No qualifying visit"
+				)
+			end
+			as comments format = $128. length = 128
 		,case calculated numerator
 			when 0 then &measure_end.
 			else .

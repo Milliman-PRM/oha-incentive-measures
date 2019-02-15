@@ -190,7 +190,7 @@ proc sql;
 	;
 quit;
 
-/*build out members with frailty*/
+/* IDENTIFY MEMBERS WITH FRAILTY */
 proc sql;
     create table frailty as
     select distinct
@@ -201,7 +201,7 @@ proc sql;
 	;
 quit;
 
-/*build out members with advanced illness from outpatient or inpatients with advanced illness diagnosis*/
+/* IDENTIFY MEMBERS WITH ADVANCED ILLNESS DIAG AND OUTPATIENT, OBSERVATION, ED, OR NONACUTE INPAT VISITS (AT LEAST 2)*/
 proc sql;
 	create table visit_advanced_illness (drop = visit_count) as
 	select distinct
@@ -220,7 +220,7 @@ proc sql;
 	;
 quit;
 
-/*build out members with advanced illness from acute inpatient with advanced illness diagnosis*/
+/* IDENTIFY MEMBERS WITH ADVANCED ILLNESS DIAG AND ACUTE INPATIENT VISIT*/
 proc sql;
     create table acute_inpat_advanced_illness as
     select distinct
@@ -233,7 +233,7 @@ proc sql;
     ;
 quit;
 
-/*build out members with advanced illness dimentia medication*/
+/* IDENTIFY MEMBERS WITH RX FOR DEMENTIA MEDICATION*/
 proc sql;
     create table dementia_meds as
     select distinct
@@ -243,7 +243,7 @@ proc sql;
     ;
 quit;
 
-
+/* UNION ALL POSSIBLE WAYS TO  */
 data union_advanced_illness;
 set
 	visit_advanced_illness
@@ -254,7 +254,7 @@ by member_id;
 if first.member_id;
 run;
 
-/*apply frailty with advanced illness exclusion to denominator mems age 66 and older*/
+/* IDENTIFY MEMBERS AGE 66 AND OLDER WITH FRAILTY AND ADVANCED ILLNESS */
 
 /*** KNOCKOUT MEMBERS WITH SPECIFIC CLAIM HISTORIES ***/
 proc sql;

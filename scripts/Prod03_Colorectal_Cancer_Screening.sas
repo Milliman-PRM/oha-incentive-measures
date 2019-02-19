@@ -205,7 +205,7 @@ proc sql;
 	;
 quit;
 
-/*** IDENTIFY MEMBERS WITH ADVANCED ILLNESS DIAG AND OUTPATIENT, OBSERVATION, ED, OR NONACUTE INPAT VISITS (AT LEAST 2) ***/
+/*** IDENTIFY MEMBERS WITH ADVANCED ILLNESS ***/
 proc sql;
 	create table visit_advanced_illness (drop = visit_count) as
 	select distinct
@@ -226,7 +226,6 @@ proc sql;
 	;
 quit;
 
-/*** IDENTIFY MEMBERS WITH ADVANCED ILLNESS DIAG AND ACUTE INPATIENT VISIT ***/
 proc sql;
     create table acute_inpat_advanced_illness as
     select distinct
@@ -239,7 +238,6 @@ proc sql;
     ;
 quit;
 
-/*** IDENTIFY MEMBERS WITH RX FOR DEMENTIA MEDICATION ***/
 proc sql;
     create table dementia_meds as
     select distinct
@@ -251,7 +249,6 @@ proc sql;
     ;
 quit;
 
-/*** UNION ALL POSSIBLE WAYS TO HAVE ADVANCED ILLNESS ***/
 data union_advanced_illness;
 set
 	visit_advanced_illness

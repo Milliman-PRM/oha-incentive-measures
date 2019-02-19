@@ -61,8 +61,8 @@ eff_contra|numerator_icddiag|ICD10CM-Diag|DIAGA10||
 eff_contra|numerator_icdproc|ICD10CM-Proc|PROCA10||
 eff_contra|numerator_NDC|NDC|NDCA||
 eff_contra|numerator_permanent|ICD10CM-Diag|PERMA_C||
-eff_contra|numer_exclusion|ICD9CM-Diag|PREGO9||
-eff_contra|numer_exclusion|CPT|PREGO||
+eff_contra|denom_exception|ICD9CM-Diag|PREGO9||
+eff_contra|denom_exception|CPT|PREGO||
 eff_contra|denom_exclusion|ICD9CM-Diag|EXDIAGA||
 eff_contra|denom_exclusion|ICD9CM-Proc|EXPROCA||
 eff_contra|denom_exclusion|ICD10CM-Diag|XDIAGA0||
@@ -80,7 +80,7 @@ proc sql;
 	;
 quit;
 
-data 
+data
 	unittest.member (keep = member_id dob gender anticipated_:)
 	M035_out.member_time (keep = member_id date_start date_end)
 	;
@@ -99,7 +99,7 @@ data
 		anticipated_numerator :12.
 		anticipated_denominator :12.
 		;
-	format 
+	format
 		dob YYMMDDd10.
 		date_: YYMMDDd10.
 		;

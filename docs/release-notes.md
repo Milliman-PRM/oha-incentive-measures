@@ -9,6 +9,7 @@ A non-exhaustive list of what has changed in a more readable form than a commit 
      - Update Cigarette Smoking Prevalence Codes and included year prior to measurement year in status derivation
      - Update Adolescent Well Care Codes and include hospice exclusion to denominator
      - Update Colorectal Cancer Screening codes and include frailty with advanced illness exclusion to denominator
+     - Update Effective Contraceptive Use Codes and include permanent contraceptives
 
 ### v1.3.1
  - Removed unnecessary `CopyReferenceFiles` class from Luigi pipeline

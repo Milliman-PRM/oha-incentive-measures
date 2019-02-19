@@ -278,7 +278,7 @@ proc sql;
 			member_id
 		from union_advanced_illness
 	) on member.member_id eq union_advanced_illness.member_id
-    where floor(yrdif(member.dob,&measure_end.,"age")) ge 66 and union_advanced_illness.member_id is not null
+    where yrdif(member.dob,&measure_end.,"age") ge 66 and union_advanced_illness.member_id is not null
     ;
 quit;
 

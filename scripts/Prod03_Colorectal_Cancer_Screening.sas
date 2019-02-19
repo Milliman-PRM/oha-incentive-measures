@@ -165,6 +165,10 @@ quit;
 	,global_date_anchor=&empirical_elig_date_end.
 	)
 
+%macro FilterExtraYear(table);
+    &table..prm_fromdate between intnx('year', &measure_start., -1, "sameday") and &measure_end.
+%mend FilterExtraYear;
+
 /*** SNAG ALL MEMBERS MEETING BASIC MEMBERSHIP REQUIREMENTS ***/
 proc sql;
 	create table members_meeting_elig as
@@ -214,7 +218,7 @@ proc sql;
 	    | (&claims_filter_denom_excl_ed.)
 	    | (&claims_filter_denom_excl_nacute.))
 	    & (&claims_filter_denom_excl_ill.)
-	    & (outclaims_prm.prm_fromdate between intnx('year', &measure_start., -1, "sameday") and &measure_end.)
+	    & (%FilterExtraYear(outclaims_prm))
 	group by member_id
 	having calculated visit_count ge 2
 	;
@@ -229,7 +233,7 @@ proc sql;
     where
         (&claims_filter_denom_excl_acute.)
         & (&claims_filter_denom_excl_ill.)
-        & (outclaims_prm.prm_fromdate between intnx('year', &measure_start., -1, "sameday") and &measure_end.)
+	    & (%FilterExtraYear(outclaims_prm))
     ;
 quit;
 
@@ -239,7 +243,9 @@ proc sql;
     select distinct
         member_id
     from M150_tmp.outpharmacy_prm
-    where (&claims_filter_denom_excl_dem.) & (outpharmacy_prm.prm_fromdate between intnx('year', &measure_start., -1, "sameday") and &measure_end.)
+    where
+        (&claims_filter_denom_excl_dem.)
+	    & (%FilterExtraYear(outpharmacy_prm))
     ;
 quit;
 

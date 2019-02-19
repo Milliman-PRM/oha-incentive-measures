@@ -213,10 +213,12 @@ proc sql;
 		,count(distinct outclaims_prm.prm_fromdate) as visit_count
 	from M150_tmp.outclaims_prm
 	where
-	    ((&claims_filter_denom_excl_out.)
-	    | (&claims_filter_denom_excl_obs.)
-	    | (&claims_filter_denom_excl_ed.)
-	    | (&claims_filter_denom_excl_nacute.))
+	    (
+            (&claims_filter_denom_excl_out.)
+            | (&claims_filter_denom_excl_obs.)
+            | (&claims_filter_denom_excl_ed.)
+            | (&claims_filter_denom_excl_nacute.)
+        )
 	    & (&claims_filter_denom_excl_ill.)
 	    & (%FilterExtraYear(outclaims_prm))
 	group by member_id

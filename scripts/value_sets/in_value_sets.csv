@@ -31,19 +31,15 @@ Depression_Screening,Numer_followup_plan_adult,Follow-up for depression - adult,
 Depression_Screening,Numer_followup_plan_adolesc,Depression medications - adolescent,2.16.840.1.113883.3.600.469
 Depression_Screening,Numer_followup_plan_adult,Depression medications - adult,2.16.840.1.113883.3.600.470
 Depression_Screening,Numer_followup_plan_adult,Suicide Risk Assessment,2.16.840.1.113883.3.600.559
-hba1c_poor_control,Annual Wellness Visit,2.16.840.1.113883.3.526.3.1240
-hba1c_poor_control,Diabetes,2.16.840.1.113883.3.464.1003.103.12.1001
-hba1c_poor_control,Encounter Inpatient,2.16.840.1.113883.3.666.5.307
-hba1c_poor_control,Ethnicity,2.16.840.1.114222.4.11.837
-hba1c_poor_control,HbA1c Laboratory Test,2.16.840.1.113883.3.464.1003.198.12.1013
-hba1c_poor_control,Home Healthcare Services,2.16.840.1.113883.3.464.1003.101.12.1016
-hba1c_poor_control,Hospice care ambulatory,2.16.840.1.113762.1.4.1108.15
-hba1c_poor_control,Office Visit,2.16.840.1.113883.3.464.1003.101.12.1001
-hba1c_poor_control,ONC Administrative Sex,2.16.840.1.113762.1.4.1
-hba1c_poor_control,Payer,2.16.840.1.114222.4.11.3591
-hba1c_poor_control,"Preventive Care Services - Established Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1025
-hba1c_poor_control,"Preventive Care Services-Initial Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1023
-hba1c_poor_control,Race,2.16.840.1.114222.4.11.836
+Diabetes_HbA1c,Denom_Diabetes,Diabetes,2.16.840.1.113883.3.464.1003.103.12.1001
+Diabetes_HbA1c,Denom_Service,Office Visit,2.16.840.1.113883.3.464.1003.101.12.1001
+Diabetes_HbA1c,Denom_Service,"Preventive Care Services - Established Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1025
+Diabetes_HbA1c,Denom_Service,"Preventive Care Services-Initial Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1023
+Diabetes_HbA1c,Denom_Service,Home Healthcare Services,2.16.840.1.113883.3.464.1003.101.12.1016
+Diabetes_HbA1c,Denom_Service,Annual Wellness Visit,2.16.840.1.113883.3.526.3.1240
+Diabetes_HbA1c,Denom_Excl_Hospice,Hospice care ambulatory,2.16.840.1.113762.1.4.1108.15
+Diabetes_HbA1c,Denom_Excl_Hospice_IP_Encounter,Encounter Inpatient,2.16.840.1.113883.3.666.5.307
+Diabetes_HbA1c,Numer_HbA1c_Lab,HbA1c Laboratory Test,2.16.840.1.113883.3.464.1003.198.12.1013
 weight_assessment_and_counseling,BMI percentile,2.16.840.1.113883.3.464.1003.121.12.1012
 weight_assessment_and_counseling,Counseling for Nutrition,2.16.840.1.113883.3.464.1003.195.12.1003
 weight_assessment_and_counseling,Counseling for Physical Activity,2.16.840.1.113883.3.464.1003.118.12.1035

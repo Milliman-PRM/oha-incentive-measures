@@ -1,25 +1,20 @@
-measure_name,value_set_name,value_set_oid
-controlling_high_blood_pressure,Adult Outpatient Visit,2.16.840.1.113883.3.464.1003.101.12.1065
-controlling_high_blood_pressure,Annual Wellness Visit,2.16.840.1.113883.3.526.3.1240
-controlling_high_blood_pressure,"Chronic Kidney Disease, Stage 5",2.16.840.1.113883.3.526.3.1002
-controlling_high_blood_pressure,Dialysis Services,2.16.840.1.113883.3.464.1003.109.12.1013
-controlling_high_blood_pressure,Encounter Inpatient,2.16.840.1.113883.3.666.5.307
-controlling_high_blood_pressure,End Stage Renal Disease,2.16.840.1.113883.3.526.3.353
-controlling_high_blood_pressure,ESRD Monthly Outpatient Services,2.16.840.1.113883.3.464.1003.109.12.1014
-controlling_high_blood_pressure,Essential Hypertension,2.16.840.1.113883.3.464.1003.104.12.1011
-controlling_high_blood_pressure,Ethnicity,2.16.840.1.114222.4.11.837
-controlling_high_blood_pressure,Home Healthcare Services,2.16.840.1.113883.3.464.1003.101.12.1016
-controlling_high_blood_pressure,Hospice care ambulatory,2.16.840.1.113762.1.4.1108.15
-controlling_high_blood_pressure,Kidney Transplant Recipient,2.16.840.1.113883.3.464.1003.109.12.1029
-controlling_high_blood_pressure,Kidney Transplant,2.16.840.1.113883.3.464.1003.109.12.1012
-controlling_high_blood_pressure,Office Visit,2.16.840.1.113883.3.464.1003.101.12.1001
-controlling_high_blood_pressure,ONC Administrative Sex,2.16.840.1.113762.1.4.1
-controlling_high_blood_pressure,Payer,2.16.840.1.114222.4.11.3591
-controlling_high_blood_pressure,Pregnancy,2.16.840.1.113883.3.526.3.378
-controlling_high_blood_pressure,"Preventive Care Services - Established Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1025
-controlling_high_blood_pressure,"Preventive Care Services-Initial Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1023
-controlling_high_blood_pressure,Race,2.16.840.1.114222.4.11.836
-controlling_high_blood_pressure,Vascular Access for Dialysis,2.16.840.1.113883.3.464.1003.109.12.1011
+Measure,component_name,value_set_name,value_set_oid
+Hypertension,Denom_Hypertens,Essential Hypertension,2.16.840.1.113883.3.464.1003.104.12.1011
+Hypertension,Denom_Service,Office Visit,2.16.840.1.113883.3.464.1003.101.12.1001
+Hypertension,Denom_Service,"Preventive Care Services - Established Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1025
+Hypertension,Denom_Service,"Preventive Care Services-Initial Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1023
+Hypertension,Denom_Service,Home Healthcare Services,2.16.840.1.113883.3.464.1003.101.12.1016
+Hypertension,Denom_Service,Annual Wellness Visit,2.16.840.1.113883.3.526.3.1240
+Hypertension,Denom_Excl_Hospice,Hospice care ambulatory,2.16.840.1.113762.1.4.1108.15
+Hypertension,Denom_Excl_Pregnacy,Pregnancy,2.16.840.1.113883.3.526.3.378
+Hypertension,Denom_Excl_Renal,End Stage Renal Disease,2.16.840.1.113883.3.526.3.353
+Hypertension,Denom_Excl_Renal,Kidney Transplant Recipient,2.16.840.1.113883.3.464.1003.109.12.1029
+Hypertension,Denom_Excl_Renal,"Chronic Kidney Disease, Stage 5",2.16.840.1.113883.3.526.3.1002
+Hypertension,Denom_Excl_Renal,Vascular Access for Dialysis,2.16.840.1.113883.3.464.1003.109.12.1011
+Hypertension,Denom_Excl_Renal,Kidney Transplant,2.16.840.1.113883.3.464.1003.109.12.1012
+Hypertension,Denom_Excl_Renal,Dialysis Services,2.16.840.1.113883.3.464.1003.109.12.1013
+Hypertension,Denom_Excl_Renal,ESRD Monthly Outpatient Services,2.16.840.1.113883.3.464.1003.109.12.1014
+Hypertension,Numer_OP_Visits,Adult Outpatient Visit,2.16.840.1.113883.3.464.1003.101.12.1065
 depression_screening,Additional evaluation for depression - adolescent,2.16.840.1.113883.3.600.1542
 depression_screening,Additional evaluation for depression - adult,2.16.840.1.113883.3.600.1545
 depression_screening,Bipolar Diagnosis,2.16.840.1.113883.3.600.450

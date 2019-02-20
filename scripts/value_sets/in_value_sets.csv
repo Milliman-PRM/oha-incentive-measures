@@ -15,26 +15,22 @@ Hypertension,Denom_Excl_Renal,Kidney Transplant,2.16.840.1.113883.3.464.1003.109
 Hypertension,Denom_Excl_Renal,Dialysis Services,2.16.840.1.113883.3.464.1003.109.12.1013
 Hypertension,Denom_Excl_Renal,ESRD Monthly Outpatient Services,2.16.840.1.113883.3.464.1003.109.12.1014
 Hypertension,Numer_OP_Visits,Adult Outpatient Visit,2.16.840.1.113883.3.464.1003.101.12.1065
-depression_screening,Additional evaluation for depression - adolescent,2.16.840.1.113883.3.600.1542
-depression_screening,Additional evaluation for depression - adult,2.16.840.1.113883.3.600.1545
-depression_screening,Bipolar Diagnosis,2.16.840.1.113883.3.600.450
-depression_screening,Depression diagnosis,2.16.840.1.113883.3.600.145
-depression_screening,Depression medications - adolescent,2.16.840.1.113883.3.600.469
-depression_screening,Depression medications - adult,2.16.840.1.113883.3.600.470
-depression_screening,Depression Screening Encounter Codes,2.16.840.1.113883.3.600.1916
-depression_screening,Ethnicity,2.16.840.1.114222.4.11.837
-depression_screening,Follow-up for depression - adolescent,2.16.840.1.113883.3.600.467
-depression_screening,Follow-up for depression - adult,2.16.840.1.113883.3.600.468
-depression_screening,Medical or Other reason not done,2.16.840.1.113883.3.600.1.1502
-depression_screening,Negative Depression Screening,2.16.840.1.113883.3.600.2451
-depression_screening,ONC Administrative Sex,2.16.840.1.113762.1.4.1
-depression_screening,Patient Reason refused,2.16.840.1.113883.3.600.791
-depression_screening,Payer,2.16.840.1.114222.4.11.3591
-depression_screening,Positive Depression Screening,2.16.840.1.113883.3.600.2450
-depression_screening,Race,2.16.840.1.114222.4.11.836
-depression_screening,Referral for Depression Adolescent,2.16.840.1.113883.3.600.537
-depression_screening,Referral for Depression Adult,2.16.840.1.113883.3.600.538
-depression_screening,Suicide Risk Assessment,2.16.840.1.113883.3.600.559
+Depression_Screening,Denom_depression,Depression Screening Encounter Codes,2.16.840.1.113883.3.600.1916
+Depression_Screening,Denom_excl_bipolar,Bipolar Diagnosis,2.16.840.1.113883.3.600.450
+Depression_Screening,Denom_excl_active_dep,Depression diagnosis,2.16.840.1.113883.3.600.145
+Depression_Screening,Denom_except_refused_services,Patient Reason refused,2.16.840.1.113883.3.600.791
+Depression_Screening,Denom_except_medical_refusal,Medical or Other reason not done,2.16.840.1.113883.3.600.1.1502
+Depression_Screening,Numer_negative_result,Negative Depression Screening,2.16.840.1.113883.3.600.2451
+Depression_Screening,Positive Depression Screening,2.16.840.1.113883.3.600.2450
+Depression_Screening,Numer_followup_plan_adolesc,Referral for Depression Adolescent,2.16.840.1.113883.3.600.537
+Depression_Screening,Numer_followup_plan_adult,Referral for Depression Adult,2.16.840.1.113883.3.600.538
+Depression_Screening,Numer_followup_plan_adolesc,Additional evaluation for depression - adolescent,2.16.840.1.113883.3.600.1542
+Depression_Screening,Numer_followup_plan_adult,Additional evaluation for depression - adult,2.16.840.1.113883.3.600.1545
+Depression_Screening,Numer_followup_plan_adolesc,Follow-up for depression - adolescent,2.16.840.1.113883.3.600.467
+Depression_Screening,Numer_followup_plan_adult,Follow-up for depression - adult,2.16.840.1.113883.3.600.468
+Depression_Screening,Numer_followup_plan_adolesc,Depression medications - adolescent,2.16.840.1.113883.3.600.469
+Depression_Screening,Numer_followup_plan_adult,Depression medications - adult,2.16.840.1.113883.3.600.470
+Depression_Screening,Numer_followup_plan_adult,Suicide Risk Assessment,2.16.840.1.113883.3.600.559
 hba1c_poor_control,Annual Wellness Visit,2.16.840.1.113883.3.526.3.1240
 hba1c_poor_control,Diabetes,2.16.840.1.113883.3.464.1003.103.12.1001
 hba1c_poor_control,Encounter Inpatient,2.16.840.1.113883.3.666.5.307

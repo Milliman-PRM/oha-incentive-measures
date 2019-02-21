@@ -40,21 +40,17 @@ Diabetes_HbA1c,Denom_Service,Annual Wellness Visit,2.16.840.1.113883.3.526.3.124
 Diabetes_HbA1c,Denom_Excl_Hospice,Hospice care ambulatory,2.16.840.1.113762.1.4.1108.15
 Diabetes_HbA1c,Denom_Excl_Hospice_IP_Encounter,Encounter Inpatient,2.16.840.1.113883.3.666.5.307
 Diabetes_HbA1c,Numer_HbA1c_Lab,HbA1c Laboratory Test,2.16.840.1.113883.3.464.1003.198.12.1013
-weight_assessment_and_counseling,BMI percentile,2.16.840.1.113883.3.464.1003.121.12.1012
-weight_assessment_and_counseling,Counseling for Nutrition,2.16.840.1.113883.3.464.1003.195.12.1003
-weight_assessment_and_counseling,Counseling for Physical Activity,2.16.840.1.113883.3.464.1003.118.12.1035
-weight_assessment_and_counseling,Encounter Inpatient,2.16.840.1.113883.3.666.5.307
-weight_assessment_and_counseling,Ethnicity,2.16.840.1.114222.4.11.837
-weight_assessment_and_counseling,Height,2.16.840.1.113883.3.464.1003.121.12.1014
-weight_assessment_and_counseling,Home Healthcare Services,2.16.840.1.113883.3.464.1003.101.12.1016
-weight_assessment_and_counseling,Hospice care ambulatory,2.16.840.1.113762.1.4.1108.15
-weight_assessment_and_counseling,Office Visit,2.16.840.1.113883.3.464.1003.101.12.1001
-weight_assessment_and_counseling,ONC Administrative Sex,2.16.840.1.113762.1.4.1
-weight_assessment_and_counseling,Payer,2.16.840.1.114222.4.11.3591
-weight_assessment_and_counseling,Pregnancy,2.16.840.1.113883.3.526.3.378
-weight_assessment_and_counseling,"Preventive Care - Established Office Visit, 0 to 17",2.16.840.1.113883.3.464.1003.101.12.1024
-weight_assessment_and_counseling,Preventive Care Services - Group Counseling,2.16.840.1.113883.3.464.1003.101.12.1027
-weight_assessment_and_counseling,Preventive Care Services-Individual Counseling,2.16.840.1.113883.3.464.1003.101.12.1026
-weight_assessment_and_counseling,"Preventive Care- Initial Office Visit, 0 to 17",2.16.840.1.113883.3.464.1003.101.12.1022
-weight_assessment_and_counseling,Race,2.16.840.1.114222.4.11.836
-weight_assessment_and_counseling,Weight,2.16.840.1.113883.3.464.1003.121.12.1015
+Childhood_Obesity,Denom_Service,Office Visit,2.16.840.1.113883.3.464.1003.101.12.1001
+Childhood_Obesity,Denom_Service,Preventive Care Services-Individual Counseling,2.16.840.1.113883.3.464.1003.101.12.1026
+Childhood_Obesity,Denom_Service,"Preventive Care- Initial Office Visit, 0 to 17",2.16.840.1.113883.3.464.1003.101.12.1022
+Childhood_Obesity,Denom_Service,"Preventive Care - Established Office Visit, 0 to 17",2.16.840.1.113883.3.464.1003.101.12.1024
+Childhood_Obesity,Denom_Service,Preventive Care Services - Group Counseling,2.16.840.1.113883.3.464.1003.101.12.1027
+Childhood_Obesity,Denom_Service,Home Healthcare Services,2.16.840.1.113883.3.464.1003.101.12.1016
+Childhood_Obesity,Denom_Excl_Prego,Pregnancy,2.16.840.1.113883.3.526.3.378
+Childhood_Obesity,Denom_Excl_Hospice,Hospice care ambulatory,2.16.840.1.113762.1.4.1108.15
+Childhood_Obesity,Denom_Excl_Hospice_IP_Encounter,Encounter Inpatient,2.16.840.1.113883.3.666.5.307
+Childhood_Obesity,Numer1_Height,Height,2.16.840.1.113883.3.464.1003.121.12.1014
+Childhood_Obesity,Numer1_Weight,Weight,2.16.840.1.113883.3.464.1003.121.12.1015
+Childhood_Obesity,Numer1_BMI,BMI percentile,2.16.840.1.113883.3.464.1003.121.12.1012
+Childhood_Obesity,Numer2,Counseling for Nutrition,2.16.840.1.113883.3.464.1003.195.12.1003
+Childhood_Obesity,Numer3,Counseling for Physical Activity,2.16.840.1.113883.3.464.1003.118.12.1035

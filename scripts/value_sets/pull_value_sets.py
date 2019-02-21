@@ -48,6 +48,30 @@ def _parse_oid_request(
 
     return iter_output
 
+def _limit_iter_output(line_dict)-> dict:
+    code_system_map = {
+        'SNOMEDCT': 'SNOMEDCT',
+        'CPT': 'CPT',
+        'HCPCS': 'HCPCS',
+        'ICD10CM': 'ICD10CM-Diag',
+        'ICD10PCS': 'ICD10CM-Proc',
+        'ICD9CM': 'ICD9CM-Diag',
+        'ICD9PCS': 'ICD9CM-Proc',
+        'LOINC':'LOINC',
+        'UBREV': 'UBREV',
+    }
+
+    output_dict = {
+        'Measure': line_dict['Measure'],
+        'Component': line_dict['component_name'],
+        'CodeSystem': code_system_map[line_dict['codeSystemName']],
+        'Code': line_dict['code'].replace('.', ''),
+        'Grouping_ID': None,
+        'Diag_Type': None,
+    }
+
+    return output_dict
+
 
 def get_argparser():
     """Setup the command line argument parser"""

@@ -21,7 +21,7 @@ Depression_Screening,Denom_excl_active_dep,Depression diagnosis,2.16.840.1.11388
 Depression_Screening,Denom_except_refused_services,Patient Reason refused,2.16.840.1.113883.3.600.791
 Depression_Screening,Denom_except_medical_refusal,Medical or Other reason not done,2.16.840.1.113883.3.600.1.1502
 Depression_Screening,Numer_negative_result,Negative Depression Screening,2.16.840.1.113883.3.600.2451
-Depression_Screening,Positive Depression Screening,2.16.840.1.113883.3.600.2450
+Depression_Screening,Numer_positive_result,Positive Depression Screening,2.16.840.1.113883.3.600.2450
 Depression_Screening,Numer_followup_plan_adolesc,Referral for Depression Adolescent,2.16.840.1.113883.3.600.537
 Depression_Screening,Numer_followup_plan_adult,Referral for Depression Adult,2.16.840.1.113883.3.600.538
 Depression_Screening,Numer_followup_plan_adolesc,Additional evaluation for depression - adolescent,2.16.840.1.113883.3.600.1542

@@ -59,6 +59,7 @@ def _limit_iter_output(line_dict)-> dict:
         'ICD9PCS': 'ICD9CM-Proc',
         'LOINC':'LOINC',
         'UBREV': 'UBREV',
+        'RXNORM': 'RXNORM',
     }
 
     output_dict = {

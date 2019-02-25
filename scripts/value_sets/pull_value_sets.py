@@ -78,7 +78,10 @@ if __name__ == '__main__':
         try:
             username = os.environ['UMLS_username']
         except KeyError:
-            raise UsernameDefinitionError("--username parameter is not defined, and cannot find `UMLS_username` environment variable")
+            tb = sys.exc_info()[2]
+            raise UsernameDefinitionError(
+                "--username parameter is not defined, and cannot find `UMLS_username` environment variable",
+            ).with_traceback(tb)
     else:
         username = ARGS.username
 
@@ -86,7 +89,10 @@ if __name__ == '__main__':
         try:
             password = os.environ['UMLS_password']
         except KeyError:
-            raise PasswordDefinitionError("--password parameter is not defined and cannot find `UMLS_password` environment variable")
+            tb = sys.exc_info()[2]
+            raise PasswordDefinitionError(
+                "--password parameter is not defined and cannot find `UMLS_password` environment variable",
+            ).with_traceback(tb)
     else:
         password = ARGS.password
 

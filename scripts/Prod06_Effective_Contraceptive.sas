@@ -2,7 +2,7 @@
 ### CODE OWNERS: Ben Copeland, Neil Schneider, Michael Menser, Katherine Castro
 
 ### OBJECTIVE:
-	Calculate the Effective Contraceptive Use quality measure 
+	Calculate the Effective Contraceptive Use quality measure
 	so it can be included in the reports.
 
 ### DEVELOPER NOTES:
@@ -40,8 +40,19 @@ libname M150_Tmp "&M150_Tmp.";
 	,component=numerator_icdproc
 	,Reference_Source=oha_ref.oha_codes
 	)
+%CodeGenClaimsFilter(
+	&measure_name.
+	,Name_Output_Var=claims_filter_numer_perm
+	,component=numerator_permanent
+	,Reference_Source=oha_ref.oha_codes
+)
+%CodeGenClaimsFilter(
+    &measure_name.
+    ,component=denom_exclusion
+    ,Reference_Source=oha_ref.oha_codes
+)
 /*Bring all numerators back together so we can grab all numerator claims at once.*/
-%let claims_filter_numerator = &claims_filter_numerator_cpthcpcs. or &claims_filter_numerator_icddiag. or &claims_filter_numerator_icdproc.;
+%let claims_filter_numerator = &claims_filter_numer_perm. or &claims_filter_numerator_cpthcpcs. or &claims_filter_numerator_icddiag. or &claims_filter_numerator_icdproc.;
 %put &=claims_filter_numerator.;
 %CodeGenClaimsFilter(
 	&measure_name.
@@ -97,8 +108,8 @@ data members_meeting_ag;
 			dob
 			gender
 		);
-	where 
-		floor(yrdif(dob,&measure_end.,"age")) &age_limit_expression. 
+	where
+		floor(yrdif(dob,&measure_end.,"age")) &age_limit_expression.
 		and upcase(gender) eq upcase("&gender_limit.")
 	;
 run;
@@ -113,7 +124,7 @@ proc sql;
 		(select distinct
 			member_ID
 		from m150_tmp.outclaims_prm
-		where 
+		where
 			(&claims_filter_denom_exclusion.)
 		) as excl
 	on
@@ -149,7 +160,7 @@ quit;
 proc sort data = member_elig_gaps
 	out = members_denominator (keep = member_id)
 	;
-	where 
+	where
 		gap_cnt le 1
 		and gap_days le 45
 		;
@@ -182,6 +193,7 @@ proc sql;
 				when prm_fromdate ge &measure_start.
 					and prm_fromdate le &measure_end.
 					then 1
+				when (&claims_filter_numer_perm.) then 1
 				else 0
 				end
 				as in_current_measure_period
@@ -284,7 +296,7 @@ run;
 	data qualifying_claims_rx_recent;
 		set qualifying_claims_med_recent (
 			obs=0
-			keep = 
+			keep =
 				member_id
 				prm_fromdate
 				numerator
@@ -319,11 +331,11 @@ of numerator compliancy first*/
 /*The numerator exclusion code set is too large to store in a macro variable, so we must limit our OHA code set to numerator exclusion codes,
 then merge this on to the outclaims to identify numerator exclusion claims.*/
 
-data numerator_exclusion_codes;
+data denominator_exception_codes;
 	set oha_ref.oha_codes;
 	where
  		upcase(measure) eq %upcase("&measure_name.")
- 		and upcase(component) eq %upcase('Numer_Exclusion')
+ 		and upcase(component) eq %upcase('Denom_Exception')
  	;
 run;
 
@@ -331,69 +343,69 @@ proc sql noprint;
  select
  	quote(strip(code))
  into
- 	:CPT_numerator_exclusion_codes separated by ','
+ 	:CPT_denominator_exception_codes separated by ','
  from
- 	numerator_exclusion_codes
+ 	denominator_exception_codes
  where
  	codesystem in ('CPT', 'HCPCS')
  ;
 quit;
 
-%put &=CPT_numerator_exclusion_codes.;
+%put &=CPT_denominator_exception_codes.;
 
-data numerator_exclusion_diag_munge;
-	set numerator_exclusion_codes;
+data denominator_exception_diag_munge;
+	set denominator_exception_codes;
 	where codesystem in ('ICD9CM-Diag', 'ICD10CM-Diag');
- 
+
 	/*Put ICDVersion in the format used in the claims data*/
 	if codesystem eq 'ICD9CM-Diag' then ICDVersion = '09';
 	else if codesystem eq 'ICD10CM-Diag' then ICDVersion = '10';
 
-	numerator_exclusion_code_yn = 'Y';
+	denominator_exception_code_yn = 'Y';
 run;
 
-data claims_numerator_exclusion;
+data claims_denominator_exception;
 	set M150_tmp.Outclaims_prm;
- 
+
 	format
-	numerator_exclusion_code_yn $1.
+	denominator_exception_code_yn $1.
 	;
- 
-	numerator_exclusion_code_yn = 'N';
- 
+
+	denominator_exception_code_yn = 'N';
+
 	if _n_ = 1 then do;
- 		declare hash hash_diag (dataset:  "numerator_exclusion_diag_munge", duplicate:  "ERROR");
+ 		declare hash hash_diag (dataset:  "denominator_exception_diag_munge", duplicate:  "ERROR");
  		rc_diag = hash_diag.DefineKey("code", "icdversion");
- 		rc_diag = hash_diag.DefineData("numerator_exclusion_code_yn");
+ 		rc_diag = hash_diag.DefineData("denominator_exception_code_yn");
  		rc_diag = hash_diag.DefineDone();
  	end;
- 
+
 	if
- 		hcpcs in (&CPT_numerator_exclusion_codes.)
+ 		hcpcs in (&CPT_denominator_exception_codes.)
  	then
- 		numerator_exclusion_code_yn = 'Y';
+ 		denominator_exception_code_yn = 'Y';
 
  	/*Hash on diag*/
 	array icddiags icddiag:;
- 
-	if numerator_exclusion_code_yn eq 'N' then do;
+
+	if denominator_exception_code_yn eq 'N' then do;
  		do over icddiags;
  			if icddiags ne "" then do;
  				code = icddiags;
  				rc_diag = hash_diag.find();
- 				if numerator_exclusion_code_yn eq 'Y' then do;
+ 				if denominator_exception_code_yn eq 'Y' then do;
  					leave; /*No need to keep looping if we found this, only needed once per claim*/
  				end;
  			end;
  		end;
-	end;	
+	end;
 run;
 
 proc sql;
 	create table pregnancy_exclusions as
 	select distinct member_ID
-	from claims_numerator_exclusion
-	where numerator_exclusion_code_yn = 'Y'
+	from claims_denominator_exception
+	where denominator_exception_code_yn = 'Y'
 		and prm_fromdate ge &measure_start.
 		and prm_fromdate le &measure_end.
 	order by member_ID

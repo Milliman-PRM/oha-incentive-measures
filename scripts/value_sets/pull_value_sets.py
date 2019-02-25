@@ -50,6 +50,31 @@ def _parse_oid_request(
 
     return iter_output
 
+def _limit_iter_output(line_dict)-> dict:
+    code_system_map = {
+        'SNOMEDCT': 'SNOMEDCT',
+        'CPT': 'CPT',
+        'HCPCS': 'HCPCS',
+        'ICD10CM': 'ICD10CM-Diag',
+        'ICD10PCS': 'ICD10CM-Proc',
+        'ICD9CM': 'ICD9CM-Diag',
+        'ICD9PCS': 'ICD9CM-Proc',
+        'LOINC':'LOINC',
+        'UBREV': 'UBREV',
+        'RXNORM': 'RXNORM',
+    }
+
+    output_dict = {
+        'Measure': line_dict['Measure'],
+        'Component': line_dict['component_name'],
+        'CodeSystem': code_system_map[line_dict['codeSystemName']],
+        'Code': line_dict['code'].replace('.', ''),
+        'Grouping_ID': None,
+        'Diag_Type': None,
+    }
+
+    return output_dict
+
 
 def get_argparser():
     """Setup the command line argument parser"""
@@ -108,12 +133,14 @@ if __name__ == '__main__':
     )
     TGT = TICKET_GETTER.text
     PATH_OUTPUT_FILE = Path(ARGS.path_output)
+    PATH_OUTPUT_FILE_OHA = PATH_OUTPUT_FILE.parent / (PATH_OUTPUT_FILE.stem + '_OHA.csv')
     PATH_INPUT_FILE = Path(ARGS.path_input_value_sets)
-    with PATH_OUTPUT_FILE.open('w', newline='') as fh_out, PATH_INPUT_FILE.open('r') as fh_in:
+    with PATH_OUTPUT_FILE.open('w', newline='') as fh_out, PATH_OUTPUT_FILE_OHA.open('w', newline='') as oha_out, PATH_INPUT_FILE.open('r') as fh_in:
         reader = csv.DictReader(
             fh_in,
         )
         iter_output = []
+        iter_oha_output = []
         for dict_in_line in reader:
             iter_oid_codes = _parse_oid_request(dict_in_line['value_set_oid'])
             for output_row in iter_oid_codes:
@@ -123,11 +150,15 @@ if __name__ == '__main__':
                 iter_output.append(
                     output_row
                 )
+                iter_oha_output.append(
+                    _limit_iter_output(output_row)
+                )
 
         writer = csv.DictWriter(
             fh_out,
             fieldnames=[
-                'measure_name',
+                'Measure',
+                'component_name',
                 'value_set_name',
                 'value_set_oid',
                 'code',
@@ -139,3 +170,17 @@ if __name__ == '__main__':
         )
         writer.writeheader()
         writer.writerows(iter_output)
+
+        writer_oha = csv.DictWriter(
+            oha_out,
+            fieldnames=[
+                'Measure',
+                'Component',
+                'CodeSystem',
+                'Code',
+                'Grouping_ID',
+                'Diag_Type',
+            ]
+        )
+        writer_oha.writeheader()
+        writer_oha.writerows(iter_oha_output)

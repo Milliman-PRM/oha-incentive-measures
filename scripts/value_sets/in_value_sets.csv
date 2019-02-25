@@ -1,73 +1,56 @@
-measure_name,value_set_name,value_set_oid
-controlling_high_blood_pressure,Adult Outpatient Visit,2.16.840.1.113883.3.464.1003.101.12.1065
-controlling_high_blood_pressure,Annual Wellness Visit,2.16.840.1.113883.3.526.3.1240
-controlling_high_blood_pressure,"Chronic Kidney Disease, Stage 5",2.16.840.1.113883.3.526.3.1002
-controlling_high_blood_pressure,Dialysis Services,2.16.840.1.113883.3.464.1003.109.12.1013
-controlling_high_blood_pressure,Encounter Inpatient,2.16.840.1.113883.3.666.5.307
-controlling_high_blood_pressure,End Stage Renal Disease,2.16.840.1.113883.3.526.3.353
-controlling_high_blood_pressure,ESRD Monthly Outpatient Services,2.16.840.1.113883.3.464.1003.109.12.1014
-controlling_high_blood_pressure,Essential Hypertension,2.16.840.1.113883.3.464.1003.104.12.1011
-controlling_high_blood_pressure,Ethnicity,2.16.840.1.114222.4.11.837
-controlling_high_blood_pressure,Home Healthcare Services,2.16.840.1.113883.3.464.1003.101.12.1016
-controlling_high_blood_pressure,Hospice care ambulatory,2.16.840.1.113762.1.4.1108.15
-controlling_high_blood_pressure,Kidney Transplant Recipient,2.16.840.1.113883.3.464.1003.109.12.1029
-controlling_high_blood_pressure,Kidney Transplant,2.16.840.1.113883.3.464.1003.109.12.1012
-controlling_high_blood_pressure,Office Visit,2.16.840.1.113883.3.464.1003.101.12.1001
-controlling_high_blood_pressure,ONC Administrative Sex,2.16.840.1.113762.1.4.1
-controlling_high_blood_pressure,Payer,2.16.840.1.114222.4.11.3591
-controlling_high_blood_pressure,Pregnancy,2.16.840.1.113883.3.526.3.378
-controlling_high_blood_pressure,"Preventive Care Services - Established Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1025
-controlling_high_blood_pressure,"Preventive Care Services-Initial Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1023
-controlling_high_blood_pressure,Race,2.16.840.1.114222.4.11.836
-controlling_high_blood_pressure,Vascular Access for Dialysis,2.16.840.1.113883.3.464.1003.109.12.1011
-depression_screening,Additional evaluation for depression - adolescent,2.16.840.1.113883.3.600.1542
-depression_screening,Additional evaluation for depression - adult,2.16.840.1.113883.3.600.1545
-depression_screening,Bipolar Diagnosis,2.16.840.1.113883.3.600.450
-depression_screening,Depression diagnosis,2.16.840.1.113883.3.600.145
-depression_screening,Depression medications - adolescent,2.16.840.1.113883.3.600.469
-depression_screening,Depression medications - adult,2.16.840.1.113883.3.600.470
-depression_screening,Depression Screening Encounter Codes,2.16.840.1.113883.3.600.1916
-depression_screening,Ethnicity,2.16.840.1.114222.4.11.837
-depression_screening,Follow-up for depression - adolescent,2.16.840.1.113883.3.600.467
-depression_screening,Follow-up for depression - adult,2.16.840.1.113883.3.600.468
-depression_screening,Medical or Other reason not done,2.16.840.1.113883.3.600.1.1502
-depression_screening,Negative Depression Screening,2.16.840.1.113883.3.600.2451
-depression_screening,ONC Administrative Sex,2.16.840.1.113762.1.4.1
-depression_screening,Patient Reason refused,2.16.840.1.113883.3.600.791
-depression_screening,Payer,2.16.840.1.114222.4.11.3591
-depression_screening,Positive Depression Screening,2.16.840.1.113883.3.600.2450
-depression_screening,Race,2.16.840.1.114222.4.11.836
-depression_screening,Referral for Depression Adolescent,2.16.840.1.113883.3.600.537
-depression_screening,Referral for Depression Adult,2.16.840.1.113883.3.600.538
-depression_screening,Suicide Risk Assessment,2.16.840.1.113883.3.600.559
-hba1c_poor_control,Annual Wellness Visit,2.16.840.1.113883.3.526.3.1240
-hba1c_poor_control,Diabetes,2.16.840.1.113883.3.464.1003.103.12.1001
-hba1c_poor_control,Encounter Inpatient,2.16.840.1.113883.3.666.5.307
-hba1c_poor_control,Ethnicity,2.16.840.1.114222.4.11.837
-hba1c_poor_control,HbA1c Laboratory Test,2.16.840.1.113883.3.464.1003.198.12.1013
-hba1c_poor_control,Home Healthcare Services,2.16.840.1.113883.3.464.1003.101.12.1016
-hba1c_poor_control,Hospice care ambulatory,2.16.840.1.113762.1.4.1108.15
-hba1c_poor_control,Office Visit,2.16.840.1.113883.3.464.1003.101.12.1001
-hba1c_poor_control,ONC Administrative Sex,2.16.840.1.113762.1.4.1
-hba1c_poor_control,Payer,2.16.840.1.114222.4.11.3591
-hba1c_poor_control,"Preventive Care Services - Established Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1025
-hba1c_poor_control,"Preventive Care Services-Initial Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1023
-hba1c_poor_control,Race,2.16.840.1.114222.4.11.836
-weight_assessment_and_counseling,BMI percentile,2.16.840.1.113883.3.464.1003.121.12.1012
-weight_assessment_and_counseling,Counseling for Nutrition,2.16.840.1.113883.3.464.1003.195.12.1003
-weight_assessment_and_counseling,Counseling for Physical Activity,2.16.840.1.113883.3.464.1003.118.12.1035
-weight_assessment_and_counseling,Encounter Inpatient,2.16.840.1.113883.3.666.5.307
-weight_assessment_and_counseling,Ethnicity,2.16.840.1.114222.4.11.837
-weight_assessment_and_counseling,Height,2.16.840.1.113883.3.464.1003.121.12.1014
-weight_assessment_and_counseling,Home Healthcare Services,2.16.840.1.113883.3.464.1003.101.12.1016
-weight_assessment_and_counseling,Hospice care ambulatory,2.16.840.1.113762.1.4.1108.15
-weight_assessment_and_counseling,Office Visit,2.16.840.1.113883.3.464.1003.101.12.1001
-weight_assessment_and_counseling,ONC Administrative Sex,2.16.840.1.113762.1.4.1
-weight_assessment_and_counseling,Payer,2.16.840.1.114222.4.11.3591
-weight_assessment_and_counseling,Pregnancy,2.16.840.1.113883.3.526.3.378
-weight_assessment_and_counseling,"Preventive Care - Established Office Visit, 0 to 17",2.16.840.1.113883.3.464.1003.101.12.1024
-weight_assessment_and_counseling,Preventive Care Services - Group Counseling,2.16.840.1.113883.3.464.1003.101.12.1027
-weight_assessment_and_counseling,Preventive Care Services-Individual Counseling,2.16.840.1.113883.3.464.1003.101.12.1026
-weight_assessment_and_counseling,"Preventive Care- Initial Office Visit, 0 to 17",2.16.840.1.113883.3.464.1003.101.12.1022
-weight_assessment_and_counseling,Race,2.16.840.1.114222.4.11.836
-weight_assessment_and_counseling,Weight,2.16.840.1.113883.3.464.1003.121.12.1015
+Measure,component_name,value_set_name,value_set_oid
+Hypertension,Denom_Hypertens,Essential Hypertension,2.16.840.1.113883.3.464.1003.104.12.1011
+Hypertension,Denom_Service,Office Visit,2.16.840.1.113883.3.464.1003.101.12.1001
+Hypertension,Denom_Service,"Preventive Care Services - Established Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1025
+Hypertension,Denom_Service,"Preventive Care Services-Initial Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1023
+Hypertension,Denom_Service,Home Healthcare Services,2.16.840.1.113883.3.464.1003.101.12.1016
+Hypertension,Denom_Service,Annual Wellness Visit,2.16.840.1.113883.3.526.3.1240
+Hypertension,Denom_Excl_Hospice,Hospice care ambulatory,2.16.840.1.113762.1.4.1108.15
+Hypertension,Denom_Excl_Pregnacy,Pregnancy,2.16.840.1.113883.3.526.3.378
+Hypertension,Denom_Excl_Renal,End Stage Renal Disease,2.16.840.1.113883.3.526.3.353
+Hypertension,Denom_Excl_Renal,Kidney Transplant Recipient,2.16.840.1.113883.3.464.1003.109.12.1029
+Hypertension,Denom_Excl_Renal,"Chronic Kidney Disease, Stage 5",2.16.840.1.113883.3.526.3.1002
+Hypertension,Denom_Excl_Renal,Vascular Access for Dialysis,2.16.840.1.113883.3.464.1003.109.12.1011
+Hypertension,Denom_Excl_Renal,Kidney Transplant,2.16.840.1.113883.3.464.1003.109.12.1012
+Hypertension,Denom_Excl_Renal,Dialysis Services,2.16.840.1.113883.3.464.1003.109.12.1013
+Hypertension,Denom_Excl_Renal,ESRD Monthly Outpatient Services,2.16.840.1.113883.3.464.1003.109.12.1014
+Hypertension,Numer_OP_Visits,Adult Outpatient Visit,2.16.840.1.113883.3.464.1003.101.12.1065
+Depression_Screening,Denom_depression,Depression Screening Encounter Codes,2.16.840.1.113883.3.600.1916
+Depression_Screening,Denom_excl_bipolar,Bipolar Diagnosis,2.16.840.1.113883.3.600.450
+Depression_Screening,Denom_excl_active_dep,Depression diagnosis,2.16.840.1.113883.3.600.145
+Depression_Screening,Denom_except_refused_services,Patient Reason refused,2.16.840.1.113883.3.600.791
+Depression_Screening,Denom_except_medical_refusal,Medical or Other reason not done,2.16.840.1.113883.3.600.1.1502
+Depression_Screening,Numer_negative_result,Negative Depression Screening,2.16.840.1.113883.3.600.2451
+Depression_Screening,Numer_positive_result,Positive Depression Screening,2.16.840.1.113883.3.600.2450
+Depression_Screening,Numer_followup_plan_adolesc,Referral for Depression Adolescent,2.16.840.1.113883.3.600.537
+Depression_Screening,Numer_followup_plan_adult,Referral for Depression Adult,2.16.840.1.113883.3.600.538
+Depression_Screening,Numer_followup_plan_adolesc,Additional evaluation for depression - adolescent,2.16.840.1.113883.3.600.1542
+Depression_Screening,Numer_followup_plan_adult,Additional evaluation for depression - adult,2.16.840.1.113883.3.600.1545
+Depression_Screening,Numer_followup_plan_adolesc,Follow-up for depression - adolescent,2.16.840.1.113883.3.600.467
+Depression_Screening,Numer_followup_plan_adult,Follow-up for depression - adult,2.16.840.1.113883.3.600.468
+Depression_Screening,Numer_followup_plan_adolesc,Depression medications - adolescent,2.16.840.1.113883.3.600.469
+Depression_Screening,Numer_followup_plan_adult,Depression medications - adult,2.16.840.1.113883.3.600.470
+Depression_Screening,Numer_followup_plan_adult,Suicide Risk Assessment,2.16.840.1.113883.3.600.559
+Diabetes_HbA1c,Denom_Diabetes,Diabetes,2.16.840.1.113883.3.464.1003.103.12.1001
+Diabetes_HbA1c,Denom_Service,Office Visit,2.16.840.1.113883.3.464.1003.101.12.1001
+Diabetes_HbA1c,Denom_Service,"Preventive Care Services - Established Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1025
+Diabetes_HbA1c,Denom_Service,"Preventive Care Services-Initial Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1023
+Diabetes_HbA1c,Denom_Service,Home Healthcare Services,2.16.840.1.113883.3.464.1003.101.12.1016
+Diabetes_HbA1c,Denom_Service,Annual Wellness Visit,2.16.840.1.113883.3.526.3.1240
+Diabetes_HbA1c,Denom_Excl_Hospice,Hospice care ambulatory,2.16.840.1.113762.1.4.1108.15
+Diabetes_HbA1c,Denom_Excl_Hospice_IP_Encounter,Encounter Inpatient,2.16.840.1.113883.3.666.5.307
+Diabetes_HbA1c,Numer_HbA1c_Lab,HbA1c Laboratory Test,2.16.840.1.113883.3.464.1003.198.12.1013
+Childhood_Obesity,Denom_Service,Office Visit,2.16.840.1.113883.3.464.1003.101.12.1001
+Childhood_Obesity,Denom_Service,Preventive Care Services-Individual Counseling,2.16.840.1.113883.3.464.1003.101.12.1026
+Childhood_Obesity,Denom_Service,"Preventive Care- Initial Office Visit, 0 to 17",2.16.840.1.113883.3.464.1003.101.12.1022
+Childhood_Obesity,Denom_Service,"Preventive Care - Established Office Visit, 0 to 17",2.16.840.1.113883.3.464.1003.101.12.1024
+Childhood_Obesity,Denom_Service,Preventive Care Services - Group Counseling,2.16.840.1.113883.3.464.1003.101.12.1027
+Childhood_Obesity,Denom_Service,Home Healthcare Services,2.16.840.1.113883.3.464.1003.101.12.1016
+Childhood_Obesity,Denom_Excl_Prego,Pregnancy,2.16.840.1.113883.3.526.3.378
+Childhood_Obesity,Denom_Excl_Hospice,Hospice care ambulatory,2.16.840.1.113762.1.4.1108.15
+Childhood_Obesity,Denom_Excl_Hospice_IP_Encounter,Encounter Inpatient,2.16.840.1.113883.3.666.5.307
+Childhood_Obesity,Numer1_Height,Height,2.16.840.1.113883.3.464.1003.121.12.1014
+Childhood_Obesity,Numer1_Weight,Weight,2.16.840.1.113883.3.464.1003.121.12.1015
+Childhood_Obesity,Numer1_BMI,BMI percentile,2.16.840.1.113883.3.464.1003.121.12.1012
+Childhood_Obesity,Numer2,Counseling for Nutrition,2.16.840.1.113883.3.464.1003.195.12.1003
+Childhood_Obesity,Numer3,Counseling for Physical Activity,2.16.840.1.113883.3.464.1003.118.12.1035

@@ -14,6 +14,7 @@ import requests
 import xml.etree.ElementTree as ET
 import argparse
 import os
+import sys
 from pathlib import Path
 
 URL_BASE_AUTH = r'https://vsac.nlm.nih.gov/vsac/ws/'

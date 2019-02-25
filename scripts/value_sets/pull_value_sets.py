@@ -13,6 +13,7 @@ import csv
 import requests
 import xml.etree.ElementTree as ET
 import argparse
+import os
 from pathlib import Path
 
 URL_BASE_AUTH = r'https://vsac.nlm.nih.gov/vsac/ws/'
@@ -60,16 +61,42 @@ def get_argparser():
     parser.add_argument('-o', '--path_output', help='Path of output file')
     return parser
 
+class UsernameDefinitionError(Exception):
+    """ Exception raised for errors in username"""
+    def __init__(self, message):
+        self.message = message
+
+class PasswordDefinitionError(Exception):
+    """Exception raised for errors in password"""
+    def __init__(self, message):
+        self.message = message
+
 if __name__ == '__main__':
     ARGPARSER = get_argparser()
     ARGS = ARGPARSER.parse_args()
+    if ARGS.username is None:
+        try:
+            username = os.environ['UMLS_username']
+        except KeyError:
+            raise UsernameDefinitionError("--username parameter is not defined, and cannot find `UMLS_username` environment variable")
+    else:
+        username = ARGS.username
+
+    if ARGS.password is None:
+        try:
+            password = os.environ['UMLS_password']
+        except KeyError:
+            raise PasswordDefinitionError("--password parameter is not defined and cannot find `UMLS_password` environment variable")
+    else:
+        password = ARGS.password
+
 
     TICKET_GETTER = requests.post(
         URL_BASE_AUTH + 'Ticket',
         headers={"Accept": "text/plain", "User-Agent":"python"},
         data={
-            'username': ARGS.username,
-            'password': ARGS.password,
+            'username': username,
+            'password': password,
         },
     )
     TGT = TICKET_GETTER.text

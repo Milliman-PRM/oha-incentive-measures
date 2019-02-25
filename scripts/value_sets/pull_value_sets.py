@@ -82,7 +82,7 @@ if __name__ == '__main__':
             tb = sys.exc_info()[2]
             raise UsernameDefinitionError(
                 "--username parameter is not defined, and cannot find `UMLS_username` environment variable",
-            ).with_traceback(tb)
+            ).with_traceback(tb) from None
     else:
         username = ARGS.username
 
@@ -93,7 +93,7 @@ if __name__ == '__main__':
             tb = sys.exc_info()[2]
             raise PasswordDefinitionError(
                 "--password parameter is not defined and cannot find `UMLS_password` environment variable",
-            ).with_traceback(tb)
+            ).with_traceback(tb) from None
     else:
         password = ARGS.password
 

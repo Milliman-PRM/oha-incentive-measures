@@ -54,3 +54,11 @@ Childhood_Obesity,Numer1_Weight,Weight,2.16.840.1.113883.3.464.1003.121.12.1015
 Childhood_Obesity,Numer1_BMI,BMI percentile,2.16.840.1.113883.3.464.1003.121.12.1012
 Childhood_Obesity,Numer2,Counseling for Nutrition,2.16.840.1.113883.3.464.1003.195.12.1003
 Childhood_Obesity,Numer3,Counseling for Physical Activity,2.16.840.1.113883.3.464.1003.118.12.1035
+SBIRT_EHR,Denom_sbirt,Depression Screening Encounter Codes,2.16.840.1.113883.3.600.1916
+SBIRT_EHR,Denom_sbirt_excl_active_diag,Alcohol and Drug Dependence,2.16.840.1.113883.3.464.1003.106.12.1001
+SBIRT_EHR,Denom_sbirt_excl_treat,Alcohol and Drug Dependence Treatment,2.16.840.1.113883.3.464.1003.106.12.1005
+SBIRT_EHR,Denom_sbirt_excl_mental,Dementia & Mental Degenerations,2.16.840.1.113883.3.526.3.1005
+SBIRT_EHR,Denom_sbirt_excl_life_expect,Limited Life Expectancy,2.16.840.1.113883.3.526.3.1259
+SBIRT_EHR,Denom_sbirt_excl_palliative,Palliative Care,2.16.840.1.113883.3.600.1.1579
+SBIRT_EHR,denom_except_patient_reason,Patient Reason refused,2.16.840.1.113883.3.600.791
+SBIRT_EHR,denom_except_med_reason,Medical or Other reason not done,2.16.840.1.113883.3.600.1.1502

@@ -54,3 +54,27 @@ Childhood_Obesity,Numer1_Weight,Weight,2.16.840.1.113883.3.464.1003.121.12.1015
 Childhood_Obesity,Numer1_BMI,BMI percentile,2.16.840.1.113883.3.464.1003.121.12.1012
 Childhood_Obesity,Numer2,Counseling for Nutrition,2.16.840.1.113883.3.464.1003.195.12.1003
 Childhood_Obesity,Numer3,Counseling for Physical Activity,2.16.840.1.113883.3.464.1003.118.12.1035
+Tobacco_Use,Denom,Annual Wellness Visit,2.16.840.1.113883.3.526.3.1240
+Tobacco_Use,Denom,Health & Behavioral Assessment - Individual,2.16.840.1.113883.3.526.3.1020
+Tobacco_Use,Denom,Health and Behavioral Assessment - Initial,2.16.840.1.113883.3.526.3.1245
+Tobacco_Use,Denom,"Health and Behavioral Assessment, Reassessment",2.16.840.1.113883.3.526.3.1529
+Tobacco_Use,Denom,Home Healthcare Services,2.16.840.1.113883.3.464.1003.101.12.1016
+Tobacco_Use,Denom_exception,Limited Life Expectancy,2.16.840.1.113883.3.526.3.1259
+Tobacco_Use,Denom_exception,Medical Reason,2.16.840.1.113883.3.526.3.1007
+Tobacco_Use,Denom,Occupational Therapy Evaluation,2.16.840.1.113883.3.526.3.1011
+Tobacco_Use,Denom,Office Visit,2.16.840.1.113883.3.464.1003.101.12.1001
+Tobacco_Use,Denom,Ophthalmological Services,2.16.840.1.113883.3.526.3.1285
+Tobacco_Use,Denom,"Preventive Care Services - Established Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1025
+Tobacco_Use,Denom,Preventive Care Services - Group Counseling,2.16.840.1.113883.3.464.1003.101.12.1027
+Tobacco_Use,Denom,Preventive Care Services - Other,2.16.840.1.113883.3.464.1003.101.12.1030
+Tobacco_Use,Denom,Preventive Care Services-Individual Counseling,2.16.840.1.113883.3.464.1003.101.12.1026
+Tobacco_Use,Denom,"Preventive Care Services-Initial Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1023
+Tobacco_Use,Denom,Psych Visit - Diagnostic Evaluation,2.16.840.1.113883.3.526.3.1492
+Tobacco_Use,Denom,Psych Visit - Psychotherapy,2.16.840.1.113883.3.526.3.1496
+Tobacco_Use,Denom,Psychoanalysis,2.16.840.1.113883.3.526.3.1141
+Tobacco_Use,Denom,Speech and Hearing Evaluation,2.16.840.1.113883.3.526.3.1530
+Tobacco_Use,tobacco_non_user,Tobacco Non-User,2.16.840.1.113883.3.526.3.1189
+Tobacco_Use,tobacco_cessation_counsel,Tobacco Use Cessation Counseling,2.16.840.1.113883.3.526.3.509
+Tobacco_Use,tobacco_cessation_pharma,Tobacco Use Cessation Pharmacotherapy,2.16.840.1.113883.3.526.3.1190
+Tobacco_Use,tobacco_use_screening,Tobacco Use Screening,2.16.840.1.113883.3.526.3.1278
+Tobacco_Use,tobacco_user,Tobacco User,2.16.840.1.113883.3.526.3.1170

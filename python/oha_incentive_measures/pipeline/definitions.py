@@ -290,6 +290,37 @@ class EDVisitsMI(PRMSASTask):  # pragma: no cover
         )
         # pylint: enable=arguments-differ
 
+
+class Tobacco(PRMSASTask):  # pragma: no cover
+    """Run Prod11_Tobacco.sas"""
+
+    requirements = RequirementsContainer(
+        ImportReferences,
+        staging_membership.DeriveParamsFromMembership,
+        staging_emr.Validation,
+        poweruser_detail_datamart.ExportSAS,
+    )
+
+    def output(self):
+        names_output = {
+            'results_tobacco.sas7bdat'
+        }
+        return [
+            IndyPyLocalTarget(PRM_META[(150, 'out')] / name)
+            for name in names_output
+            ]
+
+    def run(self):  # pylint: disable=arguments-differ
+        """Run the Luigi job"""
+        program = PATH_SCRIPTS / "Prod11_Tobacco.sas"
+        super().run(
+            program,
+            path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
+            create_folder=True,
+        )
+        # pylint: enable=arguments-differ
+
+
 class DentalSealant(PRMSASTask):  # pragma: no cover
     """Run Prod12_Dental_Sealant.sas"""
 

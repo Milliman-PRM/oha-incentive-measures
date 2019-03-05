@@ -90,6 +90,7 @@ def assert_references(refs: typing.Mapping) -> None:
                 'ICD10CM-Proc',
                 'ICD10CM-Diag',
                 'UBREV',
+                'UBTOB',
                 'POS',
                 'NDC',
                 'CDT',

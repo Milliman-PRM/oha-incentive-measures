@@ -34,7 +34,8 @@ PATH_OUTPUT = Path(os.environ['OHA_INCENTIVE_MEASURES_PATHREF'])
 def import_flatfile_references(sparkapp: SparkApp) -> typing.Mapping[str, "DataFrame"]:
     """Import the reference data into parquet"""
     refs = dict()
-    for _file in (PATH_INPUT / '_data').iterdir():
+    csvs_to_import = (PATH_INPUT / '_data').glob('*.csv')
+    for _file in csvs_to_import:
         name = _file.stem.lower()
         LOGGER.info("Loading %s and saving as '%s'", _file, name)
         schema_temp = build_structtype_from_csv(
@@ -89,6 +90,7 @@ def assert_references(refs: typing.Mapping) -> None:
                 'ICD10CM-Proc',
                 'ICD10CM-Diag',
                 'UBREV',
+                'UBTOB',
                 'POS',
                 'NDC',
                 'CDT',

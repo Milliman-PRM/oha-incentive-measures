@@ -60,8 +60,9 @@ eff_contra|numerator_icdproc|ICD9CM-Proc|PROCA||
 eff_contra|numerator_icddiag|ICD10CM-Diag|DIAGA10||
 eff_contra|numerator_icdproc|ICD10CM-Proc|PROCA10||
 eff_contra|numerator_NDC|NDC|NDCA||
-eff_contra|numer_exclusion|ICD9CM-Diag|PREGO9||
-eff_contra|numer_exclusion|CPT|PREGO||
+eff_contra|numerator_permanent|ICD10CM-Diag|PERMA_C||
+eff_contra|denom_exception|ICD9CM-Diag|PREGO9||
+eff_contra|denom_exception|CPT|PREGO||
 eff_contra|denom_exclusion|ICD9CM-Diag|EXDIAGA||
 eff_contra|denom_exclusion|ICD9CM-Proc|EXPROCA||
 eff_contra|denom_exclusion|ICD10CM-Diag|XDIAGA0||
@@ -79,7 +80,7 @@ proc sql;
 	;
 quit;
 
-data 
+data
 	unittest.member (keep = member_id dob gender anticipated_:)
 	M035_out.member_time (keep = member_id date_start date_end)
 	;
@@ -98,7 +99,7 @@ data
 		anticipated_numerator :12.
 		anticipated_denominator :12.
 		;
-	format 
+	format
 		dob YYMMDDd10.
 		date_: YYMMDDd10.
 		;
@@ -111,6 +112,7 @@ multiple_small_elig_gap|1980-07-01|F|2015-01-01|2015-01-28|0|0
 multiple_small_elig_gap|1980-07-01|F|2015-02-01|2015-03-15|0|0
 multiple_small_elig_gap|1980-07-01|F|2015-04-01|2015-05-31|0|0
 all_good|1975-09-01|F|2014-09-01|2015-05-31|1|1
+perma_contra|1975-09-01|F|2014-09-01|2015-05-31|1|1
 med_only|1975-09-01|F|2014-09-01|2015-05-31|1|1
 rx_only|1975-09-01|F|2014-09-01|2015-05-31|1|1
 denom_excl|1970-01-08|F|2014-01-08|2015-05-31|0|0
@@ -167,6 +169,7 @@ too_young|2015-04-15|HCPCA|XXXXXXX|XXXXXXX|09
 large_elig_gap|2015-01-08|XXXXX|DIAGA|XXXXXXX|09
 multiple_small_elig_gap|2015-02-14|XXXXX|XXXXXXX|PROCA|09
 all_good|2015-02-07|CPTA|XXXXXXX|XXXXXXX|09
+perma_contra|2013-01-07|XXXXX|PERMA_C|XXXXXXX|10
 med_only|2015-02-07|HCPCA|XXXXXXX|XXXXXXX|09
 denom_excl|2014-02-07|XCPTA|XXXXXXX|XXXXXXX|09
 denom_excl|2015-02-07|XXXXX|DIAGA|XXXXXXX|09

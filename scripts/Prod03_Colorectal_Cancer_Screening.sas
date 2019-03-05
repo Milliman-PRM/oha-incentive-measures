@@ -32,6 +32,46 @@ libname M150_Tmp "&M150_Tmp.";
 	,Reference_Source=oha_ref.oha_codes
 	)
 %CodeGenClaimsFilter(
+    &measure_name.
+    ,component=denom_excl_frail
+    ,Reference_Source=oha_ref.oha_codes
+    )
+%CodeGenClaimsFilter(
+    &measure_name.
+    ,component=denom_excl_ill
+    ,Reference_Source=oha_ref.oha_codes
+    )
+%CodeGenClaimsFilter(
+    &measure_name.
+    ,component=denom_excl_out
+    ,Reference_Source=oha_ref.oha_codes
+    )
+%CodeGenClaimsFilter(
+    &measure_name.
+    ,component=denom_excl_obs
+    ,Reference_Source=oha_ref.oha_codes
+    )
+%CodeGenClaimsFilter(
+    &measure_name.
+    ,component=denom_excl_ed
+    ,Reference_Source=oha_ref.oha_codes
+    )
+%CodeGenClaimsFilter(
+    &measure_name.
+    ,component=denom_excl_nacute
+    ,Reference_Source=oha_ref.oha_codes
+    )
+%CodeGenClaimsFilter(
+    &measure_name.
+    ,component=denom_excl_acute
+    ,Reference_Source=oha_ref.oha_codes
+    )
+%CodeGenClaimsFilter(
+    &measure_name.
+    ,component=denom_excl_dem
+    ,Reference_Source=oha_ref.oha_codes
+    )
+%CodeGenClaimsFilter(
 	&measure_name.
 	,component=numer_colo
 	,Reference_Source=oha_ref.oha_codes
@@ -125,6 +165,10 @@ quit;
 	,global_date_anchor=&empirical_elig_date_end.
 	)
 
+%macro FilterExtraYear(table);
+    &table..prm_fromdate between intnx('year', &measure_start., -1, "sameday") and &measure_end.
+%mend FilterExtraYear;
+
 /*** SNAG ALL MEMBERS MEETING BASIC MEMBERSHIP REQUIREMENTS ***/
 proc sql;
 	create table members_meeting_elig as
@@ -150,7 +194,92 @@ proc sql;
 	;
 quit;
 
-/*** KNOCKOUT MEMBERS WITH SPECIFIC CLAIM HISTORIES ***/
+/*** IDENTIFY MEMBERS WITH FRAILTY ***/
+proc sql;
+    create table frailty as
+    select distinct
+        member_id
+    from M150_tmp.outclaims_prm
+    where (&claims_filter_denom_excl_frail.)
+    & (outclaims_prm.prm_fromdate between &measure_start. and &measure_end.)
+	;
+quit;
+
+/*** IDENTIFY MEMBERS WITH ADVANCED ILLNESS ***/
+proc sql;
+	create table visit_advanced_illness (drop = visit_count) as
+	select distinct
+		member_id
+		,count(distinct outclaims_prm.prm_fromdate) as visit_count
+	from M150_tmp.outclaims_prm
+	where
+	    (
+            (&claims_filter_denom_excl_out.)
+            | (&claims_filter_denom_excl_obs.)
+            | (&claims_filter_denom_excl_ed.)
+            | (&claims_filter_denom_excl_nacute.)
+        )
+	    & (&claims_filter_denom_excl_ill.)
+	    & (%FilterExtraYear(outclaims_prm))
+	group by member_id
+	having calculated visit_count ge 2
+	;
+quit;
+
+proc sql;
+    create table acute_inpat_advanced_illness as
+    select distinct
+        member_id
+    from M150_tmp.outclaims_prm
+    where
+        (&claims_filter_denom_excl_acute.)
+        & (&claims_filter_denom_excl_ill.)
+	    & (%FilterExtraYear(outclaims_prm))
+    ;
+quit;
+
+proc sql;
+    create table dementia_meds as
+    select distinct
+        member_id
+    from M150_tmp.outpharmacy_prm
+    where
+        (&claims_filter_denom_excl_dem.)
+	    & (%FilterExtraYear(outpharmacy_prm))
+    ;
+quit;
+
+data union_advanced_illness;
+set
+	visit_advanced_illness
+	acute_inpat_advanced_illness
+	dementia_meds
+	;
+by member_id;
+if first.member_id;
+run;
+
+/*** IDENTIFY MEMBERS AGE 66 AND OLDER WITH FRAILTY AND ADVANCED ILLNESS ***/
+proc sql;
+    create table frailty_illness_excl as
+        select distinct
+            member.member_id
+        from M150_tmp.member as member
+    inner join (
+        select
+            member_id
+        from frailty
+    ) on member.member_id eq frailty.member_id
+	left join (
+		select
+			member_id
+		from union_advanced_illness
+	) on member.member_id eq union_advanced_illness.member_id
+    where yrdif(member.dob,&measure_end.,"age") ge 66 and union_advanced_illness.member_id is not null
+    ;
+quit;
+
+/*** KNOCKOUT MEMBERS WITH SPECIFIC CLAIM HISTORIES OR FRAILTY WITH ADVANCED ILLNESS (AGE 66 AND OLDER) ***/
 proc sql;
 	create table members_denominator as
 	select
@@ -163,7 +292,12 @@ proc sql;
 		where (&claims_filter_denom_exclusion.)
 		) as excluded
 		on members.member_id eq excluded.member_id
-	where excluded.member_id is null
+	left join (
+	    select distinct
+	        member_id
+	    from frailty_illness_excl
+	) on members.member_id eq frailty_illness_excl.member_id
+	where excluded.member_id is null & frailty_illness_excl.member_id is null
 	;
 quit;
 

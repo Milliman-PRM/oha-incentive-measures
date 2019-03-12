@@ -9,6 +9,7 @@
 """
 
 import os
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -17,6 +18,8 @@ PATH_ENV = Path(os.environ['oha_incentive_measures_home'])
 PATH_MEASURE_MAPPING = PATH_ENV / 'scripts' / 'medications' / 'measure_mapping.csv'
 PATH_MEDICATION_LIST = PATH_ENV / 'scripts' / 'medications' / 'medications_list.csv'
 PATH_OUTPUT = PATH_ENV / 'references' / '_data' / 'medications.csv'
+
+# pylint: disable=no-member
 
 # LIBRARIES, LOCATIONS, LITERALS, ETC. GO ABOVE HERE
 
@@ -69,5 +72,4 @@ def main() -> int:
     return 0
 
 if __name__ == '__main__':
-    import sys
     sys.exit(main())

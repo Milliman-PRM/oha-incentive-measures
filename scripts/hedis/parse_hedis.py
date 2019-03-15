@@ -2,10 +2,10 @@
 ### CODE OWNERS: Ben Copeland
 
 ### OBJECTIVE:
-  Convert medications list into repository-standard schema
+  Convert HEDIS codes list into repository-standard schema
 
 ### DEVELOPER NOTES:
-  Input measure mapping requires "measure", "medication list", and "component"
+  Input measure mapping requires "Measure", "Value Set Name", and "Component"
 """
 
 import os
@@ -15,9 +15,9 @@ from pathlib import Path
 import pandas as pd
 
 PATH_ENV = Path(os.environ['oha_incentive_measures_home'])
-PATH_MEASURE_MAPPING = PATH_ENV / 'scripts' / 'medications' / 'measure_mapping.csv'
-PATH_MEDICATION_LIST = PATH_ENV / 'scripts' / 'medications' / 'medications_list.csv'
-PATH_OUTPUT = PATH_ENV / 'references' / '_data' / 'medications.csv'
+PATH_MEASURE_MAPPING = PATH_ENV / 'scripts' / 'hedis' / 'measure_mapping.csv'
+PATH_CODES_LIST = PATH_ENV / 'scripts' / 'hedis' / 'hedis_codes.csv'
+PATH_OUTPUT = PATH_ENV / 'references' / '_data' / 'hedis_codes.csv'
 
 # pylint: disable=no-member
 
@@ -30,32 +30,40 @@ def main() -> int:
         header=0,
         index_col=None,
     )
-    medication_list = pd.read_csv(
-        PATH_MEDICATION_LIST,
+    codes_list = pd.read_csv(
+        PATH_CODES_LIST,
         header=0,
         index_col=None,
-        dtype={
-            'NDC Code': 'object',
-        },
         low_memory=False,
     )
-    mapped_medications = medication_list.merge(
+
+    mapped_codes = codes_list.merge(
         measure_mapping,
-        on='Medication List',
+        on='Value Set Name',
         how='inner',
     )
-    mapped_medications_skinny = mapped_medications[[
+
+    code_system_map = {
+        'SNOMED CT US Edition': 'SNOMEDCT',
+        'CPT': 'CPT',
+        'HCPCS': 'HCPCS',
+        'ICD10CM': 'ICD10CM-Diag',
+        'ICD10PCS': 'ICD10CM-Proc',
+        'ICD9CM': 'ICD9CM-Diag',
+        'ICD9PCS': 'ICD9CM-Proc',
+        'LOINC':'LOINC',
+        'UBREV': 'UBREV',
+        'RXNORM': 'RXNORM',
+    }
+    mapped_codes_skinny = mapped_codes[[
         'Measure',
         'Component',
-        'NDC Code',
+        'Code',
+        'Code System',
     ]].assign(
+        CodeSystem=lambda df: df['Code System'].map(code_system_map),
         Grouping_ID='',
         Diag_Type='',
-        CodeSystem='NDC',
-    ).rename(
-        columns={
-            'NDC Code': 'Code',
-        },
     )[[
         'Measure',
         'Component',
@@ -64,7 +72,7 @@ def main() -> int:
         'Grouping_ID',
         'Diag_Type',
     ]]
-    mapped_medications_skinny.to_csv(
+    mapped_codes_skinny.to_csv(
         str(PATH_OUTPUT),
         header=True,
         index=False,

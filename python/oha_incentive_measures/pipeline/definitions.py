@@ -39,8 +39,14 @@ class ImportReferences(PRMPythonTask): # pragma: no cover
     def output(self):
         names_output = {
             'oha_abbreviations.parquet',
+            'ecqm_value_sets.parquet',
+            'hedis_codes.parquet',
+            'medications.parquet',
             'oha_codes.parquet',
             'oha_abbreviations.sas7bdat',
+            'ecqm_value_sets.sas7bdat',
+            'hedis_codes.sas7bdat',
+            'medications.sas7bdat',
             'oha_codes.sas7bdat',
         }
         return [

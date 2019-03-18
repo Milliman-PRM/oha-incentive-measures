@@ -40,7 +40,7 @@ In order to support eCQM based quality measures (and because we do not currently
 
 ### Where are the Clinical Measures?
 
-Due to the Clinical Measures needing EMR, we only have one client currently that can calculate these measures, and they do all the calculations within their post-boarding process. As such, the code represented here was very outdated, and did produce as expected. They were removed in [Remove Clinical Measures](https://indy-github.milliman.com/PRM/oha-incentive-measures/pull/62).
+Due to the Clinical Measures needing EMR, we only have one client currently that can calculate these measures, and they do all the calculations within their post-boarding process. As such, the code represented here was very outdated, and did not produce as expected. They were removed in [Remove Clinical Measures](https://indy-github.milliman.com/PRM/oha-incentive-measures/pull/62).
 
 The Current Clinical Measures are located in the [WOH Repo](https://indy-github.milliman.com/PRM-Productions/0273WOH_Medicaid)
 

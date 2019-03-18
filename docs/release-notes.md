@@ -17,6 +17,7 @@ A non-exhaustive list of what has changed in a more readable form than a commit 
      - Update Disparity Measure: ED Utilization for Individuals Experiencing MI Codes
      - Update Effective Contraceptive Use Codes and include permanent contraceptives
      - Removal of Weight Assessment and Counseling In Children and Adolescents -> Source of Truth now 0273WOH
+ - Added a workflow to pull eCQM code sets using UMLS Terminology Services (UTS) API in `scripts/value_sets`
 
 ### v1.3.1
  - Removed unnecessary `CopyReferenceFiles` class from Luigi pipeline

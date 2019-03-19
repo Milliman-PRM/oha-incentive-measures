@@ -50,6 +50,11 @@ libname M150_Tmp "&M150_Tmp.";
 	,component=Numer_Excl_IP_Stay
 	,Reference_Source=oha_ref.oha_codes
 	);
+%CodeGenClaimsFilter(
+	&measure_name.
+	,component=Denom_Excl_Hospice
+	,Reference_Source=oha_ref.oha_codes
+	);
 
 %let max_er_comments = 3;
 
@@ -58,6 +63,19 @@ libname M150_Tmp "&M150_Tmp.";
 %put path_file_pred_source = &path_file_pred_source.;
 
 /**** LIBRARIES, LOCATIONS, LITERALS, ETC. GO ABOVE HERE ****/
+
+/*Find denom exclusions*/
+proc sql;
+	create table denom_excl
+	as select distinct
+		member_id
+	from m150_tmp.outclaims_prm
+	where
+		prm_fromdate ge &measure_start.
+		and prm_fromdate le &measure_end.
+		and &claims_filter_denom_excl_hospice.
+	;
+quit;
 
 /* Determine denominator member months */
 proc sql;
@@ -237,7 +255,11 @@ proc sql;
 		denom.*
 		,dates.visit_date
 		,probs.er_visits_pred_prob
-		,(denom.memmos / 1000) as denominator
+		,case
+			when denom_excl.member_id is not null then 0
+			else (denom.memmos / 1000) 
+			end
+			as denominator
 		,case
 			when dates.visit_date is not null then cat(
 				"Most Recent Visit: "
@@ -255,6 +277,7 @@ proc sql;
 			end
 			as comment_probs length = 64 format = $64.
 		,case
+			when denom_excl.member_id is not null then "Excluded due to hospice status"
 			when calculated comment_dates is not null
 				and calculated comment_probs is not null
 				then catx("; ",calculated comment_dates,calculated comment_probs)
@@ -275,6 +298,8 @@ proc sql;
 		on dates.member_id eq denom.member_id
 	left join predicted_er_probabilities as probs
 		on denom.member_id eq probs.member_id
+	left join denom_excl
+		on denom.member_id eq denom_excl.member_id
 	order by denom.member_id
 	;
 quit;
@@ -327,13 +352,21 @@ proc sql;
 	create table m150_out.results_&measure_name. as
 	select
 		denom.member_id
-		,coalesce(numer.numerator,0) as numerator
+		,case
+			when denom.denominator eq 0 then 0
+			else coalesce(numer.numerator,0)
+			end
+			as numerator
 		,denom.denominator
 		/*
 			,numer.comments as comments_numer
 			,denom.comments as comments_denom
 		*/
-		,coalesce(numer.comments,denom.comments) as comments
+		,case
+			when denom.denominator eq 0 then denom.comments
+			else coalesce(numer.comments,denom.comments)
+			end
+			as comments
 		,case calculated numerator
 			when 0 then
 				case

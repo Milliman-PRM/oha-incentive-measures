@@ -1,0 +1,186 @@
+"""
+### CODE OWNERS: Ben Copeland, Alexander Olivero, Chas Busenburg
+
+### OBJECTIVE:
+  Pull eCQM value sets from web API
+
+### DEVELOPER NOTES:
+  Meant to be called from command line
+  Value set CSV input requires "measure_name", "value_set_name", and "value_set_oid"
+"""
+
+import csv
+import requests
+import xml.etree.ElementTree as ET
+import argparse
+import os
+import sys
+from pathlib import Path
+
+URL_BASE_AUTH = r'https://vsac.nlm.nih.gov/vsac/ws/'
+URL_RETRIEVE_VALUE_SETS = r'https://vsac.nlm.nih.gov/vsac/svs/RetrieveMultipleValueSets'
+URL_AUTH_SERVICE = r'http://umlsks.nlm.nih.gov'
+
+# LIBRARIES, LOCATIONS, LITERALS, ETC. GO ABOVE HERE
+
+def _parse_oid_request(
+        oid: str,
+    ):
+    """Convert an OID request into structured rows of data"""
+    iter_output = []
+    service_ticket = requests.post(
+        URL_BASE_AUTH + 'Ticket/{}'.format(TGT),
+        data={'service': URL_AUTH_SERVICE},
+    )
+
+    value_set = requests.get(
+        URL_RETRIEVE_VALUE_SETS,
+        params={
+            'id': oid,
+            'ticket': service_ticket.text,
+        },
+    )
+    elements = ET.fromstring(value_set.text)
+    ns = {"ns0":"urn:ihe:iti:svs:2008"}
+    for concept in elements.findall(".//ns0:ConceptList/ns0:Concept",ns):
+        row = {}
+        for field, info in concept.items():
+            row[field] = info
+        iter_output.append(row)
+
+    return iter_output
+
+def _limit_iter_output(line_dict)-> dict:
+    code_system_map = {
+        'SNOMEDCT': 'SNOMEDCT',
+        'CPT': 'CPT',
+        'HCPCS': 'HCPCS',
+        'ICD10CM': 'ICD10CM-Diag',
+        'ICD10PCS': 'ICD10CM-Proc',
+        'ICD9CM': 'ICD9CM-Diag',
+        'ICD9PCS': 'ICD9CM-Proc',
+        'LOINC':'LOINC',
+        'UBREV': 'UBREV',
+        'RXNORM': 'RXNORM',
+    }
+
+    output_dict = {
+        'Measure': line_dict['Measure'],
+        'Component': line_dict['component_name'],
+        'CodeSystem': code_system_map[line_dict['codeSystemName']],
+        'Code': line_dict['code'].replace('.', ''),
+        'Grouping_ID': None,
+        'Diag_Type': None,
+    }
+
+    return output_dict
+
+
+def get_argparser():
+    """Setup the command line argument parser"""
+    parser = argparse.ArgumentParser(
+        description="Pull down eCQM value sets",
+    )
+    parser.add_argument('-u', '--username', help='UMLS Terminal Services User Name')
+    parser.add_argument('-p', '--password', help='UMLS Terminal Services Password')
+    parser.add_argument('-i', '--path_input_value_sets', help='Definition of value sets to be pulled')
+    parser.add_argument('-o', '--path_output', help='Path of output file')
+    return parser
+
+class UsernameDefinitionError(Exception):
+    """ Exception raised for errors in username"""
+    def __init__(self, message):
+        self.message = message
+
+class PasswordDefinitionError(Exception):
+    """Exception raised for errors in password"""
+    def __init__(self, message):
+        self.message = message
+
+if __name__ == '__main__':
+    ARGPARSER = get_argparser()
+    ARGS = ARGPARSER.parse_args()
+    if ARGS.username is None:
+        try:
+            username = os.environ['UMLS_username']
+        except KeyError:
+            tb = sys.exc_info()[2]
+            raise UsernameDefinitionError(
+                "--username parameter is not defined, and cannot find `UMLS_username` environment variable",
+            ).with_traceback(tb) from None
+    else:
+        username = ARGS.username
+
+    if ARGS.password is None:
+        try:
+            password = os.environ['UMLS_password']
+        except KeyError:
+            tb = sys.exc_info()[2]
+            raise PasswordDefinitionError(
+                "--password parameter is not defined and cannot find `UMLS_password` environment variable",
+            ).with_traceback(tb) from None
+    else:
+        password = ARGS.password
+
+
+    TICKET_GETTER = requests.post(
+        URL_BASE_AUTH + 'Ticket',
+        headers={"Accept": "text/plain", "User-Agent":"python"},
+        data={
+            'username': username,
+            'password': password,
+        },
+    )
+    TGT = TICKET_GETTER.text
+    PATH_OUTPUT_FILE = Path(ARGS.path_output)
+    PATH_OUTPUT_FILE_OHA = PATH_OUTPUT_FILE.parent / (PATH_OUTPUT_FILE.stem + '_OHA.csv')
+    PATH_INPUT_FILE = Path(ARGS.path_input_value_sets)
+    with PATH_OUTPUT_FILE.open('w', newline='') as fh_out, PATH_OUTPUT_FILE_OHA.open('w', newline='') as oha_out, PATH_INPUT_FILE.open('r') as fh_in:
+        reader = csv.DictReader(
+            fh_in,
+        )
+        iter_output = []
+        iter_oha_output = []
+        for dict_in_line in reader:
+            iter_oid_codes = _parse_oid_request(dict_in_line['value_set_oid'])
+            for output_row in iter_oid_codes:
+                output_row.update(
+                    dict_in_line
+                )
+                iter_output.append(
+                    output_row
+                )
+                iter_oha_output.append(
+                    _limit_iter_output(output_row)
+                )
+
+        writer = csv.DictWriter(
+            fh_out,
+            fieldnames=[
+                'Measure',
+                'component_name',
+                'value_set_name',
+                'value_set_oid',
+                'code',
+                'codeSystem',
+                'codeSystemName',
+                'codeSystemVersion',
+                'displayName',
+                ]
+        )
+        writer.writeheader()
+        writer.writerows(iter_output)
+
+        writer_oha = csv.DictWriter(
+            oha_out,
+            fieldnames=[
+                'Measure',
+                'Component',
+                'CodeSystem',
+                'Code',
+                'Grouping_ID',
+                'Diag_Type',
+            ]
+        )
+        writer_oha.writeheader()
+        writer_oha.writerows(iter_oha_output)

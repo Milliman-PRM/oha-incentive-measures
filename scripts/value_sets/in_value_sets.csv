@@ -1,0 +1,88 @@
+Measure,component_name,value_set_name,value_set_oid
+Hypertension,Denom_Hypertens,Essential Hypertension,2.16.840.1.113883.3.464.1003.104.12.1011
+Hypertension,Denom_Service,Office Visit,2.16.840.1.113883.3.464.1003.101.12.1001
+Hypertension,Denom_Service,"Preventive Care Services - Established Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1025
+Hypertension,Denom_Service,"Preventive Care Services-Initial Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1023
+Hypertension,Denom_Service,Home Healthcare Services,2.16.840.1.113883.3.464.1003.101.12.1016
+Hypertension,Denom_Service,Annual Wellness Visit,2.16.840.1.113883.3.526.3.1240
+Hypertension,Denom_Excl_Hospice,Hospice care ambulatory,2.16.840.1.113762.1.4.1108.15
+Hypertension,Denom_Excl_Pregnacy,Pregnancy,2.16.840.1.113883.3.526.3.378
+Hypertension,Denom_Excl_Renal,End Stage Renal Disease,2.16.840.1.113883.3.526.3.353
+Hypertension,Denom_Excl_Renal,Kidney Transplant Recipient,2.16.840.1.113883.3.464.1003.109.12.1029
+Hypertension,Denom_Excl_Renal,"Chronic Kidney Disease, Stage 5",2.16.840.1.113883.3.526.3.1002
+Hypertension,Denom_Excl_Renal,Vascular Access for Dialysis,2.16.840.1.113883.3.464.1003.109.12.1011
+Hypertension,Denom_Excl_Renal,Kidney Transplant,2.16.840.1.113883.3.464.1003.109.12.1012
+Hypertension,Denom_Excl_Renal,Dialysis Services,2.16.840.1.113883.3.464.1003.109.12.1013
+Hypertension,Denom_Excl_Renal,ESRD Monthly Outpatient Services,2.16.840.1.113883.3.464.1003.109.12.1014
+Hypertension,Numer_OP_Visits,Adult Outpatient Visit,2.16.840.1.113883.3.464.1003.101.12.1065
+Depression_Screening,Denom_depression,Depression Screening Encounter Codes,2.16.840.1.113883.3.600.1916
+Depression_Screening,Denom_excl_bipolar,Bipolar Diagnosis,2.16.840.1.113883.3.600.450
+Depression_Screening,Denom_excl_active_dep,Depression diagnosis,2.16.840.1.113883.3.600.145
+Depression_Screening,Denom_except_refused_services,Patient Reason refused,2.16.840.1.113883.3.600.791
+Depression_Screening,Denom_except_medical_refusal,Medical or Other reason not done,2.16.840.1.113883.3.600.1.1502
+Depression_Screening,Numer_negative_result,Negative Depression Screening,2.16.840.1.113883.3.600.2451
+Depression_Screening,Numer_positive_result,Positive Depression Screening,2.16.840.1.113883.3.600.2450
+Depression_Screening,Numer_followup_plan_adolesc,Referral for Depression Adolescent,2.16.840.1.113883.3.600.537
+Depression_Screening,Numer_followup_plan_adult,Referral for Depression Adult,2.16.840.1.113883.3.600.538
+Depression_Screening,Numer_followup_plan_adolesc,Additional evaluation for depression - adolescent,2.16.840.1.113883.3.600.1542
+Depression_Screening,Numer_followup_plan_adult,Additional evaluation for depression - adult,2.16.840.1.113883.3.600.1545
+Depression_Screening,Numer_followup_plan_adolesc,Follow-up for depression - adolescent,2.16.840.1.113883.3.600.467
+Depression_Screening,Numer_followup_plan_adult,Follow-up for depression - adult,2.16.840.1.113883.3.600.468
+Depression_Screening,Numer_followup_plan_adolesc,Depression medications - adolescent,2.16.840.1.113883.3.600.469
+Depression_Screening,Numer_followup_plan_adult,Depression medications - adult,2.16.840.1.113883.3.600.470
+Depression_Screening,Numer_followup_plan_adult,Suicide Risk Assessment,2.16.840.1.113883.3.600.559
+Diabetes_HbA1c,Denom_Diabetes,Diabetes,2.16.840.1.113883.3.464.1003.103.12.1001
+Diabetes_HbA1c,Denom_Service,Office Visit,2.16.840.1.113883.3.464.1003.101.12.1001
+Diabetes_HbA1c,Denom_Service,"Preventive Care Services - Established Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1025
+Diabetes_HbA1c,Denom_Service,"Preventive Care Services-Initial Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1023
+Diabetes_HbA1c,Denom_Service,Home Healthcare Services,2.16.840.1.113883.3.464.1003.101.12.1016
+Diabetes_HbA1c,Denom_Service,Annual Wellness Visit,2.16.840.1.113883.3.526.3.1240
+Diabetes_HbA1c,Denom_Excl_Hospice,Hospice care ambulatory,2.16.840.1.113762.1.4.1108.15
+Diabetes_HbA1c,Denom_Excl_Hospice_IP_Encounter,Encounter Inpatient,2.16.840.1.113883.3.666.5.307
+Diabetes_HbA1c,Numer_HbA1c_Lab,HbA1c Laboratory Test,2.16.840.1.113883.3.464.1003.198.12.1013
+Childhood_Obesity,Denom_Service,Office Visit,2.16.840.1.113883.3.464.1003.101.12.1001
+Childhood_Obesity,Denom_Service,Preventive Care Services-Individual Counseling,2.16.840.1.113883.3.464.1003.101.12.1026
+Childhood_Obesity,Denom_Service,"Preventive Care- Initial Office Visit, 0 to 17",2.16.840.1.113883.3.464.1003.101.12.1022
+Childhood_Obesity,Denom_Service,"Preventive Care - Established Office Visit, 0 to 17",2.16.840.1.113883.3.464.1003.101.12.1024
+Childhood_Obesity,Denom_Service,Preventive Care Services - Group Counseling,2.16.840.1.113883.3.464.1003.101.12.1027
+Childhood_Obesity,Denom_Service,Home Healthcare Services,2.16.840.1.113883.3.464.1003.101.12.1016
+Childhood_Obesity,Denom_Excl_Prego,Pregnancy,2.16.840.1.113883.3.526.3.378
+Childhood_Obesity,Denom_Excl_Hospice,Hospice care ambulatory,2.16.840.1.113762.1.4.1108.15
+Childhood_Obesity,Denom_Excl_Hospice_IP_Encounter,Encounter Inpatient,2.16.840.1.113883.3.666.5.307
+Childhood_Obesity,Numer1_Height,Height,2.16.840.1.113883.3.464.1003.121.12.1014
+Childhood_Obesity,Numer1_Weight,Weight,2.16.840.1.113883.3.464.1003.121.12.1015
+Childhood_Obesity,Numer1_BMI,BMI percentile,2.16.840.1.113883.3.464.1003.121.12.1012
+Childhood_Obesity,Numer2,Counseling for Nutrition,2.16.840.1.113883.3.464.1003.195.12.1003
+Childhood_Obesity,Numer3,Counseling for Physical Activity,2.16.840.1.113883.3.464.1003.118.12.1035
+SBIRT_EHR,Denom_sbirt,Depression Screening Encounter Codes,2.16.840.1.113883.3.600.1916
+SBIRT_EHR,Denom_sbirt_excl_active_diag,Alcohol and Drug Dependence,2.16.840.1.113883.3.464.1003.106.12.1001
+SBIRT_EHR,Denom_sbirt_excl_treat,Alcohol and Drug Dependence Treatment,2.16.840.1.113883.3.464.1003.106.12.1005
+SBIRT_EHR,Denom_sbirt_excl_mental,Dementia & Mental Degenerations,2.16.840.1.113883.3.526.3.1005
+SBIRT_EHR,Denom_sbirt_excl_life_expect,Limited Life Expectancy,2.16.840.1.113883.3.526.3.1259
+SBIRT_EHR,Denom_sbirt_excl_palliative,Palliative Care,2.16.840.1.113883.3.600.1.1579
+SBIRT_EHR,denom_except_patient_reason,Patient Reason refused,2.16.840.1.113883.3.600.791
+SBIRT_EHR,denom_except_med_reason,Medical or Other reason not done,2.16.840.1.113883.3.600.1.1502
+Tobacco_Use,Denom,Annual Wellness Visit,2.16.840.1.113883.3.526.3.1240
+Tobacco_Use,Denom,Health & Behavioral Assessment - Individual,2.16.840.1.113883.3.526.3.1020
+Tobacco_Use,Denom,Health and Behavioral Assessment - Initial,2.16.840.1.113883.3.526.3.1245
+Tobacco_Use,Denom,"Health and Behavioral Assessment, Reassessment",2.16.840.1.113883.3.526.3.1529
+Tobacco_Use,Denom,Home Healthcare Services,2.16.840.1.113883.3.464.1003.101.12.1016
+Tobacco_Use,Denom_exception,Limited Life Expectancy,2.16.840.1.113883.3.526.3.1259
+Tobacco_Use,Denom_exception,Medical Reason,2.16.840.1.113883.3.526.3.1007
+Tobacco_Use,Denom,Occupational Therapy Evaluation,2.16.840.1.113883.3.526.3.1011
+Tobacco_Use,Denom,Office Visit,2.16.840.1.113883.3.464.1003.101.12.1001
+Tobacco_Use,Denom,Ophthalmological Services,2.16.840.1.113883.3.526.3.1285
+Tobacco_Use,Denom,"Preventive Care Services - Established Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1025
+Tobacco_Use,Denom,Preventive Care Services - Group Counseling,2.16.840.1.113883.3.464.1003.101.12.1027
+Tobacco_Use,Denom,Preventive Care Services - Other,2.16.840.1.113883.3.464.1003.101.12.1030
+Tobacco_Use,Denom,Preventive Care Services-Individual Counseling,2.16.840.1.113883.3.464.1003.101.12.1026
+Tobacco_Use,Denom,"Preventive Care Services-Initial Office Visit, 18 and Up",2.16.840.1.113883.3.464.1003.101.12.1023
+Tobacco_Use,Denom,Psych Visit - Diagnostic Evaluation,2.16.840.1.113883.3.526.3.1492
+Tobacco_Use,Denom,Psych Visit - Psychotherapy,2.16.840.1.113883.3.526.3.1496
+Tobacco_Use,Denom,Psychoanalysis,2.16.840.1.113883.3.526.3.1141
+Tobacco_Use,Denom,Speech and Hearing Evaluation,2.16.840.1.113883.3.526.3.1530
+Tobacco_Use,tobacco_non_user,Tobacco Non-User,2.16.840.1.113883.3.526.3.1189
+Tobacco_Use,tobacco_cessation_counsel,Tobacco Use Cessation Counseling,2.16.840.1.113883.3.526.3.509
+Tobacco_Use,tobacco_cessation_pharma,Tobacco Use Cessation Pharmacotherapy,2.16.840.1.113883.3.526.3.1190
+Tobacco_Use,tobacco_use_screening,Tobacco Use Screening,2.16.840.1.113883.3.526.3.1278
+Tobacco_Use,tobacco_user,Tobacco User,2.16.840.1.113883.3.526.3.1170

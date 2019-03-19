@@ -42,6 +42,8 @@ Adolescent_Well_Care~NUMERATOR~ICD9CM-Diag~DCHK1~~
 Adolescent_Well_Care~NUMERATOR~ICD9CM-Diag~DCHK2~~
 Adolescent_Well_Care~NUMERATOR~ICD10CM-Diag~D10CHK1~~
 Adolescent_Well_Care~NUMERATOR~ICD10CM-Diag~D10CHK2~~
+Adolescent_Well_Care~DENOM_EXCLUSION_HOSPICE~CPT~HCPT1~~
+Adolescent_Well_Care~DENOM_EXCLUSION_HOSPICE~UBREV~HREV~~
 ;
 run;
 
@@ -66,6 +68,8 @@ MrDeniedChk~2000-01-01~1~1
 MrChkTooEarly~2000-01-01~1~0
 MrIncorrectCode~2000-01-01~1~0
 MrAllGood_icd10~2000-01-01~1~1
+MrHospiceExcludedCPT~2000-01-01~0~0
+MrHospiceExcludedREV~2000-01-01~0~0
 ;
 run;
 
@@ -94,14 +98,17 @@ MrDeniedChk~2014-01-01~2014-12-31
 MrChkTooEarly~2014-01-01~2014-12-31
 MrIncorrectCode~2014-01-01~2014-12-31
 MrAllGood_icd10~2013-01-01~2015-01-01
+MrHospiceExcludedCPT~2013-01-01~2015-01-01
+MrHospiceExcludedREV~2013-01-01~2015-01-01
 ;
 run;
 
 data M150_Tmp.outclaims_prm;
-	infile datalines delimiter = '~';
+	infile datalines delimiter = '~' dsd;
 	input
 		Member_ID :$40.
 		FromDate :YYMMDD10.
+		RevCode :$4.
 		HCPCS :$5.
 		ICDDiag1 :$7.
 		ICDDiag2 :$7.
@@ -110,16 +117,18 @@ data M150_Tmp.outclaims_prm;
 		;
 	format FromDate YYMMDDd10.;
 datalines;
-MrAllGood~2014-04-17~CHK1~ ~ ~ ~N
-MrTooOld~2014-04-17~CHK1~ ~ ~ ~N
-MrTwoGaps~2014-04-17~CHK1~ ~ ~ ~N
-MrOneBigGap~2014-04-17~CHK1~ ~ ~ ~N
-MrOneSmallGap~2014-04-17~CHK1~ ~ ~ ~N
-MrDiagBased~2014-04-16~ ~DCHK2~ ~ ~N
-MrDeniedChk~2014-04-17~CHK1~ ~ ~ ~Y
-MrAllGood~2013-04-17~CHK1~ ~ ~ ~N
-MrIncorrectCode~2014-04-17~NoCHK1~ ~ ~ ~N
-MrAllGood_icd10~2014-04-17~ ~D10CHK1~ ~ ~N
+MrAllGood~2014-04-17~~CHK1~ ~ ~ ~N
+MrTooOld~2014-04-17~~CHK1~ ~ ~ ~N
+MrTwoGaps~2014-04-17~~CHK1~ ~ ~ ~N
+MrOneBigGap~2014-04-17~~CHK1~ ~ ~ ~N
+MrOneSmallGap~2014-04-17~~CHK1~ ~ ~ ~N
+MrDiagBased~2014-04-16~~ ~DCHK2~ ~ ~N
+MrDeniedChk~2014-04-17~~CHK1~ ~ ~ ~Y
+MrAllGood~2013-04-17~~CHK1~ ~ ~ ~N
+MrIncorrectCode~2014-04-17~~NoCHK1~ ~ ~ ~N
+MrAllGood_icd10~2014-04-17~~ ~D10CHK1~ ~ ~N
+MrHospiceExcludedCPT~2014-04-20~~HCPT1~~ ~ ~N
+MrHospiceExcludedREV~2014-04-20~HREV~~~ ~ ~N
 ;
 run;
 

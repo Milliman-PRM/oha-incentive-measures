@@ -37,3 +37,17 @@ In order to support eCQM based quality measures (and because we do not currently
   * Programs will execute in an isolated subprocess. They should be able to execute independently
   * Programs will execute in the `150` module. Programs can be expected to have access to PUDD, and other shared functions defined in the analytics pipeline
   * Programs will not be executed for demo runs (to protect any non-anonymized ePHI use by custom program)
+
+### Where are the Clinical Measures?
+
+Due to the Clinical Measures needing EMR, we only have one client currently that can calculate these measures, and they do all the calculations within their post-boarding process. As such, the code represented here was very outdated, and did not produce as expected. They were removed in [Remove Clinical Measures](https://indy-github.milliman.com/PRM/oha-incentive-measures/pull/62).
+
+The Current Clinical Measures are located in the [WOH Repo](https://indy-github.milliman.com/PRM-Productions/0273WOH_Medicaid)
+
+  - `Hypertension`
+  - `Diabetes_HbA1c`
+  - `Depression_Screening`
+  - `Tobacco_Prevalence`
+  - `Childhood_Obesity`
+  - `Alcohol SBIRT`
+  - `BMI_Screening`

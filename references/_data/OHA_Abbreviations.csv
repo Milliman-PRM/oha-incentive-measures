@@ -17,3 +17,4 @@ Childhood_Obesity,Weight Assessment and Counseling for Nutrition and Physical Ac
 BMI_Screening,Body Mass Index (BMI) Screening and Follow-Up Plan,"#,##0.0%",Binary
 Dental_Sealants,Dental Sealants,"#,##0.0%",Binary
 SBIRT_EHR,SBIRT EHR,"#,##0.0%",Binary
+diabetes_oral_eval,Oral Evaluation for Adults with Diabetes,"#,##0.0%",Binary

@@ -1,5 +1,5 @@
 """
-### CODE OWNERS: Ben Copeland
+### CODE OWNERS: Ben Copeland, Chas Busenburg
 
 ### OBJECTIVE:
   Convert HEDIS codes list into repository-standard schema

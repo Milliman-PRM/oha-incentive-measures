@@ -1,5 +1,5 @@
 """
-### CODE OWNERS: Ben Copeland
+### CODE OWNERS: Ben Copeland, Chas Busenburg
 
 ### OBJECTIVE:
   Convert medications list into repository-standard schema

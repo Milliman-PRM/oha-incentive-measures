@@ -160,7 +160,7 @@ data M150_Tmp.outpharmacy_prm;
         ;
 	format FromDate 	:YYMMDDd10.;
 datalines;
-Denom_Medication~2014~06~01~itsadrugcode
+Denom_Medication~2014-06-01~itsadrugcode
 ;
 run;
 

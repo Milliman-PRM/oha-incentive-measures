@@ -36,13 +36,48 @@ data oha_ref.OHA_codes;
 		Diag_Type 	:$16.
 		;
 datalines;
-Wrong_Measure~Wrong_Component~CDT~Good_Code~~~
-Wrong_Measure~Wrong_Component~CDT~Wrong_Code~~~
-Dental_Sealants~Numer_Seals~CDT~Good_Code~~~
-Dental_Sealants~Numer_Dental_Claim_Code~DENTAL~Good_Code~Tooth_Code~~
-Dental_Sealants~Numer_Dental_Tooth_Code~TOOTH~Right_Tooth~Tooth_Code~~
+diabetes_oral_eval~numerator~CDT~Good_Code~~
+not_diabetes_oral_eval~not_numerator~CDT~Bad_Code~~
+diabetes_oral_eval~denom_exclusion~CPT~TEMP_DIAB~~
 ;
 run;
+
+data oha_ref.medications;
+    infile datalines delimiter = '~' missover dsd;
+    input
+		Measure 	:$24.
+		Component 	:$32.
+		CodeSystem 	:$16.
+		Code 		:$16.
+		Grouping_ID :$32.
+		Diag_Type 	:$16.
+		;
+datalines;
+diabetes_oral_eval~denom_medication~NDC~itsadrugcode~~
+notdiabetes_ora_eval~not_denom_medications~NDC~itsnotavalidcode~~
+;
+run;
+
+data oha_ref.hedis_codes;
+    infile datalines delimiter = '~' missover dsd;
+    input
+		Measure 	:$24.
+		Component 	:$32.
+		CodeSystem 	:$16.
+		Code 		:$16.
+		Grouping_ID :$32.
+		Diag_Type 	:$16.
+		;
+datalines;
+diabetes_oral_eval~denom_one_visit~CPT~CPT_ONE_VISIT~~
+diabetes_oral_eval~denom_one_visit~UBREV~UBREV_ONE_VISIT~~
+diabetes_oral_eval~denom_diabetes~ICD10CM-Diag~DIAG_CODE~~
+diabetes_oral_eval~denom_two_visits~CPT~CPT_TWO_VISITS_1~~
+diabetes_oral_eval~denom_two_visits~HCPCS~HCPCS_TWO_VISITS~~
+diabetes_oral_eval~denom_two_visits~UBREV~UBREV_TWO_VISITS~~
+;
+run;
+
 data M030_Out.InpDental;
 	infile datalines delimiter = '~' missover dsd;
 	input
@@ -60,19 +95,8 @@ data M030_Out.InpDental;
 		   FromDate 	:YYMMDD10.
 		   ;
 datalines;
-MrAllGoodMinAge~MrAllGoodMinAge~2008-12-31~2014-06-01~Good_Code~Right_Tooth
-MrAllGoodMaxAge~MrAllGoodMaxAge~2000-01-01~2014-06-01~Good_Code~Right_Tooth
-MrWrongTooth~MrWrongTooth~2004-06-01~2014-06-01~Good_Code~Wrong_Tooth
-MrWrongCodeAndTooth~MrWrongCodeAndTooth~2004-06-01~2014-06-01~Wrong_Code~Wrong_Tooth
-MrWrongCodeRightTooth~MrWrongCodeRightTooth~2004-06-01~2014-06-01~Wrong_Code~Right_Tooth
-MrTooYoung~MrTooYoung~2009-01-01~2014-06-01~Good_Code~Right_Tooth
-MrTooOld~MrTooOld~1999-12-31~2014-06-01~Good_Code~Right_Tooth
-MrWrongCode~MrWrongCode~2004-06-01~2014-06-01~Wrong_Code~Right_Tooth
-MrWrongGoodCode~MrWrongGoodCode~2004-06-01~2014-06-01~Wrong_Code~Right_Tooth
-MrOneSmallGap~MrOneSmallGap~2001-03-03~2001-03-03~Good_Code~Right_Tooth
-MrOneBigGap~MrOneBigGap~2001-03-03~2001-03-03~Good_Code~Right_Tooth
-MrTwoGaps~MrTwoGaps~2001-03-03~2001-03-03~Good_Code~Right_Tooth
-MrWrongDate~MrWrongdDate~2004-06-01~2013-12-31~Good_Code~Right_Tooth
+Numer_CDT~Numer_CDT~1990-01-01~2014-06-01~Good_Code~Right_Tooth
+Bad_CDT~Bad_CDT~1990-01-01~2014-06-01~Bad_Code~Right_Tooth
 ;
 run;
 data M150_Tmp.member;
@@ -85,23 +109,18 @@ data M150_Tmp.member;
 		;
 	format DOB 						:YYMMDDd10.;
 datalines;
-MrAllGoodMinAge~2008-12-31~1~1
-MrAllGoodMaxAge~2000-01-01~1~1
-MrAllGoodNoToothInfo~2004-06-01~1~1
-MrWrongTooth~2004-06-01~1~0
-MrWrongCodeAndTooth~2004-06-01~1~0
-MrWrongCodeRightTooth~2004-06-01~1~0
-MrWrongCodeNoToothInfo~2004-06-01~1~0
-MrTooYoung~2009-01-01~0~0
-MrTooOld~1999-12-31~0~0
-MrWrongCode~2004-06-01~1~0
-MrWrongGoodCode~2004-06-01~1~1
-MrWrongCodeNoToothInfo~2004-06-01~1~0
-MrWrongGoodCodeNoToothInfo~2004-06-01~1~0
-MrOneSmallGap~2001-03-03~1~1
-MrOneBigGap~2001-03-03~0~0
-MrTwoGaps~2001-03-03~0~0
-MrWrongDate~2004-06-01~0~0
+Denom_TooYoung~2009-01-01~0~0
+Denom_JustEighteen~1996-12-31~0~1
+Denom_OneVisit~1990-01-01~0~1
+Denom_TwoVisits~1990-01-01~0~1
+Denom_Medication~1990-01-01~0~1
+Denom_EligPriorYear~1990-01-01~0~1
+Denom_TempDiabetes~1990-01-01~0~0
+Numer_CDT~1990-01-01~1~1
+Bad_CDT~1990-01-01~0~1
+TwoGaps~1990-01-01~0~0
+SmallSingularGap~1990-01-01~0~1
+BigSingularGap~1990-01-01~0~0
 ;
 run;
 
@@ -114,27 +133,34 @@ data M150_Tmp.member_time;
 		;
 	format date		:YYMMDDd10.;
 datalines;
-MrAllGoodMinAge~2014-01-01~2014-12-31
-MrAllGoodMaxAge~2014-01-01~2014-12-31
-MrAllGoodNoToothInfo~2014-01-01~2014-12-31
-MrWrongTooth~2014-01-01~2014-12-31
-MrWrongCodeAndTooth~2014-01-01~2014-12-31
-MrWrongCodeRightTooth~2014-01-01~2014-12-31
-MrWrongCodeNoToothInfo~2014-01-01~2014-12-31
-MrTooYoung~2014-01-01~2014-12-31
-MrTooOld~2014-01-01~2014-12-31
-MrWrongCode~2014-01-01~2014-12-31
-MrWrongGoodCode~2014-01-01~2014-12-31
-MrWrongCodeNoToothInfo~2014-01-01~2014-12-31
-MrWrongGoodCodeNoToothInfo~2014-01-01~2014-12-31
-MrOneSmallGap~2013-01-01~2014-04-01
-MrOneSmallGap~2014-05-17~2015-12-31
-MrOneBigGap~2013-01-01~2014-04-01
-MrOneBigGap~2014-05-18~2015-12-31
-MrTwoGaps~2013-01-01~2014-04-01
-MrTwoGaps~2014-04-03~2014-05-01
-MrTwoGaps~2014-05-03~2015-12-31
-MrWrongDate~2013-01-01~2013-12-31
+Denom_TooYoung~2014-01-01~2014-12-31
+Denom_JustEighteen~2014-01-01~2014-12-31
+Denom_OneVisit~2014-01-01~2014-12-31
+Denom_TwoVisits~2014-01-01~2014-12-31
+Denom_Medication~2014-01-01~2014-12-31
+Denom_EligPriorYear~2014-01-01~2014-12-31
+Denom_TempDiabetes~2014-01-01~2014-12-31
+Numer_CDT~2014-01-01~2014-12-31
+TwoGaps~2014-01-01~2014-01-31
+TwoGaps~2014-03-01~2014-03-31
+TwoGaps~2014-05-01~2014-12-31
+SmallSingularGap~2014-01-01~2014-01-31
+SmallSingularGap~2014-03-01~2014-03-31
+BigSingularGap~2014-01-01~2014-02-01
+BigSingularGap~2014-08-01~2014-12-31
+;
+run;
+
+data M150_Tmp.outpharmacy_prm;
+    infile datalines delimiter = '~';
+    input
+		Member_ID 		:$40.
+		FromDate 		:YYMMDD10.
+		NDC             :$20.
+        ;
+	format FromDate 	:YYMMDDd10.;
+datalines;
+Denom_Medication~2014~06~01~itsadrugcode
 ;
 run;
 
@@ -151,22 +177,18 @@ data M150_Tmp.outclaims_prm;
 		;
 	format FromDate 	:YYMMDDd10.;
 datalines;
-MrAllGoodMinAge~2014-06-01~Good_Code~ ~ ~ ~N
-MrAllGoodMaxAge~2014-06-01~Good_Code~ ~ ~ ~N
-MrAllGoodNoToothInfo~2014-06-01~Good_Code~ ~ ~ ~N
-MrWrongCodeAndTooth~2014-06-01~Wrong_Code~ ~ ~ ~N
-MrWrongCodeRightTooth~2014-06-01~Wrong_Code~ ~ ~ ~N
-MrWrongCodeNoToothInfo~2014-06-01~Wrong_Code~ ~ ~ ~N
-MrTooOld~2014-06-01~Good_Code~ ~ ~ ~N
-MrTooYoung~2014-06-01~Good_Code~ ~ ~ ~N
-MrWrongCode~2014-06-01~Wrong_Code~ ~ ~ ~N
-MrWrongGoodCode~2014-06-01~Good_Code~ ~ ~ ~N
-MrWrongCodeNoToothInfo~2014-06-01~Wrong_Code~ ~ ~ ~N
-MrWrongGoodCodeNoToothInfo~2014-06-01~Wrong_Code~ ~ ~ ~N
-MrOneSmallGap~2014-04-17~Good_Code~ ~ ~ ~N
-MrOneBigGap~2014-04-17~Good_Code~ ~ ~ ~N
-MrTwoGaps~2014-04-17~Good_Code~ ~ ~ ~N
-MrWrongDate~2013-01-01~Good_Code~ ~ ~N
+Denom_TooYoung~2014-06-01~CPT_ONE_VISIT~ ~ ~ ~N
+DenomJustEighteen~2014-06-01~CPT_ONE_VISIT~ ~ ~ ~N
+DenomOneVisit~2014-06-01~CPT_ONE_VISIT~ ~ ~ ~N
+DenomTwoVisits~2014-01-02~CPT_TWO_VISITS_1~ ~ ~ ~N
+DenomTwoVisits~2014-06-01~HCPCS_TWO_VISITS~ ~ ~ ~N
+Denom_EligPriorYear~2013-06-01~CPT_ONE_VISIT~ ~ ~ ~N
+Denom_TempDiabetes~2014-06-01~TEMP_DIAB~ ~ ~ ~N
+Numer_CDT~2014-06-01~CPT_ONE_VISIT~ ~ ~ ~N
+Bad_CDT~2014-06-01~CPT_ONE_VISIT~ ~ ~ ~N
+TwoGaps~2014-06-01~CPT_ONE_VISIT~ ~ ~ ~N
+SmallSingularGap~2014-06-01~CPT_ONE_VISIT~ ~ ~ ~N
+BigSingularGap~2014-06-01~CPT_ONE_VISIT~ ~ ~ ~N
 ;
 run;
 

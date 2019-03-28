@@ -389,10 +389,11 @@ def inject_dhs_assessments(): #pragma: no cover
     )
 
 
-def inject_dental_sealant(): #pragma: no cover
-    """Inject Dental Sealants tasks into InjectCustomMeasures"""
+def inject_dental_measures(): #pragma: no cover
+    """Inject Dental tasks into InjectCustomMeasures"""
     InjectCustomMeasures.add_requirements(
         DentalSealant,
+        DiabetesOralEval,
     )
 
 

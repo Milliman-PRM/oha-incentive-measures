@@ -4,3 +4,4 @@ diabetes_oral_eval,Observation,denom_two_visits
 diabetes_oral_eval,Nonacute Inpatient,denom_two_visits
 diabetes_oral_eval,Acute Inpatient,denom_one_visit
 diabetes_oral_eval,Diabetes,denom_diabetes
+diabetes_oral_eval,Diabetes Exclusions,denom_excl_temp

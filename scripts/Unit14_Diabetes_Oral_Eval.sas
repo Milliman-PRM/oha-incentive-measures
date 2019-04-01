@@ -113,6 +113,7 @@ Denom_TooYoung~2009-01-01~0~0
 Denom_JustEighteen~1996-12-31~0~1
 Denom_OneVisit~1990-01-01~0~1
 Denom_TwoVisits~1990-01-01~0~1
+Denom_TwoClaimsOneDay~1990-01-01~0~0
 Denom_Medication~1990-01-01~0~1
 Denom_EligPriorYear~1990-01-01~0~1
 Denom_TempDiabetes~1990-01-01~0~0
@@ -140,6 +141,7 @@ Denom_TooYoung~2014-01-01~2014-12-31
 Denom_JustEighteen~2014-01-01~2014-12-31
 Denom_OneVisit~2014-01-01~2014-12-31
 Denom_TwoVisits~2014-01-01~2014-12-31
+Denom_TwoClaimsOneDay~2014-01-01~2014-12-31
 Denom_Medication~2014-01-01~2014-12-31
 Denom_EligPriorYear~2014-01-01~2014-12-31
 Denom_TempDiabetes~2014-01-01~2014-12-31
@@ -203,6 +205,8 @@ Denom_JustEighteen~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
 Denom_OneVisit~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
 Denom_TwoVisits~2014-01-02~CPT_TWO_VISITS_1~DIAG_CO~ ~ ~ ~N
 Denom_TwoVisits~2014-06-01~HCPCS_TWO_VISITS~DIAG_CO~ ~ ~ ~N
+Denom_TwoClaimsOneDay~2014-06-01~CPT_ONE_VISIT~ ~ ~ ~ ~N
+Denom_TwoClaimsOneDay~2014-06-01~XXXXX~DIAG_CO~ ~ ~ ~N
 Denom_EligPriorYear~2013-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
 Denom_TempDiabetes~2014-06-01~XXXXX~TMPDIAB~ ~ ~ ~N
 Denom_TempDiabetesAndDiabetes~2014-06-01~XXXXX~ ~TMPDIAB~ ~ ~N

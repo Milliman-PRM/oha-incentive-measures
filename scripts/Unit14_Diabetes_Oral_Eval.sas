@@ -176,6 +176,8 @@ data M150_Tmp.outpharmacy_prm;
 	format FromDate 	:YYMMDDd10.;
 datalines;
 Denom_Medication~2014-06-01~itsadrugcode
+Denom_TempDiabetes~2013-07-01~itsadrugcode
+Denom_TempDiabetesAndDiabetes~2014-05-01~itsadrugcode
 ;
 run;
 
@@ -204,7 +206,7 @@ Denom_TwoVisits~2014-06-01~HCPCS_TWO_VISITS~DIAG_CO~ ~ ~ ~N
 Denom_EligPriorYear~2013-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
 Denom_TempDiabetes~2014-06-01~XXXXX~TMPDIAB~ ~ ~ ~N
 Denom_TempDiabetesAndDiabetes~2014-06-01~XXXXX~ ~TMPDIAB~ ~ ~N
-Denom_TempDiabetesAndDiabetes~2014-01-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
+Denom_TempDiabetesAndDiabetes~2014-01-01~ ~DIAG_CO~ ~ ~ ~N
 Numer_CDT~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
 Bad_CDT~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
 TwoGaps~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N

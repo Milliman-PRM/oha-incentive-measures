@@ -61,6 +61,7 @@ def main() -> int:
         'Code',
         'Code System',
     ]].assign(
+        Code=lambda df: df['Code'].str.replace('.', ''),
         CodeSystem=lambda df: df['Code System'].map(code_system_map),
         Grouping_ID='',
         Diag_Type='',

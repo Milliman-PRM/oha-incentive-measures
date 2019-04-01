@@ -242,6 +242,9 @@ proc sql;
             end
             as numer_flag
     from m030_out.inpDental as outclaims_prm
+	where
+		fromdate ge &measure_start.
+		and fromdate le &measure_end.
     ;
 
     create table member_numer_flags_grouped as

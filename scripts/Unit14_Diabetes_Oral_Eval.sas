@@ -74,7 +74,7 @@ diabetes_oral_eval~denom_diabetes~ICD10CM-Diag~DIAG_CO~~
 diabetes_oral_eval~denom_two_visits~CPT~CPT_TWO_VISITS_1~~
 diabetes_oral_eval~denom_two_visits~HCPCS~HCPCS_TWO_VISITS~~
 diabetes_oral_eval~denom_two_visits~UBREV~UBREV_TWO_VISITS~~
-diabetes_oral_eval~denom_excl_temp~CPT~TEMP_DIAB~~
+diabetes_oral_eval~denom_excl_temp~ICD10CM-Diag~TMPDIAB~~
 ;
 run;
 
@@ -202,9 +202,9 @@ Denom_OneVisit~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
 Denom_TwoVisits~2014-01-02~CPT_TWO_VISITS_1~DIAG_CO~ ~ ~ ~N
 Denom_TwoVisits~2014-06-01~HCPCS_TWO_VISITS~DIAG_CO~ ~ ~ ~N
 Denom_EligPriorYear~2013-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
-Denom_TempDiabetes~2014-06-01~TEMP_DIAB~ ~ ~ ~ ~N
-Denom_TempDiabetesAndDiabetes~2014-06-01~TEMP_DIAB~ ~ ~ ~ ~N
-Denom_TempDiabetesAndDiabetes~2014-01-01~ ~DIAG_CO~ ~ ~ ~N
+Denom_TempDiabetes~2014-06-01~XXXXX~TMPDIAB~ ~ ~ ~N
+Denom_TempDiabetesAndDiabetes~2014-06-01~XXXXX~ ~TMPDIAB~ ~ ~N
+Denom_TempDiabetesAndDiabetes~2014-01-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
 Numer_CDT~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
 Bad_CDT~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
 TwoGaps~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N

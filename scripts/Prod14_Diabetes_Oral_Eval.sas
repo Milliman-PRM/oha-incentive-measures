@@ -76,6 +76,7 @@ proc sql;
 			end
 			as age_elig_flag
     from m150_tmp.member
+	order by member_id
     ;
 
 	create view outclaims_prm as
@@ -153,45 +154,57 @@ proc sql;
 		,sum(one_visit_flag) as one_visit_flag
 	from denom_grouped_date
 	group by member_id
+	order by member_id
 	;
 
 	create view denom_flags_rxclaims as
 	select distinct
 		member_id
-		,case
-			when &claims_filter_denom_medication.
-			then 1
-			else 0
-			end
-			as denom_flag
+		,1 as denom_rx_flag
 	from outpharmacy_prm
-	where &claims_filter_denom_medication
+	where
+		(&claims_filter_denom_medication.)
+		and (&measure_elig_period.)
+	order by member_id
 	;
-	create view denom_flags_claims as
-	select
-		member_id
-		,case
-			when (two_visits_flag ge 2) and (denom_diab_flag ge 1) then 1
-			when (one_visit_flag ge 1) and (denom_diab_flag ge 1) then 1
-			when (temp_diab_flag ge 1) and (denom_diab_flag ge 1) then 1
-			else 0
-			end
-			as denom_flag
-	from denom_grouped_summed
-	;
+quit;
 
-	create view denom_flags as
-	select
-		member_id
-		,max(denom_flag) as denom_flag
-	from(
-		select * from denom_flags_claims
-		union
-		select * from denom_flags_rxclaims
-	)
-	group by member_id
+data member_flags;
+	merge
+		members_ge_eighteen
+		denom_grouped_summed
+		denom_flags_rxclaims
 	;
+	by
+		member_id
+	;
+run;
 
+data denom_flags;
+	set member_flags;
+
+	format
+		denom_flag 12.
+	;
+	array nums _numeric_;
+	do over nums;
+		nums = coalesce(nums, 0);
+	end;
+
+	if (
+		two_visits_flag ge 2
+		or one_visit_flag ge 1
+		or denom_rx_flag ge 1
+	) and (
+		diab_all_settings ge 1
+		or temp_diab_flag eq 0
+	) 
+	then
+		denom_flag = 1
+	;
+run;
+
+proc sql;
 	create table member_time_denom_flags as
 	select
 		member_time.*

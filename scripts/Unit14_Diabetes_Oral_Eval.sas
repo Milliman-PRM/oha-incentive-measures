@@ -93,6 +93,7 @@ data M030_Out.InpDental;
            ;
 datalines;
 Numer_CDT~Numer_CDT~1990-01-01~2014-06-01~Good_Code~Right_Tooth
+Numer_InvalidDate~Numer_InvalidDate~1990-01-01~2013-06-01~Good_Code~Right_Tooth
 Bad_CDT~Bad_CDT~1990-01-01~2014-06-01~Bad_Code~Right_Tooth
 ;
 run;
@@ -117,6 +118,7 @@ Denom_EligPriorYear~1990-01-01~0~1
 Denom_TempDiabetes~1990-01-01~0~0
 Denom_TempDiabetesAndDiabetes~1990-01-01~0~1
 Numer_CDT~1990-01-01~1~1
+Numer_InvalidDate~1990-01-01~0~1
 Bad_CDT~1990-01-01~0~1
 TwoGaps~1990-01-01~0~0
 SmallSingularGap~1990-01-01~0~1
@@ -147,6 +149,7 @@ Denom_TempDiabetes~2014-01-01~2014-12-31
 Denom_TempDiabetesAndDiabetes~2014-01-01~2014-12-31
 Bad_CDT~2014-01-01~2014-12-31
 Numer_CDT~2014-01-01~2014-12-31
+Numer_InvalidDate~2014-01-01~2014-12-31
 SmallSingularGap~2014-01-01~2014-01-31
 SmallSingularGap~2014-03-01~2014-12-31
 TwoGaps~2014-01-01~2014-01-31
@@ -212,6 +215,7 @@ Denom_TempDiabetes~2014-06-01~XXXXX~TMPDIAB~ ~ ~ ~N
 Denom_TempDiabetesAndDiabetes~2014-06-01~XXXXX~ ~TMPDIAB~ ~ ~N
 Denom_TempDiabetesAndDiabetes~2014-01-01~ ~DIAG_CO~ ~ ~ ~N
 Numer_CDT~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
+Numer_InvalidDate~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
 Bad_CDT~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
 TwoGaps~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
 SmallSingularGap~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N

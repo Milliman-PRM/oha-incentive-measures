@@ -191,7 +191,10 @@ data M150_Tmp.outclaims_prm;
         RevCode         :$20.
 		PRM_Denied_YN 	:$1.
 		;
-	format FromDate 	:YYMMDDd10.;
+	format 
+		prm_fromdate 	YYMMDDd10.
+		ICDDiag4-ICDDiag15 $7.;
+	;
 datalines;
 Denom_TooYoung~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
 Denom_JustEighteen~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N

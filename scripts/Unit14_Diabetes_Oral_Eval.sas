@@ -84,15 +84,12 @@ data M030_Out.InpDental;
         ClaimID             :$40.
         Member_ID             :$40.
         DOB                 :YYMMDD10.
-        prm_fromdate        :YYMMDD10.
+        fromdate        :YYMMDD10.
         HCPCS                 :$20.
         Tooth                :$20.
         ;
-    informat DOB             :YYMMDD10.
-             prm_fromdate   :YYMMDD10.
-             ;
-    format DOB                 :YYMMDD10.
-           prm_fromdate         :YYMMDD10.
+    format DOB                 YYMMDD10.
+           fromdate         YYMMDD10.
            ;
 datalines;
 Numer_CDT~Numer_CDT~1990-01-01~2014-06-01~Good_Code~Right_Tooth

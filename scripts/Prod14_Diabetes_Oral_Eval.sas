@@ -103,39 +103,40 @@ proc sql;
 		,prm_fromdate
         ,case
             when &claims_filter_denom_diabetes.
-                and &measure_elig_period.
             then 1
             else 0
             end
-            as denom_diab_flag
+            as diab_all_settings
         ,case
             when &claims_filter_denom_excl_temp.
-                and &measure_elig_period.
             then 1
             else 0
             end
             as temp_diab_flag
         ,case
-            when &claims_filter_denom_two_visits.
-                and &measure_elig_period.
+            when 
+				(&claims_filter_denom_two_visits.)
+				and (&claims_filter_denom_diabetes.)
             then 1
             else 0
             end
             as two_visits_flag
         ,case
-            when &claims_filter_denom_one_visit.
-                and &measure_elig_period.
+            when 
+				(&claims_filter_denom_one_visit.)
+				and (&claims_filter_denom_diabetes.)
             then 1
             else 0
             end
             as one_visit_flag
     from outclaims_prm
+	where &measure_elig_period.
     ;
 	create view denom_grouped_date as
 	select
 		member_id
 		,prm_fromdate
-		,max(denom_diab_flag) as denom_diab_flag
+		,max(diab_all_settings) as diab_all_settings
 		,max(temp_diab_flag) as temp_diab_flag
 		,max(two_visits_flag) as two_visits_flag
 		,max(one_visit_flag) as one_visit_flag
@@ -146,7 +147,7 @@ proc sql;
 	create view denom_grouped_summed as
 	select
 		member_id
-		,sum(denom_diab_flag) as denom_diab_flag
+		,sum(diab_all_settings) as diab_all_settings
 		,sum(temp_diab_flag) as temp_diab_flag
 		,sum(two_visits_flag) as two_visits_flag
 		,sum(one_visit_flag) as one_visit_flag

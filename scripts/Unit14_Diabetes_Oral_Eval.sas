@@ -26,15 +26,15 @@ options compress = yes;
 options set=OHA_INCENTIVE_MEASURES_PATHREF "%sysfunc(pathname(oha_ref))";
 
 data oha_ref.OHA_codes;
-	infile datalines delimiter = '~' missover dsd;
-	input
-		Measure 	:$24.
-		Component 	:$32.
-		CodeSystem 	:$16.
-		Code 		:$16.
-		Grouping_ID :$32.
-		Diag_Type 	:$16.
-		;
+    infile datalines delimiter = '~' missover dsd;
+    input
+        Measure     :$24.
+        Component     :$32.
+        CodeSystem     :$16.
+        Code         :$16.
+        Grouping_ID :$32.
+        Diag_Type     :$16.
+        ;
 datalines;
 diabetes_oral_eval~numerator~CDT~Good_Code~~
 not_diabetes_oral_eval~not_numerator~CDT~Bad_Code~~
@@ -44,13 +44,13 @@ run;
 data oha_ref.medications;
     infile datalines delimiter = '~' missover dsd;
     input
-		Measure 	:$24.
-		Component 	:$32.
-		CodeSystem 	:$16.
-		Code 		:$16.
-		Grouping_ID :$32.
-		Diag_Type 	:$16.
-		;
+        Measure     :$24.
+        Component     :$32.
+        CodeSystem     :$16.
+        Code         :$16.
+        Grouping_ID :$32.
+        Diag_Type     :$16.
+        ;
 datalines;
 diabetes_oral_eval~denom_medication~NDC~itsadrugcode~~
 notdiabetes_ora_eval~not_denom_medications~NDC~itsnotavalidcode~~
@@ -60,13 +60,13 @@ run;
 data oha_ref.hedis_codes;
     infile datalines delimiter = '~' missover dsd;
     input
-		Measure 	:$24.
-		Component 	:$32.
-		CodeSystem 	:$16.
-		Code 		:$16.
-		Grouping_ID :$32.
-		Diag_Type 	:$16.
-		;
+        Measure     :$24.
+        Component     :$32.
+        CodeSystem     :$16.
+        Code         :$16.
+        Grouping_ID :$32.
+        Diag_Type     :$16.
+        ;
 datalines;
 diabetes_oral_eval~denom_one_visit~CPT~CPT_ONE_VISIT~~
 diabetes_oral_eval~denom_one_visit~UBREV~UBREV_ONE_VISIT~~
@@ -79,35 +79,35 @@ diabetes_oral_eval~denom_excl_temp~ICD10CM-Diag~TMPDIAB~~
 run;
 
 data M030_Out.InpDental;
-	infile datalines delimiter = '~' missover dsd;
-	input
-		ClaimID 		    :$40.
-		Member_ID 		    :$40.
-		DOB 			    :YYMMDD10.
-		prm_fromdate        :YYMMDD10.
-		HCPCS 			    :$20.
-		Tooth			    :$20.
-		;
-	informat DOB 		    :YYMMDD10.
-			 prm_fromdate   :YYMMDD10.
-			 ;
-	format DOB 			    :YYMMDD10.
-		   prm_fromdate 	    :YYMMDD10.
-		   ;
+    infile datalines delimiter = '~' missover dsd;
+    input
+        ClaimID             :$40.
+        Member_ID             :$40.
+        DOB                 :YYMMDD10.
+        prm_fromdate        :YYMMDD10.
+        HCPCS                 :$20.
+        Tooth                :$20.
+        ;
+    informat DOB             :YYMMDD10.
+             prm_fromdate   :YYMMDD10.
+             ;
+    format DOB                 :YYMMDD10.
+           prm_fromdate         :YYMMDD10.
+           ;
 datalines;
 Numer_CDT~Numer_CDT~1990-01-01~2014-06-01~Good_Code~Right_Tooth
 Bad_CDT~Bad_CDT~1990-01-01~2014-06-01~Bad_Code~Right_Tooth
 ;
 run;
 data M150_Tmp.member;
-	infile datalines delimiter = '~';
-	input
-		Member_ID 					:$40.
-		DOB 						:YYMMDD10.
-		anticipated_numerator	 	:12.
-		anticipated_denominator 		:12.
-		;
-	format DOB 						:YYMMDDd10.;
+    infile datalines delimiter = '~';
+    input
+        Member_ID                     :$40.
+        DOB                         :YYMMDD10.
+        anticipated_numerator         :12.
+        anticipated_denominator         :12.
+        ;
+    format DOB                         :YYMMDDd10.;
 datalines;
 Denom_TooYoung~2009-01-01~0~0
 Denom_JustEighteen~1996-12-31~0~1
@@ -128,13 +128,13 @@ BigSingularGap~1990-01-01~0~0
 run;
 
 data member_time;
-	infile datalines delimiter = '~';
-	input
-		Member_ID 	:$40.
-		date_start 	:YYMMDD10.
-		date_end 	:YYMMDD10.
-		;
-	format date		:YYMMDDd10.;
+    infile datalines delimiter = '~';
+    input
+        Member_ID     :$40.
+        date_start     :YYMMDD10.
+        date_end     :YYMMDD10.
+        ;
+    format date        :YYMMDDd10.;
 datalines;
 BigSingularGap~2014-01-01~2014-02-01
 BigSingularGap~2014-08-01~2014-12-31
@@ -159,25 +159,25 @@ TwoGaps~2014-05-01~2014-12-31
 run;
 
 proc sort 
-	data = member_time
-	out = M150_Tmp.member_time
-	;
-	by 
-		Member_ID
-		date_end
-	;
-	run
-	;
+    data = member_time
+    out = M150_Tmp.member_time
+    ;
+    by 
+        Member_ID
+        date_end
+    ;
+    run
+    ;
 
 
 data M150_Tmp.outpharmacy_prm;
     infile datalines delimiter = '~';
     input
-		Member_ID 		:$40.
-		prm_fromdate	:YYMMDD10.
-		NDC             :$20.
+        Member_ID         :$40.
+        prm_fromdate    :YYMMDD10.
+        NDC             :$20.
         ;
-	format FromDate 	:YYMMDDd10.;
+    format FromDate     :YYMMDDd10.;
 datalines;
 Denom_Medication~2014-06-01~itsadrugcode
 Denom_TempDiabetes~2013-07-01~itsadrugcode
@@ -186,21 +186,21 @@ Denom_TempDiabetesAndDiabetes~2014-05-01~itsadrugcode
 run;
 
 data M150_Tmp.outclaims_prm;
-	infile datalines delimiter = '~';
-	input
-		Member_ID 		:$40.
-		prm_fromdate    :YYMMDD10.
-		HCPCS 			:$20.
-		ICDDiag1 		:$7.
-		ICDDiag2 		:$7.
-		ICDDiag3 		:$7.
+    infile datalines delimiter = '~';
+    input
+        Member_ID         :$40.
+        prm_fromdate    :YYMMDD10.
+        HCPCS             :$20.
+        ICDDiag1         :$7.
+        ICDDiag2         :$7.
+        ICDDiag3         :$7.
         RevCode         :$20.
-		PRM_Denied_YN 	:$1.
-		;
-	format 
-		prm_fromdate 	YYMMDDd10.
-		ICDDiag4-ICDDiag15 $7.;
-	;
+        PRM_Denied_YN     :$1.
+        ;
+    format 
+        prm_fromdate     YYMMDDd10.
+        ICDDiag4-ICDDiag15 $7.;
+    ;
 datalines;
 Denom_TooYoung~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
 Denom_JustEighteen~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N

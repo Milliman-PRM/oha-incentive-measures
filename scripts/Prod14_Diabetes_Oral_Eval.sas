@@ -66,7 +66,7 @@ libname M030_Out "&M030_Out.";
 
 	
 proc sql;
-    create view members_ge_eighteen as
+    create table members_ge_eighteen as
     select distinct
         member_id
 		,case

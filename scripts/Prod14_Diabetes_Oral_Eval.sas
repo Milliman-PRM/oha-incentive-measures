@@ -212,6 +212,7 @@ proc sql;
     left join denom_flags
     on denom_flags.member_id = member_time.member_id
     where denom_flag = 1
+    order by member_id, date_start, date_end
     ;
 
 quit;

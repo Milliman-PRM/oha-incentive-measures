@@ -64,7 +64,7 @@ libname M030_Out "&M030_Out.";
     ,Reference_Source=oha_ref.hedis_codes
     );
 
-    
+
 proc sql;
     create table members_ge_eighteen as
     select distinct
@@ -115,7 +115,7 @@ proc sql;
             end
             as temp_diab_flag
         ,case
-            when 
+            when
                 (&claims_filter_denom_two_visits.)
                 and (&claims_filter_denom_diabetes.)
             then 1
@@ -123,7 +123,7 @@ proc sql;
             end
             as two_visits_flag
         ,case
-            when 
+            when
                 (&claims_filter_denom_one_visit.)
                 and (&claims_filter_denom_diabetes.)
             then 1
@@ -144,7 +144,7 @@ proc sql;
     from denom_exclusion_flags_claims
     group by member_id, prm_fromdate
     ;
-    
+
     create view denom_grouped_summed as
     select
         member_id
@@ -198,7 +198,7 @@ data denom_flags;
     ) and (
         diab_all_settings ge 1
         or temp_diab_flag eq 0
-    ) 
+    )
     then
         denom_flag = 1
     ;
@@ -235,7 +235,7 @@ proc sql;
     from member_elig_gaps
     ;
     create table member_numer_flags as
-    select 
+    select
         member_id
         ,case
             when &claims_filter_numerator. then 1

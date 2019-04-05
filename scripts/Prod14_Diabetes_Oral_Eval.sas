@@ -274,5 +274,6 @@ proc sql;
     on members.member_id = numer.member_id
     left join member_denom_flags as denom
     on members.member_id = denom.member_id
+    where denom_flag eq 1
     ;
 quit;

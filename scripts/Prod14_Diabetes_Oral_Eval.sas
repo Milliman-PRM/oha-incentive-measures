@@ -217,9 +217,12 @@ proc sql;
 
 quit;
 
+%let round_elig_date= %sysfunc(min(&date_latestpaid., &measure_end.));
+
 %FindEligGaps(
     member_time_denom_flags
     ,member_elig_gaps
+    ,global_date_end=&round_elig_date.
 )
 
 proc sql;
@@ -277,3 +280,5 @@ proc sql;
     where denom_flag eq 1
     ;
 quit;
+
+%put System Return Code = &syscc.;

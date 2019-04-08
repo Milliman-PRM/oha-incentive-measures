@@ -14,6 +14,7 @@ options compress = yes;
 %let Suppress_Parser = True;
 %let DATE_PERFORMANCEYEARSTART = %sysfunc(mdy(1,1,2014));
 %let Date_LatestPaid_Round = %sysfunc(mdy(2,28,15));
+%let date_latestpaid = %sysfunc(mdy(2,15,15));
 %let QUALITY_METRICS = OHA_INCENTIVE_MEASURES;
 
 
@@ -158,11 +159,11 @@ TwoGaps~2014-05-01~2014-12-31
 ;
 run;
 
-proc sort 
+proc sort
     data = member_time
     out = M150_Tmp.member_time
     ;
-    by 
+    by
         Member_ID
         date_end
     ;
@@ -197,7 +198,7 @@ data M150_Tmp.outclaims_prm;
         RevCode         :$20.
         PRM_Denied_YN     :$1.
         ;
-    format 
+    format
         prm_fromdate     YYMMDDd10.
         ICDDiag4-ICDDiag15 $7.;
     ;

@@ -39,8 +39,14 @@ class ImportReferences(PRMPythonTask): # pragma: no cover
     def output(self):
         names_output = {
             'oha_abbreviations.parquet',
+            'ecqm_value_sets.parquet',
+            'hedis_codes.parquet',
+            'medications.parquet',
             'oha_codes.parquet',
             'oha_abbreviations.sas7bdat',
+            'ecqm_value_sets.sas7bdat',
+            'hedis_codes.sas7bdat',
+            'medications.sas7bdat',
             'oha_codes.sas7bdat',
         }
         return [
@@ -288,6 +294,31 @@ class DentalSealant(PRMSASTask):  # pragma: no cover
         )
         # pylint: enable=arguments-differ
 
+class DiabetesOralEval(PRMSASTask): # pragma: no cover
+    """ Run Prod14_Diabetes_Oral_Eval.sas"""
+    requirements = RequirementsContainer(
+        ImportReferences,
+        staging_membership.DeriveParamsFromMembership,
+        poweruser_detail_datamart.ExportSAS,
+    )
+
+    def output(self):
+        names_output = {
+            'results_Diabetes_Oral_Eval.sas7bdat'
+        }
+        return [
+            IndyPyLocalTarget(PRM_META[(150, 'out')] / name)
+            for name in names_output
+            ]
+
+    def run(self):  # pylint: disable=arguments-differ
+        """Run the Luigi job"""
+        program = PATH_SCRIPTS / "Prod14_Diabetes_Oral_Eval.sas"
+        super().run(
+            program,
+            path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
+            create_folder=True,
+        )
 
 class InjectCustomMeasures(PRMSASTask):  # pragma: no cover
     """Run prod41_inject_custom_measures.sas"""
@@ -358,10 +389,11 @@ def inject_dhs_assessments(): #pragma: no cover
     )
 
 
-def inject_dental_sealant(): #pragma: no cover
-    """Inject Dental Sealants tasks into InjectCustomMeasures"""
+def inject_dental_measures(): #pragma: no cover
+    """Inject Dental tasks into InjectCustomMeasures"""
     InjectCustomMeasures.add_requirements(
         DentalSealant,
+        DiabetesOralEval,
     )
 
 

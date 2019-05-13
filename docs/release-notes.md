@@ -1,6 +1,11 @@
 ## Release Notes
 
 A non-exhaustive list of what has changed in a more readable form than a commit history.
+
+### v1.4.2
+
+  - Break out component SBIRT and Childhood Obesity measures so they can be displayed in the CCR.
+  
 ### v1.4.1
 
   - Add New Measure Oral-Evaluation for Adults with Diabetes Measure to CCO Incentive Measures for 2019

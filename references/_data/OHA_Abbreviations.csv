@@ -13,7 +13,7 @@ Depression_Screening,Screening for Clinical Depression and Follow-Up Plan,"#,##0
 Tobacco_Use,Tobacco Use Prevalence,"#,##0.0%",Binary
 Cigarette_Use,Cigarette Use Prevalence,"#,##0.0%",Binary
 Tobacco_Status,Tobacco Use Status Recorded,"#,##0.0%",Binary
-Childhood_Obesity_1,Height, Weight, and BMI Assessment for Children and Adolescents,"#,##0.0%",Binary
+Childhood_Obesity_1,"Height, Weight, and BMI Assessment for Children and Adolescents","#,##0.0%",Binary
 Childhood_Obesity_2,Counseling for Nutrition for Children and Adolescents,"#,##0.0%",Binary
 Childhood_Obesity_3,Counseling for Physical Activity for Children and Adolescents,"#,##0.0%",Binary
 BMI_Screening,Body Mass Index (BMI) Screening and Follow-Up Plan,"#,##0.0%",Binary

@@ -18,6 +18,6 @@ Childhood_Obesity_2,Counseling for Nutrition in Children and Adolescents,"#,##0.
 Childhood_Obesity_3,Counseling for Phys. Activity in Children and Adolescents,"#,##0.0%",Binary
 BMI_Screening,Body Mass Index (BMI) Screening and Follow-Up Plan,"#,##0.0%",Binary
 Dental_Sealants,Dental Sealants,"#,##0.0%",Binary
-SBIRT_1,SBIRT Rate 1,"#,##0.0%",Binary
-SBIRT_2,SBIRT Rate 2,"#,##0.0%",Binary
+SBIRT_1,"SBIRT - Screening","#,##0.0%",Binary
+SBIRT_2,"SBIRT - Intervention and Follow-Up","#,##0.0%",Binary
 diabetes_oral_eval,Oral Evaluation for Adults with Diabetes,"#,##0.0%",Binary

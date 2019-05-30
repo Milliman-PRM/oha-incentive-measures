@@ -14,8 +14,8 @@ Tobacco_Use,Tobacco Use Prevalence,"#,##0.0%",Binary
 Cigarette_Use,Cigarette Use Prevalence,"#,##0.0%",Binary
 Tobacco_Status,Tobacco Use Status Recorded,"#,##0.0%",Binary
 Childhood_Obesity_BMI,"Weight Assessment (BMI) in Children and Adolescents","#,##0.0%",Binary
-Childhood_Obesity_Counsel_Nutr,Counseling for Nutrition in Children and Adolescents,"#,##0.0%",Binary
-Childhood_Obesity_Counsel_Phys,Counseling for Phys. Activity in Children and Adolescents,"#,##0.0%",Binary
+Childhood_Obesity_Nutr,Counseling for Nutrition in Children and Adolescents,"#,##0.0%",Binary
+Childhood_Obesity_Phys,Counseling for Phys. Activity in Children and Adolescents,"#,##0.0%",Binary
 BMI_Screening,Body Mass Index (BMI) Screening and Follow-Up Plan,"#,##0.0%",Binary
 Dental_Sealants,Dental Sealants,"#,##0.0%",Binary
 SBIRT_Screen,"SBIRT - Screening","#,##0.0%",Binary

@@ -10,11 +10,12 @@
 %include "%sysget(INDYHEALTH_LIBRARY_HOME)\include_sas_macros.sas" / source2;
 options compress = yes;
 %include "%sysget(ANALYTICS_PIPELINE_HOME)\150_Quality_Metrics\Supp02_Shared_Testing.sas" / source2;
+libname ref_data "%sysget(reference_data_pathref)";
 
 /* Libnames */
 %MockLibrary(oha_ref,pollute_global=true)
 options set=OHA_INCENTIVE_MEASURES_PATHREF "%sysfunc(pathname(oha_ref))";
-%MockLibrary(M015_out,pollute_global=true)
+%MockLibrary(ref_data,pollute_global=true)
 %MockLibrary(M035_out,pollute_global=true)
 %MockLibrary(M073_out,pollute_global=true)
 %MockLibrary(M150_out,pollute_global=true)
@@ -71,7 +72,7 @@ eff_contra|denom_exclusion|CPT|XCPTA||
 run;
 
 proc sql;
-	create table M015_out.hcpcs_descr as
+	create table ref_data.hcpcs_descr as
 	select distinct
 		code as hcpcs
 		,cat(strip(code)," (description)") as hcpcs_desc length = 256 format = $256.

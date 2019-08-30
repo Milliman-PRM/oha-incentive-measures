@@ -14,13 +14,20 @@ options compress = yes;
 /* Libnames */
 %MockLibrary(oha_ref,pollute_global=true)
 options set=OHA_INCENTIVE_MEASURES_PATHREF "%sysfunc(pathname(oha_ref))";
-%MockLibrary(M015_out,pollute_global=true)
+
 %MockLibrary(M035_out,pollute_global=true)
 %MockLibrary(M073_out,pollute_global=true)
 %MockLibrary(M150_out,pollute_global=true)
 %let M150_tmp = %MockDirectoryGetPath();
 %CreateFolder(&M150_tmp.)
 %MockLibrary(unittest)
+
+%let tmp_ref_data = %mockdirectorygetpath();
+%CreateFolder(&tmp_ref_data.);
+options set=reference_data_pathref="&tmp_ref_data.";
+%put %sysget(reference_data_pathref);
+
+libname ref_data "%sysget(reference_data_pathref)";
 
 %let suppress_parser = True;
 %let date_performanceyearstart = %sysfunc(mdy(1,1,2015));
@@ -71,7 +78,7 @@ eff_contra|denom_exclusion|CPT|XCPTA||
 run;
 
 proc sql;
-	create table M015_out.hcpcs_descr as
+	create table ref_data.hcpcs_descr as
 	select distinct
 		code as hcpcs
 		,cat(strip(code)," (description)") as hcpcs_desc length = 256 format = $256.

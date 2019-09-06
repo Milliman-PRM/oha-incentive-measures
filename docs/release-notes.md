@@ -1,6 +1,8 @@
 ## Release Notes
 
 A non-exhaustive list of what has changed in a more readable form than a commit history.
+### v1.4.3
+  - Now sourcing reference data from the environment variable `reference_data_pathref`. Currently only applies to Effective Contraceptive Use measure
 
 ### v1.4.2
 

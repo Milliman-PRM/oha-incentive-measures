@@ -14,7 +14,7 @@ options compress = yes;
 %include "%sysget(ANALYTICS_PIPELINE_HOME)\150_Quality_Metrics\Supp01_Shared.sas" / source2;
 
 /* Libnames */
-libname M015_Out "&M015_Out." access=readonly;
+libname ref_data "%sysget(reference_data_pathref)" access=readonly;
 libname oha_ref "%sysget(OHA_INCENTIVE_MEASURES_PATHREF)" access=readonly;
 libname M150_Out "&M150_Out.";
 libname M150_Tmp "&M150_Tmp.";
@@ -200,7 +200,7 @@ proc sql;
 		from M150_tmp.outclaims_prm
 		where (&claims_filter_numerator.)
 		) as qualifying_claims
-	left join M015_out.hcpcs_descr as ref_hcpcs_cpt
+	left join ref_data.hcpcs_descr as ref_hcpcs_cpt
 		on qualifying_claims.hcpcs eq ref_hcpcs_cpt.hcpcs
 	order by
 		qualifying_claims.member_id

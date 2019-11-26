@@ -1,6 +1,10 @@
 ## Release Notes
 
 A non-exhaustive list of what has changed in a more readable form than a commit history.
+
+### v1.4.4
+  - Fixes the calculation of the DHS Assessment measure start date to be November 1 of the year prior to the measurement year.
+
 ### v1.4.3
   - Now sourcing reference data from the environment variable `reference_data_pathref`. Currently only applies to Effective Contraceptive Use measure
 

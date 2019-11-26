@@ -58,7 +58,7 @@ libname M150_Tmp "&M150_Tmp.";
 	)
 
 /* Include cases notified from November 1 of the year prior to the measurement year, to October 31 of the measurement year */
-%let DHS_measure_start = %sysfunc(intnx(month,&Measure_Start.,-2, end));
+%let DHS_measure_start = %sysfunc(intnx(month,&Measure_Start.,-2));
 %put DHS_measure_start = %sysfunc(putn(&DHS_measure_start.,yymmddd10.));
 
 %let DHS_measure_end = %sysfunc(intnx(month,&Measure_End.,-2, end));
@@ -127,7 +127,7 @@ proc sql;
 
 	where Report_Date between &DHS_measure_start. and &DHS_measure_end.
 			and &age_limit_expression.
-			and dhs.branch_code not in ('6050','0060')	/*OHA is excluding children with a ‘6050’ or '0060' branch code, which signifies adoption/guardianship change.*/
+			and dhs.branch_code not in ('6050','0060')	/*OHA is excluding children with a â€˜6050â€™ or '0060' branch code, which signifies adoption/guardianship change.*/
 
 	order by
 		mtime.member_ID

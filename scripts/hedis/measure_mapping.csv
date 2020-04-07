@@ -13,3 +13,4 @@ diabetes_oral_eval,Hospice Encounter,hospice_encounter
 diabetes_oral_eval,Hospice Intervention,hospice_intervention
 diabetes_oral_eval,Frailty,frailty
 diabetes_oral_eval,Advanced Illness,advanced_illness
+diabetes_oral_eval,Diabetes Exclusions,diabetes_exclusions

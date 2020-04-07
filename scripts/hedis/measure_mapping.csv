@@ -11,6 +11,9 @@ diabetes_oral_eval,Telephone Visits,telephone_visits
 diabetes_oral_eval,Online Assessments,online_assessments
 diabetes_oral_eval,Hospice Encounter,hospice_encounter
 diabetes_oral_eval,Hospice Intervention,hospice_intervention
-diabetes_oral_eval,Frailty,frailty
+diabetes_oral_eval,Frailty Device,frailty_device
+diabetes_oral_eval,Frailty Diagnosis,frailty_diagnosis
+diabetes_oral_eval,Frailty Encounter,frailty_encounter
+diabetes_oral_eval,Frailty Symptom,frailty_symptom
 diabetes_oral_eval,Advanced Illness,advanced_illness
 diabetes_oral_eval,Diabetes Exclusions,diabetes_exclusions

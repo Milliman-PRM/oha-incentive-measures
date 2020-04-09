@@ -33,36 +33,69 @@ libname M030_Out "&M030_Out.";
 %let measure_start_minus_one_year = %sysfunc(INTNX(year,&measure_start.,-1));
 %let measure_elig_period = (prm_fromdate ge &measure_start_minus_one_year. and prm_fromdate le &measure_end.);
 
-%CodeGenClaimsFilter(
-    &Measure_Name.
-    ,Component=numerator
-    ,Reference_Source=oha_ref.oha_codes
-    );
-%CodeGenClaimsFilter(
-    &Measure_Name.
-    ,Component=denom_excl_temp
-    ,Reference_Source=oha_ref.hedis_codes
-    );
-%CodeGenClaimsFilter(
-    &Measure_Name.
-    ,Component=denom_medication
-    ,Reference_Source=oha_ref.medications
-    );
-%CodeGenClaimsFilter(
-    &Measure_Name.
-    ,Component=denom_one_visit
-    ,Reference_Source=oha_ref.hedis_codes
-    );
-%CodeGenClaimsFilter(
-    &Measure_Name.
-    ,Component=denom_diabetes
-    ,Reference_Source=oha_ref.hedis_codes
-    );
-%CodeGenClaimsFilter(
-    &Measure_Name.
-    ,Component=denom_two_visits
-    ,Reference_Source=oha_ref.hedis_codes
-    );
+%let path_hedis_components = %sysget(OHA_INCENTIVE_MEASURES_HOME)scripts\hedis\measure_mapping.csv;
+%put &=path_hedis_components.;
+%let path_medication_components = %sysget(OHA_INCENTIVE_MEASURES_HOME)scripts\medications\measure_mapping.csv;
+%put &=path_medication_components.;
+
+proc import
+	file = "&path_hedis_components."
+	out = hedis_components
+	dmbs = csv
+	replace
+	;
+run;
+proc import
+	file = "&path_medication_components."
+	out = medication_components
+	dmbs = csv
+	replace
+	;
+run;
+
+data components;
+	set
+		hedis_components (
+			keep = measure component
+			in = hedis
+		)
+		medication_components (
+			keep = measure component
+			in = medication
+		)
+	;
+	format source $32.;
+	if hedis then source = 'oha_ref.hedis_codes';
+	else if medication then source = 'oha_ref.medications';
+
+	format macro_call $256.;
+	macro_call = cats(
+		'%nrstr('
+		,'%CodeGenClaimsFilter('
+		,measure
+		,','
+		,'component='
+		,component
+		,','
+		,'reference_source='
+		,source
+		,','
+		,'name_output_var='
+		,cats('filter_', component)
+		,'));'
+	);
+
+	if component not in ( /*components with unsupported fields*/
+		'telehealth_modifier'
+		,'telehealth_pos'
+	);
+run;
+
+data _null_;
+	set components;
+
+	call execute(macro_call);
+run;
 
 
 proc sql;

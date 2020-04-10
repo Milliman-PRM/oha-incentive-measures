@@ -35,27 +35,28 @@ def main() -> int:
         header=0,
         index_col=None,
         dtype={
-            'NDC Code': 'object',
+            'Code': 'object',
         },
         low_memory=False,
     )
     mapped_medications = medication_list.merge(
         measure_mapping,
-        on='Medication List',
+        on='Medication List Name',
         how='inner',
     )
-    mapped_medications_skinny = mapped_medications[[
-        'Measure',
-        'Component',
-        'NDC Code',
-    ]].assign(
+    unique_components = mapped_medications['Medication List Name'].unique()
+    assert len(unique_components) == len(measure_mapping), 'Some value sets were not found'
+    mapped_medications_skinny = mapped_medications.loc[
+        lambda df: df['Code System'] == 'NDC',
+        [
+            'Measure',
+            'Component',
+            'Code',
+        ],
+    ].assign(
         Grouping_ID='',
         Diag_Type='',
         CodeSystem='NDC',
-    ).rename(
-        columns={
-            'NDC Code': 'Code',
-        },
     )[[
         'Measure',
         'Component',

@@ -30,13 +30,23 @@ libname M030_Out "&M030_Out.";
 %let age_limit_expression= ge 18;
 %let days_enrollment_gap = gt 45;
 %let bad_number_gaps = ge 2;
-%let measure_start_minus_one_year = %sysfunc(INTNX(year,&measure_start.,-1));
+
+%let measure_start_minus_one_year = %sysfunc(INTNX(year,&measure_start.,-1, same));
+%put measure_start_minus_one_year=%sysfunc(putn(&measure_start_minus_one_year, yymmddd10.));
+%let measure_end_minus_one_year = %sysfunc(INTNX(year,&measure_end.,-1, same));
+%put measure_end_minus_one_year=%sysfunc(putn(&measure_end_minus_one_year, yymmddd10.));
 %let measure_elig_period = (prm_fromdate ge &measure_start_minus_one_year. and prm_fromdate le &measure_end.);
 
 %let path_hedis_components = %sysget(OHA_INCENTIVE_MEASURES_HOME)scripts\hedis\measure_mapping.csv;
 %put &=path_hedis_components.;
 %let path_medication_components = %sysget(OHA_INCENTIVE_MEASURES_HOME)scripts\medications\measure_mapping.csv;
 %put &=path_medication_components.;
+
+%CodeGenClaimsFilter(
+    &Measure_Name.
+    ,Component=numerator
+    ,Reference_Source=oha_ref.oha_codes
+);
 
 proc import
 	file = "&path_hedis_components."
@@ -68,6 +78,9 @@ data components;
 	if hedis then source = 'oha_ref.hedis_codes';
 	else if medication then source = 'oha_ref.medications';
 
+	format name_output_var $32.;
+	name_output_var = cats('filter_', component);
+
 	format macro_call $256.;
 	macro_call = cats(
 		'%nrstr('
@@ -81,13 +94,8 @@ data components;
 		,source
 		,','
 		,'name_output_var='
-		,cats('filter_', component)
+		,name_output_var
 		,'));'
-	);
-
-	if component not in ( /*components with unsupported fields*/
-		'telehealth_modifier'
-		,'telehealth_pos'
 	);
 run;
 
@@ -97,11 +105,22 @@ data _null_;
 	call execute(macro_call);
 run;
 
+proc sql noprint;
+	select
+		component
+	into
+		:list_components separated by '~'
+	from components
+	where source ne 'oha_ref.medications'
+	;
+quit;
+%put &=list_components;
 
 proc sql;
     create table members_ge_eighteen as
     select distinct
         member_id
+		,floor(yrdif(dob, &measure_end., "age")) as age
         ,case
             when floor(yrdif(dob, &measure_end., "age")) &age_limit_expression.
             then 1
@@ -129,122 +148,310 @@ proc sql;
     on ge_eighteen.member_id = claims.member_id
     where ge_eighteen.age_elig_flag = 1
     ;
+quit;
 
 
-    create view denom_exclusion_flags_claims as
+%macro flag_denom;
+proc sql;
+    create table denom_flags as
     select
         member_id
         ,prm_fromdate
-        ,case
-            when &claims_filter_denom_diabetes.
-            then 1
-            else 0
-            end
-            as diab_all_settings
-        ,case
-            when &claims_filter_denom_excl_temp.
-            then 1
-            else 0
-            end
-            as temp_diab_flag
-        ,case
-            when
-                (&claims_filter_denom_two_visits.)
-                and (&claims_filter_denom_diabetes.)
-            then 1
-            else 0
-            end
-            as two_visits_flag
-        ,case
-            when
-                (&claims_filter_denom_one_visit.)
-                and (&claims_filter_denom_diabetes.)
-            then 1
-            else 0
-            end
-            as one_visit_flag
+		,claimid
+		%let component_cnt = %eval(%sysfunc(countc(&list_components.,%str(~))) + 1);
+		%do i_component = 1 %to &component_cnt.;
+			%let component_current = %scan(&list_components.,&i_component.,%str(~));
+	        ,case
+	            when (&&filter_&component_current.)
+	            then 1
+	            else 0
+	            end
+	            as &component_current.
+
+		%end;
     from outclaims_prm
     where &measure_elig_period.
     ;
-    create view denom_grouped_date as
-    select
-        member_id
-        ,prm_fromdate
-        ,max(diab_all_settings) as diab_all_settings
-        ,max(temp_diab_flag) as temp_diab_flag
-        ,max(two_visits_flag) as two_visits_flag
-        ,max(one_visit_flag) as one_visit_flag
-    from denom_exclusion_flags_claims
-    group by member_id, prm_fromdate
-    ;
+quit;
+%mend flag_denom;
 
-    create view denom_grouped_summed as
-    select
-        member_id
-        ,sum(diab_all_settings) as diab_all_settings
-        ,sum(temp_diab_flag) as temp_diab_flag
-        ,sum(two_visits_flag) as two_visits_flag
-        ,sum(one_visit_flag) as one_visit_flag
-    from denom_grouped_date
-    group by member_id
-    order by member_id
-    ;
+%flag_denom;
 
+proc summary nway missing
+	data = denom_flags;
+	class
+		member_id
+		prm_fromdate
+		claimid
+	;
+	var _numeric_;
+	output
+		out=denom_flags_claims (drop = _type_ _freq_)
+		max=
+	;
+run;
+
+data denom_derived_flags;
+	set denom_flags_claims;
+
+	format
+		acute_ip_diabetes 12.
+		nonacute_ip_diabetes 12.
+		other_outpatient_non_tele 12.
+		other_outpatient_tele 12.
+		telephone_diabetes 12.
+		online_assessments_diabetes 12.
+		acute_ip_advanced_illness 12.
+		any_outpatient_advanced_illness 12.
+	;
+	if (
+		acute_inpatient
+		and diabetes
+		and not (telehealth_modifier or telehealth_pos)
+	)
+	then acute_ip_diabetes = 1;
+	else acute_ip_diabetes = 0;
+
+	if (
+		nonacute_inpatient
+		and diabetes
+		and not (telehealth_modifier or telehealth_pos)
+	)
+	then nonacute_ip_diabetes = 1;
+	else nonacute_ip_diabetes = 0;
+
+	if (
+		(outpatient or observation or ed)
+		and diabetes
+		and not (telehealth_modifier or telehealth_pos)
+	)
+	then other_outpatient_non_tele = 1;
+	else other_outpatient_non_tele = 0;
+
+	if (
+		(outpatient or observation or ed)
+		and diabetes
+		and (telehealth_modifier or telehealth_pos)
+	)
+	then other_outpatient_tele = 1;
+	else other_outpatient_tele = 0;
+
+	if (
+		telephone_visits
+		and diabetes
+	)
+	then telephone_diabetes = 1;
+	else telephone_diabetes = 0;
+
+	if (
+		online_assessments
+		and diabetes
+	)
+	then online_assessments_diabetes = 1;
+	else online_assessments_diabetes = 0;
+
+	if (
+		acute_inpatient
+		and advanced_illness
+	)
+	then acute_ip_advanced_illness = 1;
+	else acute_ip_advanced_illness = 0;
+
+	if (
+		(outpatient or observation or ed or nonacute_inpatient)
+		and advanced_illness
+	)
+	then any_outpatient_advanced_illness = 1;
+	else any_outpatient_advanced_illness = 0;
+
+	format
+		two_visits_non_tele 12.
+		two_visits_tele 12.
+	;
+	two_visits_non_tele = max(
+		nonacute_ip_diabetes
+		,other_outpatient_non_tele
+	);
+	two_visits_tele = max(
+		other_outpatient_tele
+		,telephone_diabetes
+		,online_assessments_diabetes
+	);
+
+	format
+		time_period $16.
+	;
+	if (
+		prm_fromdate ge &measure_start_minus_one_year.
+		and prm_fromdate le &measure_end_minus_one_year.
+	)
+	then time_period = 'prior_year';
+	if (
+		prm_fromdate ge &measure_start.
+		and prm_fromdate le &measure_end.
+	)
+	then time_period = 'current_year';
+run;
+		
+
+proc summary nway missing
+	data = denom_derived_flags;
+	class
+		member_id
+		time_period
+		prm_fromdate
+	;
+	var
+		_numeric_
+	;
+	output
+		out=denom_date_flags (drop = _type_ _freq_)
+		max=
+	;
+run;
+
+
+proc summary nway missing
+	data = denom_derived_flags (drop = prm_fromdate);
+	class
+		member_id
+		time_period
+	;
+	var
+		_numeric_
+	;
+	output
+		out=denom_time_period_flags (drop = _type_ _freq_)
+		sum=
+	;
+run;
+
+data denom_med_eligible;
+	set denom_time_period_flags;
+	where time_period ne '';
+
+	if (
+		acute_ip_diabetes ge 1
+		or two_visits_non_tele ge 2
+		or (
+			two_visits_non_tele ge 1
+			and two_visits_tele ge 1
+		)
+	);
+run;
+
+proc sql;
+	create table denom_med_members
+	as select
+		distinct member_id
+		,1 as denom_med
+	from denom_med_eligible
+	;
+quit;
+
+proc sql;
     create view denom_flags_rxclaims as
     select distinct
         member_id
         ,1 as denom_rx_flag
     from outpharmacy_prm
     where
-        (&claims_filter_denom_medication.)
+        (&filter_diabetes_medications.)
+        and (&measure_elig_period.)
+    order by member_id
+	;
+    create view denom_excl_flags_rxclaims as
+    select distinct
+        member_id
+        ,1 as denom_rx_excl_flag
+    from outpharmacy_prm
+    where
+        (&filter_dementia_medications.)
         and (&measure_elig_period.)
     order by member_id
     ;
 quit;
 
-data member_flags;
-    merge
-        members_ge_eighteen
-        denom_grouped_summed
-        denom_flags_rxclaims
-    ;
-    by
-        member_id
-    ;
+proc sql;
+	create table denom_members
+	as select
+		distinct member_id
+	from (
+		select member_id from denom_med_members
+	) union (
+		select member_id from denom_flags_rxclaims
+	);
+quit;
+
+proc sql;
+	create table denom_time_period_age
+	as select
+		time_period.*
+		,member.age
+		,rx_excl.denom_rx_excl_flag
+		,denom_med.denom_med
+	from denom_time_period_flags as time_period
+	left join members_ge_eighteen as member on
+		time_period.member_id eq member.member_id
+	left join denom_excl_flags_rxclaims as rx_excl on
+		time_period.member_id eq rx_excl.member_id
+	left join denom_med_members as denom_med on
+		time_period.member_id eq denom_med.member_id
+	;
+quit;
+
+data denom_exclusions;
+	set denom_time_period_age;
+	where time_period ne '';
+
+	if (
+		time_period eq 'current_year'
+		and (
+			hospice_encounter
+			or hospice_intervention
+		)
+	)
+	then output;
+
+	/* THIS CANT BE IN THE SAME DATASTEP WITHOUT RETAIN */
+/*	if (*/
+/*		age ge 66*/
+/*		and (*/
+/*			time_period eq 'current_year'*/
+/*			and frailty*/
+/*		)*/
+/*		and (*/
+/*			acute_ip_advanced_illness ge 1*/
+/*			or any_outpatient_advanced_illness ge 2*/
+/*			or denom_rx_excl_flag*/
+/*		)*/
+/*	)*/
+/*	then output;*/
+
+	if (
+		diabetes_exclusions
+		and not denom_med
+	)
+	then output;
 run;
 
-data denom_flags;
-    set member_flags;
+proc sql;
+	create table denom_exclusion_members
+	as select
+		distinct member_id
+		,1 as denom_excl
+	from denom_exclusions
+	;
+quit;
 
-    format
-        denom_flag 12.
-    ;
-    array nums _numeric_;
-    do over nums;
-        nums = coalesce(nums, 0);
-    end;
-
-    if (
-        two_visits_flag ge 2
-        or one_visit_flag ge 1
-        or denom_rx_flag ge 1
-    ) and (
-        diab_all_settings ge 1
-        or temp_diab_flag eq 0
-    )
-    then
-        denom_flag = 1
-    ;
-run;
 
 proc sql;
     create table member_time_denom_flags as
     select
         member_time.*
     from m150_tmp.member_time as member_time
-    left join denom_flags
-    on denom_flags.member_id = member_time.member_id
-    where denom_flag = 1
+    inner join denom_members
+    on denom_members.member_id = member_time.member_id
     order by member_id, date_start, date_end
     ;
 
@@ -261,14 +468,17 @@ quit;
 proc sql;
     create table member_denom_flags as
     select
-        member_id
+        member_elig_gaps.member_id
         ,case
             when gap_days &days_enrollment_gap. then 0
             when gap_cnt &bad_number_gaps. then 0
+			when denom_excl then 0
             else 1
             end
             as denom_flag
     from member_elig_gaps
+	left join denom_exclusion_members as denom_excl on
+	member_elig_gaps.member_id eq denom_excl.member_id
     ;
     create table member_numer_flags as
     select

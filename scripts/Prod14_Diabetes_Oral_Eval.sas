@@ -390,6 +390,12 @@ proc sql;
 		,member.age
 		,rx_excl.denom_rx_excl_flag
 		,denom_med.denom_med
+		,case
+			when time_period.time_period eq 'prior_year' then 0
+			when time_period.time_period eq 'current_year' then 1
+			else 0
+			end as sort_order
+
 	from denom_time_period_flags as time_period
 	left join members_ge_eighteen as member on
 		time_period.member_id eq member.member_id
@@ -397,13 +403,37 @@ proc sql;
 		time_period.member_id eq rx_excl.member_id
 	left join denom_med_members as denom_med on
 		time_period.member_id eq denom_med.member_id
+	order by
+		time_period.member_id
+		,calculated sort_order
 	;
 quit;
 
 data denom_exclusions;
 	set denom_time_period_age;
+	by
+		member_id
+		sort_order
+	;
 	where time_period ne '';
 
+	format
+		retain_acute_ip_advanced_illness 12.
+		retain_count_op_advanced_illness 12.
+	;
+	retain
+		retain_acute_ip_advanced_illness
+		retain_count_op_advanced_illness
+	;
+	if first.member_id then do;
+		retain_acute_ip_advanced_illness = 0;
+		retain_count_op_advanced_illness = 0;
+	end;
+
+
+	format
+		exclusion_category $32.
+	;
 	if (
 		time_period eq 'current_year'
 		and (
@@ -411,28 +441,37 @@ data denom_exclusions;
 			or hospice_intervention
 		)
 	)
-	then output;
+	then exclusion_category = 'hospice';
 
-	/* THIS CANT BE IN THE SAME DATASTEP WITHOUT RETAIN */
-/*	if (*/
-/*		age ge 66*/
-/*		and (*/
-/*			time_period eq 'current_year'*/
-/*			and frailty*/
-/*		)*/
-/*		and (*/
-/*			acute_ip_advanced_illness ge 1*/
-/*			or any_outpatient_advanced_illness ge 2*/
-/*			or denom_rx_excl_flag*/
-/*		)*/
-/*	)*/
-/*	then output;*/
+	retain_acute_ip_advanced_illness = retain_acute_ip_advanced_illness + acute_ip_advanced_illness;
+	retain_count_op_advanced_illness = retain_count_op_advanced_illness + any_outpatient_advanced_illness;
+
+	if (
+		age ge 66
+		and (
+			time_period eq 'current_year'
+			and (
+				frailty_device
+				or frailty_diagnosis
+				or frailty_encounter
+				or frailty_symptom
+			)
+		)
+		and (
+			retain_acute_ip_advanced_illness ge 1
+			or retain_count_op_advanced_illness ge 2
+			or denom_rx_excl_flag
+		)
+	)
+	then exclusion_category = 'frailty_advanced_illness';
 
 	if (
 		diabetes_exclusions
 		and not denom_med
 	)
-	then output;
+	then exclusion_category = 'diabetes_exclusions';
+
+	if exclusion_category ne '' then output;
 run;
 
 proc sql;

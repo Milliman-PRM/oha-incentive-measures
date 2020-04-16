@@ -51,14 +51,14 @@ libname M030_Out "&M030_Out.";
 proc import
 	file = "&path_hedis_components."
 	out = hedis_components
-	dmbs = csv
+	dbms = csv
 	replace
 	;
 run;
 proc import
 	file = "&path_medication_components."
 	out = medication_components
-	dmbs = csv
+	dbms = csv
 	replace
 	;
 run;
@@ -176,6 +176,21 @@ quit;
 %mend flag_denom;
 
 %flag_denom;
+		
+proc sql noprint;
+	select
+		name
+	into
+		:orig_flags_list separated by ' '
+	from
+		sashelp.vcolumn
+	where
+		lowcase(memname) eq 'denom_flags'
+		and lowcase(type) eq 'num'
+		and lowcase(name) ne 'prm_fromdate'
+	;
+quit;
+%put &=orig_flags_list.;
 
 proc summary nway missing
 	data = denom_flags;
@@ -184,7 +199,7 @@ proc summary nway missing
 		prm_fromdate
 		claimid
 	;
-	var _numeric_;
+	var &orig_flags_list.;
 	output
 		out=denom_flags_claims (drop = _type_ _freq_)
 		max=
@@ -293,6 +308,20 @@ data denom_derived_flags;
 	then time_period = 'current_year';
 run;
 		
+proc sql noprint;
+	select
+		name
+	into
+		:all_flags_list separated by ' '
+	from
+		sashelp.vcolumn
+	where
+		lowcase(memname) eq 'denom_derived_flags'
+		and lowcase(type) eq 'num'
+		and lowcase(name) ne 'prm_fromdate'
+	;
+quit;
+%put &=all_flags_list.;
 
 proc summary nway missing
 	data = denom_derived_flags;
@@ -302,7 +331,7 @@ proc summary nway missing
 		prm_fromdate
 	;
 	var
-		_numeric_
+		&all_flags_list.
 	;
 	output
 		out=denom_date_flags (drop = _type_ _freq_)
@@ -318,7 +347,7 @@ proc summary nway missing
 		time_period
 	;
 	var
-		_numeric_
+		&all_flags_list.
 	;
 	output
 		out=denom_time_period_flags (drop = _type_ _freq_)

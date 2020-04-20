@@ -5,7 +5,9 @@
     Test the Oral-Evaluation for Adults with Diabetes
 
 ### DEVELOPER NOTES:
-
+    Must have access to compiled reference data, such as by running
+    the python script `oha_incentive_measures.reference` or by running
+    through `run_tests.bat`
 */
 %include "%sysget(INDYHEALTH_LIBRARY_HOME)\include_sas_macros.sas" / source2;
 options compress = yes;
@@ -24,60 +26,6 @@ options compress = yes;
 /**** SETUP MOCKING ****/
 
 %SetupMockLibraries()
-options set=OHA_INCENTIVE_MEASURES_PATHREF "%sysfunc(pathname(oha_ref))";
-
-data oha_ref.OHA_codes;
-    infile datalines delimiter = '~' missover dsd;
-    input
-        Measure     :$24.
-        Component     :$32.
-        CodeSystem     :$16.
-        Code         :$16.
-        Grouping_ID :$32.
-        Diag_Type     :$16.
-        ;
-datalines;
-diabetes_oral_eval~numerator~CDT~Good_Code~~
-not_diabetes_oral_eval~not_numerator~CDT~Bad_Code~~
-;
-run;
-
-data oha_ref.medications;
-    infile datalines delimiter = '~' missover dsd;
-    input
-        Measure     :$24.
-        Component     :$32.
-        CodeSystem     :$16.
-        Code         :$16.
-        Grouping_ID :$32.
-        Diag_Type     :$16.
-        ;
-datalines;
-diabetes_oral_eval~denom_medication~NDC~itsadrugcode~~
-notdiabetes_ora_eval~not_denom_medications~NDC~itsnotavalidcode~~
-;
-run;
-
-data oha_ref.hedis_codes;
-    infile datalines delimiter = '~' missover dsd;
-    input
-        Measure     :$24.
-        Component     :$32.
-        CodeSystem     :$16.
-        Code         :$16.
-        Grouping_ID :$32.
-        Diag_Type     :$16.
-        ;
-datalines;
-diabetes_oral_eval~denom_one_visit~CPT~CPT_ONE_VISIT~~
-diabetes_oral_eval~denom_one_visit~UBREV~UBREV_ONE_VISIT~~
-diabetes_oral_eval~denom_diabetes~ICD10CM-Diag~DIAG_CO~~
-diabetes_oral_eval~denom_two_visits~CPT~CPT_TWO_VISITS_1~~
-diabetes_oral_eval~denom_two_visits~HCPCS~HCPCS_TWO_VISITS~~
-diabetes_oral_eval~denom_two_visits~UBREV~UBREV_TWO_VISITS~~
-diabetes_oral_eval~denom_excl_temp~ICD10CM-Diag~TMPDIAB~~
-;
-run;
 
 data M030_Out.InpDental;
     infile datalines delimiter = '~' missover dsd;

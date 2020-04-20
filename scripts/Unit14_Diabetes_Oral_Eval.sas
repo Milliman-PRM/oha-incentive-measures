@@ -163,8 +163,8 @@ Denom_OneVisit~2014-06-01~99221~E1010~ ~ ~ ~N~~~~
 Denom_OneVisitPriorYear~2013-06-01~99221~E1010~ ~ ~ ~N~~~~
 Denom_TwoVisits~2014-01-02~99201~E1010~ ~ ~ ~N~~~~
 Denom_TwoVisits~2014-06-01~99201~E1010~ ~ ~ ~N~~~~
-Denom_TwoClaimsOneDay~2014-06-01~99221~ ~ ~ ~ ~N~~~~
-Denom_TwoClaimsOneDay~2014-06-01~XXXXX~E1010~ ~ ~ ~N~~~~
+Denom_TwoClaimsOneDay~2014-06-01~99221~ ~ ~ ~ ~N~claim_one_visit~~~
+Denom_TwoClaimsOneDay~2014-06-01~XXXXX~E1010~ ~ ~ ~N~claim_diabetes_diagnosis~~~
 Denom_EligPriorYear~2013-06-01~99221~E1010~ ~ ~ ~N~~~~
 Denom_TempDiabetes~2014-06-01~XXXXX~E0800~ ~ ~ ~N~~~~
 Denom_TempDiabetesAndDiabetes~2014-06-01~XXXXX~ ~E0800~ ~ ~N~~~~

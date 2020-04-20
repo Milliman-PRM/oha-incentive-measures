@@ -137,7 +137,7 @@ Denom_TempDiabetesAndDiabetes~2014-05-01~itsadrugcode
 run;
 
 data M150_Tmp.outclaims_prm;
-    infile datalines delimiter = '~';
+    infile datalines delimiter = '~' dsd;
     input
         Member_ID         :$40.
         prm_fromdate    :YYMMDD10.
@@ -147,30 +147,34 @@ data M150_Tmp.outclaims_prm;
         ICDDiag3         :$7.
         RevCode         :$20.
         PRM_Denied_YN     :$1.
+		ClaimID :$40.
+		Modifier :$2.
+		Modifier2 :$2.
+		POS :$2.
         ;
     format
         prm_fromdate     YYMMDDd10.
         ICDDiag4-ICDDiag15 $7.;
     ;
 datalines;
-Denom_TooYoung~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
-Denom_JustEighteen~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
-Denom_OneVisit~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
-Denom_OneVisitPriorYear~2013-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
-Denom_TwoVisits~2014-01-02~CPT_TWO_VISITS_1~DIAG_CO~ ~ ~ ~N
-Denom_TwoVisits~2014-06-01~HCPCS_TWO_VISITS~DIAG_CO~ ~ ~ ~N
-Denom_TwoClaimsOneDay~2014-06-01~CPT_ONE_VISIT~ ~ ~ ~ ~N
-Denom_TwoClaimsOneDay~2014-06-01~XXXXX~DIAG_CO~ ~ ~ ~N
-Denom_EligPriorYear~2013-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
-Denom_TempDiabetes~2014-06-01~XXXXX~TMPDIAB~ ~ ~ ~N
-Denom_TempDiabetesAndDiabetes~2014-06-01~XXXXX~ ~TMPDIAB~ ~ ~N
-Denom_TempDiabetesAndDiabetes~2014-01-01~ ~DIAG_CO~ ~ ~ ~N
-Numer_CDT~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
-Numer_InvalidDate~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
-Bad_CDT~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
-TwoGaps~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
-SmallSingularGap~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
-BigSingularGap~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N
+Denom_TooYoung~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N~~~~
+Denom_JustEighteen~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N~~~~
+Denom_OneVisit~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N~~~~
+Denom_OneVisitPriorYear~2013-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N~~~~
+Denom_TwoVisits~2014-01-02~CPT_TWO_VISITS_1~DIAG_CO~ ~ ~ ~N~~~~
+Denom_TwoVisits~2014-06-01~HCPCS_TWO_VISITS~DIAG_CO~ ~ ~ ~N~~~~
+Denom_TwoClaimsOneDay~2014-06-01~CPT_ONE_VISIT~ ~ ~ ~ ~N~~~~
+Denom_TwoClaimsOneDay~2014-06-01~XXXXX~DIAG_CO~ ~ ~ ~N~~~~
+Denom_EligPriorYear~2013-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N~~~~
+Denom_TempDiabetes~2014-06-01~XXXXX~TMPDIAB~ ~ ~ ~N~~~~
+Denom_TempDiabetesAndDiabetes~2014-06-01~XXXXX~ ~TMPDIAB~ ~ ~N~~~~
+Denom_TempDiabetesAndDiabetes~2014-01-01~ ~DIAG_CO~ ~ ~ ~N~~~~
+Numer_CDT~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N~~~~
+Numer_InvalidDate~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N~~~~
+Bad_CDT~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N~~~~
+TwoGaps~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N~~~~
+SmallSingularGap~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N~~~~
+BigSingularGap~2014-06-01~CPT_ONE_VISIT~DIAG_CO~ ~ ~ ~N~~~~
 ;
 run;
 

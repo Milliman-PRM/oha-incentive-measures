@@ -19,6 +19,8 @@ options compress = yes;
 %let date_latestpaid = %sysfunc(mdy(2,15,15));
 %let QUALITY_METRICS = OHA_INCENTIVE_MEASURES;
 
+/*Interactive convenience for setting the pathref*/
+/*options set=OHA_INCENTIVE_MEASURES_PATHREF "%sysget(OHA_INCENTIVE_MEASURES_HOME)\_ci_compiled_reference_data";*/
 
 /**** LIBRARIES, LOCATIONS, LITERALS, ETC. GO ABOVE HERE ****/
 

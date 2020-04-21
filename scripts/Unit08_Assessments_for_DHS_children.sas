@@ -61,6 +61,7 @@ data M150_Tmp.member;
 	format DOB YYMMDDd10.;
 datalines;
 MsBabyGirl~2014-01-01~1~1
+MsBabyGirlNoClaims~2014-01-01~1~0
 Ms2yrOld~2013-01-01~1~1
 Mr5yrOld~2010-01-01~1~1
 MsPRTS~2003-01-01~1~1
@@ -94,6 +95,7 @@ data M036_Out.members_foster_care;
 	format Report_Date dob YYMMDDd10. Eligibility_Effective_Date :YYMMDD10.;
 datalines;
 MsBabyGirl~2014-03-01~2014-01-01~ ~2014-02-15
+MsBabyGirlNoClaims~2014-03-01~2014-01-01~ ~2014-02-15
 Ms2yrOld~2014-03-01~2013-01-01~ ~2014-02-15
 Mr5yrOld~2014-03-01~2010-01-01~ ~2014-02-15
 MsPRTS~2014-03-01~2003-01-01~ ~2014-02-15
@@ -126,6 +128,7 @@ data M150_Tmp.member_time;
 	format date: YYMMDDd10.;
 datalines;
 MsBabyGirl~2014-01-01~2014-10-01
+MsBabyGirlNoClaims~2014-01-01~2014-10-01
 Ms2yrOld~2014-01-01~2014-10-01
 Mr5yrOld~2014-01-01~2014-10-01
 MsPRTS~2014-01-01~2014-10-01

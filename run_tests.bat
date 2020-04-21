@@ -17,14 +17,8 @@ call "%~dp0setup_env.bat"
 echo %~nx0 %DATE:~-4%-%DATE:~4,2%-%DATE:~7,2% %TIME%: Seeding error level to zero
 set CI_ERRORLEVEL=0
 
-
-echo %~nx0 %DATE:~-4%-%DATE:~4,2%-%DATE:~7,2% %TIME%: Setting up OHA_INCENTIVE_MEASURES_PATHREF
-set OHA_INCENTIVE_MEASURES_PATHREF=%~dp0\_ci_compiled_reference_data
-mkdir %OHA_INCENTIVE_MEASURES_PATHREF%
-echo %~nx0 !DATE:~-4!-!DATE:~4,2!-!DATE:~7,2! !TIME!: OHA_INCENTIVE_MEASURES_PATHREF=%OHA_INCENTIVE_MEASURES_PATHREF%
-
-echo %~nx0 %DATE:~-4%-%DATE:~4,2%-%DATE:~7,2% %TIME%: Compiling reference data
-python -m oha_incentive_measures.reference
+echo %~nx0 %DATE:~-4%-%DATE:~4,2%-%DATE:~7,2% %TIME%: Compiling reference data locally
+call "%~dp0compile_reference_data_locally.bat"
 if !errorlevel! neq 0 set CI_ERRORLEVEL=!errorlevel!
 echo %~nx0 !DATE:~-4!-!DATE:~4,2!-!DATE:~7,2! !TIME!: Reference data compilation finished with ErrorLevel=!CI_ERRORLEVEL!
 

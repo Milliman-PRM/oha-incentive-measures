@@ -6,8 +6,7 @@
 
 ### DEVELOPER NOTES:
     Must have access to compiled reference data, such as by running
-    the python script `oha_incentive_measures.reference` or by running
-    through `run_tests.bat`
+    `compile_reference_data_locally.bat` or by running through `run_tests.bat`
 */
 %include "%sysget(INDYHEALTH_LIBRARY_HOME)\include_sas_macros.sas" / source2;
 options compress = yes;
@@ -18,9 +17,6 @@ options compress = yes;
 %let Date_LatestPaid_Round = %sysfunc(mdy(2,28,15));
 %let date_latestpaid = %sysfunc(mdy(2,15,15));
 %let QUALITY_METRICS = OHA_INCENTIVE_MEASURES;
-
-/*Interactive convenience for setting the pathref*/
-/*options set=OHA_INCENTIVE_MEASURES_PATHREF "%sysget(OHA_INCENTIVE_MEASURES_HOME)\_ci_compiled_reference_data";*/
 
 /**** LIBRARIES, LOCATIONS, LITERALS, ETC. GO ABOVE HERE ****/
 

@@ -56,6 +56,8 @@ def main() -> int:
         'LOINC':'LOINC',
         'UBREV': 'UBREV',
         'RXNORM': 'RXNORM',
+        'POS': 'POS',
+        'Modifier': 'Modifier',
     }
     mapped_codes_skinny = mapped_codes[[
         'Measure',

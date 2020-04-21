@@ -449,14 +449,20 @@ data denom_exclusions;
 	format
 		retain_acute_ip_advanced_illness 12.
 		retain_count_op_advanced_illness 12.
+		retain_diabetes 12.
+		retain_diabetes_exclusions 12.
 	;
 	retain
 		retain_acute_ip_advanced_illness
+		retain_count_op_advanced_illness
+		retain_diabetes
 		retain_count_op_advanced_illness
 	;
 	if first.member_id then do;
 		retain_acute_ip_advanced_illness = 0;
 		retain_count_op_advanced_illness = 0;
+		retain_diabetes = 0;
+		retain_diabetes_exclusions = 0;
 	end;
 
 
@@ -474,6 +480,8 @@ data denom_exclusions;
 
 	retain_acute_ip_advanced_illness = retain_acute_ip_advanced_illness + acute_ip_advanced_illness;
 	retain_count_op_advanced_illness = retain_count_op_advanced_illness + any_outpatient_advanced_illness;
+	retain_diabetes = retain_diabetes + diabetes;
+	retain_diabetes_exclusions = retain_diabetes_exclusions + diabetes_exclusions;
 
 	if (
 		age ge 66
@@ -495,8 +503,9 @@ data denom_exclusions;
 	then exclusion_category = 'frailty_advanced_illness';
 
 	if (
-		diabetes_exclusions
-		and not denom_med
+		time_period eq 'current_year'
+		and retain_diabetes_exclusions
+		and not retain_diabetes
 	)
 	then exclusion_category = 'diabetes_exclusions';
 

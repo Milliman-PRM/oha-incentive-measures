@@ -182,7 +182,7 @@ if __name__ == '__main__':  # pragma: no cover
 
     prm.utils.logging_ext.setup_logging_stdout_handler()
 
-    with SparkApp('ref_oha_incentive_measures'):
+    with SparkApp('ref_oha_incentive_measures', allow_local_io=True):
         RETURN_CODE = main()
 
     sys.exit(RETURN_CODE)

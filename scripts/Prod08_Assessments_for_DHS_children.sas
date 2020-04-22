@@ -168,6 +168,9 @@ proc sql;
 		and dhs.report_date = egaps.report_date
 
 	where egaps.gap_cnt = 0 and Eligibility_Effective_Date ge Report_Date_minus_30
+	order by
+		dhs.member_id
+		,dhs.report_date
 	;
 quit;
 
@@ -188,12 +191,6 @@ proc sql;
 		,outclaims_prm.POS
 		,icdversion
 		,&diag_fields_select.
-		,case 
-			when 
-				denom.member_ID ne "" 
-				then 1
-			else 0
-		end as denominator
 
 		,case
 			when 
@@ -347,12 +344,6 @@ run;
 				,Outclaims_PRM.modifier
 				,Outclaims_PRM.modifier2
 				,Outclaims_PRM.POS
-				,case 
-					when 
-						denom.member_ID ne "" 
-						then 1
-					else 0
-				end as denominator
 				,0 as Physical_Assessment
 				,0 as Mental_Assessment
 				,case 
@@ -395,12 +386,28 @@ run;
 proc summary nway missing
 	data = claims_interesting;
 	class member_id report_date report_date_Age;
-	var denominator Physical_Assessment Mental_Assessment Dental_Assessment;
+	var Physical_Assessment Mental_Assessment Dental_Assessment;
 	where denominator ne 0;
 	output out = flagged_assessments (drop = _Type_ _freq_)
 		max=
 	;
 run;
+
+data flagged_members;
+	merge
+		denom_members (in = denom)
+		flagged_assessments (in = numer)
+	;
+	by
+		member_id
+		report_date
+	;
+	format
+		denominator 12.
+	;
+	denominator = 1;
+run;
+
 
 proc sql;
 	create table flagged_numerators
@@ -457,7 +464,7 @@ proc sql;
 				end
 			) as comments format = $128. length = 128
 		
-	from flagged_assessments 
+	from flagged_members 
 	;
 quit;
 

@@ -387,7 +387,6 @@ proc summary nway missing
 	data = claims_interesting;
 	class member_id report_date report_date_Age;
 	var Physical_Assessment Mental_Assessment Dental_Assessment;
-	where denominator ne 0;
 	output out = flagged_assessments (drop = _Type_ _freq_)
 		max=
 	;

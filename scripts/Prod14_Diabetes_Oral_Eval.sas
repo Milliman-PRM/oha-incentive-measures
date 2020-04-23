@@ -503,7 +503,7 @@ data denom_exclusions;
 	then exclusion_category = 'frailty_advanced_illness';
 
 	if (
-		time_period eq 'current_year'
+		last.member_id
 		and retain_diabetes_exclusions
 		and not retain_diabetes
 	)

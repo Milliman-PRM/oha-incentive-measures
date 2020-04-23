@@ -114,6 +114,10 @@ proc sql;
 		,min(
 			intnx('days', dhs.Report_Date, 60)
 			,&empirical_elig_date_end.
+			) as Report_Date_plus_7 format= YYMMDDd10.
+		,min(
+			intnx('days', dhs.Report_Date, 60)
+			,&empirical_elig_date_end.
 			) as Report_Date_plus_60 format= YYMMDDd10.
 		,dhs.dob
 		,intck('year', dob, Report_Date, 'c') as report_date_Age
@@ -146,6 +150,15 @@ quit;
 	,extra_by_variables=Report_Date
 	)
 
+%FindEligGaps(
+	DHS_member_time
+	,DHS_elig_gaps_delayed_start
+	,global_date_end=&DHS_measure_end.
+	,varname_member_date_start=Report_Date_plus_7
+	,varname_member_date_end=Report_Date_plus_60
+	,extra_by_variables=Report_Date
+	)
+
 proc summary nway missing data=DHS_member_time;
 	class member_ID report_date Eligibility_Effective_Date Report_Date_minus_30 Report_Date_plus_60 report_date_Age;
 	output out=DHS_Members_Age (drop=_:);
@@ -161,13 +174,22 @@ proc sql;
 		,dhs.Report_Date_plus_60
 		,egaps.gap_cnt
 		,egaps.gap_days
+		,egaps_delayed.gap_cnt as delayed_start_gap_cnt
+		,egaps_delayed.gap_days as delayed_start_gap_days
 	from DHS_Members_Age as dhs
 	left join
 		DHS_elig_gaps as egaps
 		on dhs.member_ID = egaps.member_ID
 		and dhs.report_date = egaps.report_date
+	left join
+		DHS_elig_gaps_delayed_start as egaps_delayed
+		on dhs.member_ID = egaps_delayed.member_ID
+		and dhs.report_date = egaps_delayed.report_date
+	where egaps_delayed.gap_cnt = 0 and Eligibility_Effective_Date ge Report_Date_minus_30
 
-	where egaps.gap_cnt = 0 and Eligibility_Effective_Date ge Report_Date_minus_30
+	order by
+		dhs.member_id
+		,dhs.report_date
 	;
 quit;
 
@@ -188,12 +210,6 @@ proc sql;
 		,outclaims_prm.POS
 		,icdversion
 		,&diag_fields_select.
-		,case 
-			when 
-				denom.member_ID ne "" 
-				then 1
-			else 0
-		end as denominator
 
 		,case
 			when 
@@ -347,12 +363,6 @@ run;
 				,Outclaims_PRM.modifier
 				,Outclaims_PRM.modifier2
 				,Outclaims_PRM.POS
-				,case 
-					when 
-						denom.member_ID ne "" 
-						then 1
-					else 0
-				end as denominator
 				,0 as Physical_Assessment
 				,0 as Mental_Assessment
 				,case 
@@ -395,12 +405,29 @@ run;
 proc summary nway missing
 	data = claims_interesting;
 	class member_id report_date report_date_Age;
-	var denominator Physical_Assessment Mental_Assessment Dental_Assessment;
-	where denominator ne 0;
+	var Physical_Assessment Mental_Assessment Dental_Assessment;
 	output out = flagged_assessments (drop = _Type_ _freq_)
 		max=
 	;
 run;
+
+data flagged_members;
+	merge
+		denom_members (in = denom)
+		flagged_assessments (in = numer)
+	;
+	by
+		member_id
+		report_date
+	;
+	format
+		denominator 12.
+	;
+	if gap_cnt eq 0
+	then denominator = 1;
+	else denominator = 0;
+run;
+
 
 proc sql;
 	create table flagged_numerators
@@ -457,13 +484,23 @@ proc sql;
 				end
 			) as comments format = $128. length = 128
 		
-	from flagged_assessments 
+	from flagged_members 
 	;
 quit;
 
+data delayed_start_override;
+	set flagged_numerators;
+
+	if (
+		delayed_start_gap_cnt eq 0
+		and numerator eq 1
+	)
+	then denominator = 1;
+run;
+
 
 proc summary nway missing
-	data = flagged_numerators;
+	data = delayed_start_override;
 	class member_id comp_quality_date_actionable comments;
 	var denominator numerator;
 	output out = M150_out.results_&measure_name. (drop = _Type_ _freq_)

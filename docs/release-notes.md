@@ -2,6 +2,12 @@
 
 A non-exhaustive list of what has changed in a more readable form than a commit history.
 
+### v1.5.0
+  - Added testing of reference data compilation as part of CI via `run_tests.bat`
+  - Updated calculations to meet 2020 specifications:
+    - Oral Evaluation for Adults with Diabetes
+    - Disparity Measure: Emergency Department Utilization for Individuals Experiencing Mental Illness
+
 ### v1.4.4
   - Fixes the calculation of the DHS Assessment measure start date to be November 1 of the year prior to the measurement year.
 

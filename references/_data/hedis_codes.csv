@@ -1,7 +1,7 @@
 Measure,Component,CodeSystem,Code,Grouping_ID,Diag_Type
-diabetes_oral_eval,telehealth_pos,,02,,
-diabetes_oral_eval,telehealth_modifier,,95,,
-diabetes_oral_eval,telehealth_modifier,,GT,,
+diabetes_oral_eval,telehealth_pos,POS,02,,
+diabetes_oral_eval,telehealth_modifier,Modifier,95,,
+diabetes_oral_eval,telehealth_modifier,Modifier,GT,,
 diabetes_oral_eval,diabetes,ICD10CM-Diag,E1010,,
 diabetes_oral_eval,diabetes,ICD10CM-Diag,E1011,,
 diabetes_oral_eval,diabetes,ICD10CM-Diag,E1021,,

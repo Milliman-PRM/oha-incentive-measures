@@ -70,6 +70,16 @@ Bad_CDT~1990-01-01~0~1
 TwoGaps~1990-01-01~0~0
 SmallSingularGap~1990-01-01~0~1
 BigSingularGap~1990-01-01~0~0
+TelehealthIPExcluded~1990-01-01~0~0
+TelehealthNonAcuteExcluded~1990-01-01~0~0
+TelehealthOtherOPExcluded~1990-01-01~0~0
+TelehealthNontelehealthCombined~1990-01-01~0~1
+TelephoneNontelehealthCombined~1990-01-01~0~1
+TwoVisitsDiffYearsExcluded~1990-01-01~0~0
+HospiceExcluded~1990-01-01~0~0
+FrailtyAdvancedIllnessDiagExcluded~1900-01-01~0~0
+FrailtyDementiaRxExcluded~1900-01-01~0~0
+FrailtyTooYoungIncluded~1990-01-01~0~1
 ;
 run;
 
@@ -102,6 +112,16 @@ SmallSingularGap~2014-03-01~2014-12-31
 TwoGaps~2014-01-01~2014-01-31
 TwoGaps~2014-03-01~2014-03-31
 TwoGaps~2014-05-01~2014-12-31
+TelehealthIPExcluded~2014-01-01~2014-12-31
+TelehealthNonAcuteExcluded~2014-01-01~2014-12-31
+TelehealthOtherOPExcluded~2014-01-01~2014-12-31
+TelehealthNontelehealthCombined~2014-01-01~2014-12-31
+TelephoneNontelehealthCombined~2014-01-01~2014-12-31
+TwoVisitsDiffYearsExcluded~2014-01-01~2014-12-31
+HospiceExcluded~2014-01-01~2014-12-31
+FrailtyAdvancedIllnessDiagExcluded~2014-01-01~2014-12-31
+FrailtyDementiaRxExcluded~2014-01-01~2014-12-31
+FrailtyTooYoungIncluded~2014-01-01~2014-12-31
 ;
 run;
 
@@ -129,6 +149,7 @@ datalines;
 Denom_Medication~2014-06-01~00002143301
 Denom_TempDiabetes~2013-07-01~00002143301
 Denom_TempDiabetesAndDiabetes~2014-05-01~00002143301
+FrailtyDementiaRxExcluded~2014-05-01~00054009021
 ;
 run;
 
@@ -171,6 +192,27 @@ Bad_CDT~2014-06-01~99221~E1010~ ~ ~ ~N~~~~
 TwoGaps~2014-06-01~99221~E1010~ ~ ~ ~N~~~~
 SmallSingularGap~2014-06-01~99221~E1010~ ~ ~ ~N~~~~
 BigSingularGap~2014-06-01~99221~E1010~ ~ ~ ~N~~~~
+TelehealthIPExcluded~2014-06-01~99221~E1010~ ~ ~ ~N~~95~~
+TelehealthNonAcuteExcluded~2014-01-02~99304~E1010~ ~ ~ ~N~~~95~
+TelehealthNonAcuteExcluded~2014-06-01~99304~E1010~ ~ ~ ~N~~~95~
+TelehealthOtherOPExcluded~2014-01-02~99217~E1010~ ~ ~ ~N~~95~~
+TelehealthOtherOPExcluded~2014-06-01~99217~E1010~ ~ ~ ~N~~95~~
+TelehealthNontelehealthCombined~2014-01-02~99217~E1010~ ~ ~ ~N~~95~~
+TelehealthNontelehealthCombined~2014-06-01~99217~E1010~ ~ ~ ~N~~~~
+TelephoneNontelehealthCombined~2014-01-02~98969~E1010~ ~ ~ ~N~~~~
+TelephoneNontelehealthCombined~2014-06-01~99217~E1010~ ~ ~ ~N~~~~
+TwoVisitsDiffYearsExcluded~2013-01-02~99201~E1010~ ~ ~ ~N~~~~
+TwoVisitsDiffYearsExcluded~2014-06-01~99201~E1010~ ~ ~ ~N~~~~
+HospiceExcluded~2014-06-01~99221~E1010~ ~ ~ ~N~~~~
+HospiceExcluded~2014-03-01~99377~E1010~ ~ ~ ~N~~~~
+FrailtyAdvancedIllnessDiagExcluded~2014-06-01~99221~E1010~ ~ ~ ~N~~~~
+FrailtyAdvancedIllnessDiagExcluded~2014-03-01~99504~E1010~ ~ ~ ~N~~~~
+FrailtyAdvancedIllnessDiagExcluded~2014-03-01~99221~A8100~ ~ ~ ~N~~~~
+FrailtyDementiaRxExcluded~2014-06-01~99221~E1010~ ~ ~ ~N~~~~
+FrailtyDementiaRxExcluded~2014-03-01~99504~E1010~ ~ ~ ~N~~~~
+FrailtyTooYoungIncluded~2014-06-01~99221~E1010~ ~ ~ ~N~~~~
+FrailtyTooYoungIncluded~2014-03-01~99504~E1010~ ~ ~ ~N~~~~
+FrailtyTooYoungIncluded~2014-03-01~99221~A8100~ ~ ~ ~N~~~~
 ;
 run;
 

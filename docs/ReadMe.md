@@ -4,8 +4,7 @@ A set of useful documentation to help guide coding and development of OHA Qualit
 
 ### Links
 
-  * [Oregon Health Authority Landing Page](http://www.oregon.gov/OHA/Pages/index.aspx)
-  * [Office of Health Analytics](http://www.oregon.gov/oha/analytics/Pages/index.aspx)
-  * [Technical Specifications and Guidance Documents for CCO Incentive Measures](http://www.oregon.gov/oha/analytics/Pages/CCO-Baseline-Data.aspx)
-  * [Technical Specifications and Guidance Documents for Hospital Transformation Performance Program](http://www.oregon.gov/oha/analytics/Pages/Hospital-Baseline-Data.aspx)
+  * [Oregon Health Authority Landing Page](https://www.oregon.gov/OHA/Pages/index.aspx)
+  * [Office of Health Analytics](https://www.oregon.gov/oha/hpa/analytics/pages/index.aspx)
+  * [Technical Specifications and Guidance Documents for CCO Incentive Measures](https://www.oregon.gov/oha/HPA/ANALYTICS/Pages/CCO-Metrics.aspx)
   * [CMS eCQM Library](https://www.cms.gov/Regulations-and-Guidance/Legislation/EHRIncentivePrograms/eCQM_Library.html)

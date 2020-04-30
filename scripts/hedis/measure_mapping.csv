@@ -1,7 +1,19 @@
 Measure,Value Set Name,Component
-diabetes_oral_eval,Outpatient,denom_two_visits
-diabetes_oral_eval,Observation,denom_two_visits
-diabetes_oral_eval,Nonacute Inpatient,denom_two_visits
-diabetes_oral_eval,Acute Inpatient,denom_one_visit
-diabetes_oral_eval,Diabetes,denom_diabetes
-diabetes_oral_eval,Diabetes Exclusions,denom_excl_temp
+diabetes_oral_eval,Acute Inpatient,acute_inpatient
+diabetes_oral_eval,Telehealth Modifier,telehealth_modifier
+diabetes_oral_eval,Telehealth POS,telehealth_pos
+diabetes_oral_eval,Outpatient,outpatient
+diabetes_oral_eval,Observation,observation
+diabetes_oral_eval,ED,ed
+diabetes_oral_eval,Nonacute Inpatient,nonacute_inpatient
+diabetes_oral_eval,Diabetes,diabetes
+diabetes_oral_eval,Telephone Visits,telephone_visits
+diabetes_oral_eval,Online Assessments,online_assessments
+diabetes_oral_eval,Hospice Encounter,hospice_encounter
+diabetes_oral_eval,Hospice Intervention,hospice_intervention
+diabetes_oral_eval,Frailty Device,frailty_device
+diabetes_oral_eval,Frailty Diagnosis,frailty_diagnosis
+diabetes_oral_eval,Frailty Encounter,frailty_encounter
+diabetes_oral_eval,Frailty Symptom,frailty_symptom
+diabetes_oral_eval,Advanced Illness,advanced_illness
+diabetes_oral_eval,Diabetes Exclusions,diabetes_exclusions

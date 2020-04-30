@@ -1,2 +1,3 @@
-Measure,Medication List,Component
-diabetes_oral_eval,Diabetes Medications,denom_medication
+Measure,Medication List Name,Component
+diabetes_oral_eval,Diabetes Medications,diabetes_medications
+diabetes_oral_eval,Dementia Medications,dementia_medications

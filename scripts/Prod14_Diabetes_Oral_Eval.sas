@@ -74,6 +74,7 @@ data components;
 			in = medication
 		)
 	;
+	where measure eq "&measure_name.";
 	format source $32.;
 	if hedis then source = 'oha_ref.hedis_codes';
 	else if medication then source = 'oha_ref.medications';

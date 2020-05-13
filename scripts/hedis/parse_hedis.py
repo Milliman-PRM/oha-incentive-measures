@@ -42,7 +42,7 @@ def main() -> int:
         on='Value Set Name',
         how='inner',
     )
-    unique_components = mapped_codes['Value Set Name'].unique()
+    unique_components = mapped_codes[['Value Set Name', 'Measure']].drop_duplicates()
     assert len(unique_components) == len(measure_mapping), 'Some value sets were not found'
 
     code_system_map = {

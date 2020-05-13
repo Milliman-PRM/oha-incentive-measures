@@ -17,3 +17,8 @@ diabetes_oral_eval,Frailty Encounter,frailty_encounter
 diabetes_oral_eval,Frailty Symptom,frailty_symptom
 diabetes_oral_eval,Advanced Illness,advanced_illness
 diabetes_oral_eval,Diabetes Exclusions,diabetes_exclusions
+well_child_visits,Well-Care,well_care
+well_child_visits,Hospice Encounter,hospice_encounter
+well_child_visits,Hospice Intervention,hospice_intervention
+well_child_visits,Telehealth Modifier,telehealth_modifier
+well_child_visits,Telehealth POS,telehealth_pos

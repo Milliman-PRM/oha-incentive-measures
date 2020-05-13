@@ -2,6 +2,9 @@
 
 A non-exhaustive list of what has changed in a more readable form than a commit history.
 
+### v1.6.0
+  - Added measure calculation and supporting files for `Well Child Visits for Ages 3-6`
+
 ### v1.5.0
   - Added testing of reference data compilation as part of CI via `run_tests.bat`
   - Updated calculations to meet 2020 specifications:

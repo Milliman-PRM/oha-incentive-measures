@@ -320,6 +320,32 @@ class DiabetesOralEval(PRMSASTask): # pragma: no cover
             create_folder=True,
         )
 
+class WellChildVisits(PRMSASTask): # pragma: no cover
+    """ Run Prod14_Diabetes_Oral_Eval.sas"""
+    requirements = RequirementsContainer(
+        ImportReferences,
+        staging_membership.DeriveParamsFromMembership,
+        poweruser_detail_datamart.ExportSAS,
+    )
+
+    def output(self):
+        names_output = {
+            'results_well_child_visits.sas7bdat'
+        }
+        return [
+            IndyPyLocalTarget(PRM_META[(150, 'out')] / name)
+            for name in names_output
+            ]
+
+    def run(self):  # pylint: disable=arguments-differ
+        """Run the Luigi job"""
+        program = PATH_SCRIPTS / "Prod15_well_child_visits.sas"
+        super().run(
+            program,
+            path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
+            create_folder=True,
+        )
+
 class InjectCustomMeasures(PRMSASTask):  # pragma: no cover
     """Run prod41_inject_custom_measures.sas"""
 
@@ -332,6 +358,7 @@ class InjectCustomMeasures(PRMSASTask):  # pragma: no cover
         EDVisits,
         EffectiveContraceptive,
         EDVisitsMI,
+        WellChildVisits,
     )
 
     def output(self):

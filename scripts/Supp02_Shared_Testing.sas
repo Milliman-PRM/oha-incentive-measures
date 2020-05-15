@@ -14,6 +14,7 @@
 
 %macro SetupMockLibraries();
 	%MockLibrary(oha_ref, pollute_global=True)
+	%MockLibrary(M025_Out, pollute_global=True)
 	%MockLibrary(M035_Out, pollute_global=True)
 	%MockLibrary(M036_Out, pollute_global=True)
 	%MockLibrary(M073_Out, pollute_global=True)

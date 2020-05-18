@@ -194,9 +194,27 @@ proc sort
 /**** TEST WITH CLEAN ELIG END ****/
 
 %let empirical_elig_date_end = %sysfunc(mdy(12,31,2020));
-%DeleteWorkAndResults()
 %include "%GetParentFolder(0)\prod16_dental_services.sas" / source2;
-%CompareResults()
+
+proc sql;
+	create table mismatches
+	as select
+		actual.member_id
+		,actual.measure
+		,actual.denominator
+		,actual.numerator
+		,expected.anticipated_denominator
+		,expected.anticipated_numerator
+	from measure_presentation_prep as actual
+	full outer join expected_results as expected on
+		actual.member_id eq expected.member_id
+		and actual.measure eq expected.measure
+	where
+		numerator ne anticipated_numerator
+		or denominator ne anticipated_denominator
+	;
+quit;
+%AssertDataSetNotPopulated(mismatches, ReturnMessage=The &Measure_Name. results are not as expected.  Aborting...);
 
 
 %put System Return Code = &syscc.;

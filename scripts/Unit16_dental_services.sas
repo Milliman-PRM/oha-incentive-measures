@@ -22,6 +22,7 @@ options compress = yes;
 /**** SETUP MOCKING ****/
 
 %SetupMockLibraries()
+options set=OHA_INCENTIVE_MEASURES_PATHREF "%sysfunc(pathname(oha_ref))";
 
 data oha_ref.oha_codes;
 	infile datalines delimiter = '~' missover dsd;
@@ -134,7 +135,7 @@ multiple_services_26_to_65~2020-01-01~2020-12-31
 run;
 
 data expected_results;
-	infile dataline delimiter = '~';
+	infile datalines delimiter = '~';
 	input
 		member_id :$40.
 		measure :$32.

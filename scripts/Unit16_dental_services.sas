@@ -118,7 +118,8 @@ data member_time;
         ;
     format date_start date_end :YYMMDDd10.;
 datalines;
-prev_1_to_5~2020-01-01~2020-12-31
+prev_1_to_5~2020-01-01~2020-3-31
+prev_1_to_5~2020-04-01~2020-12-31
 prev_1_to_5_no_cont_elig~2020-01-01~2020-3-31
 prev_1_to_5_no_cont_elig~2020-06-01~2020-8-31
 prev_1_to_5_no_cont_elig~2020-11-01~2020-12-31

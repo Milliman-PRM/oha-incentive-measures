@@ -208,7 +208,7 @@ proc sql;
 					end
 				)
 			else "No qualifying visit"
-			end as comment format = $128. length = 128
+			end as comments format = $128. length = 128
 		,case calculated numerator
 			when 0 then &measure_end.
 			else .

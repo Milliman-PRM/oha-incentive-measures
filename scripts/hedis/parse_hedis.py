@@ -49,6 +49,7 @@ def main() -> int:
         'SNOMED CT US Edition': 'SNOMEDCT',
         'CPT': 'CPT',
         'HCPCS': 'HCPCS',
+        'CPT-CAT-II': 'CPT',
         'ICD10CM': 'ICD10CM-Diag',
         'ICD10PCS': 'ICD10CM-Proc',
         'ICD9CM': 'ICD9CM-Diag',

@@ -23,6 +23,14 @@ libname M030_Out "&M030_Out.";
 %FindICDFieldNames()
 %let Measure_Name = aod_init_engage;
 
+%let intake_period_start = %sysfunc(MDY(1, 1, %sysfunc(year(&measure_start))));
+%let intake_period_end = %sysfunc(MDY(11, 13, %sysfunc(year(&measure_start))));
+%put &=intake_period_start.;
+%put &=intake_period_end.;
+
+%let negative_diagnosis_history_days = 60
+%let direct_transfer_days = le 1
+%let age_stratefication = ge 1
 
 %let path_hedis_components = %sysget(OHA_INCENTIVE_MEASURES_HOME)scripts\hedis\measure_mapping.csv;
 %put &=path_hedis_components.;

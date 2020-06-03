@@ -25,6 +25,7 @@
 
 %macro CompareResults(
 	dset_expected=m150_tmp.member
+	,dset_compare=m150_out.Results_&Measure_Name.
 	);
 	proc sql noprint;
 		create table Unexpected_results as
@@ -33,7 +34,7 @@
 				,coalesce(act.Denominator, 0) as Actual_Denominator
 				,coalesce(act.Numerator, 0) as Actual_Numerator
 		from &dset_expected. as exp
-		left join M150_Out.Results_&Measure_Name. as act
+		left join &dset_compare. as act
 			on exp.member_ID = act.member_ID
 		where 
 			round(exp.anticipated_denominator,.0001) ne round(calculated Actual_Denominator,.0001)

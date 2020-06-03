@@ -25,6 +25,22 @@ options compress = yes;
 
 %SetupMockLibraries()
 
+data oha_ref.hedis_codes;
+	infile datalines delimiter = '~' missover dsd;
+	input
+		Measure :$24.
+		Component :$32.
+		CodeSystem :$16.
+		Code :$16.
+		Grouping_ID :$32.
+		Diag_Type :$16.
+		;
+datalines;
+hosp_excl~hospice_encounter~HCPCS~hosp_enc~~
+hosp_excl~hospice_intervention~CPT~hosp_int~~
+;
+run;
+
 data M150_Tmp.member;
 	infile datalines delimiter='~';
 	input
@@ -35,11 +51,15 @@ data M150_Tmp.member;
 		;
 	format DOB :YYMMDDd10.;
 datalines;
-/* insert member datalines here */
+MrTooYoung~2016-01-01~0~0
+MrHospiceExcludedCPT~1988-01-01~0~0
+MrHospiceExcludedREV~1988-01-01~0~0
+MrIneligibleContinuousEnrollment~1988-01-01~0~0
 ;
 run;
+/* MrBarelyYoungEnough */
 
-data member_time;
+data M150_tmp.member_time;
 	infile datalines delimiter='~';
 	input
 		member_id     :$40.
@@ -48,35 +68,43 @@ data member_time;
 		;
 	format date        :YYMMDDd10.;
 datalines;
-/* insert member_time datalines here */
+MrTooYoung~2014-01-01~2014-12-31
+MrHospiceExcludedCPT~2014-01-01~2014-12-31
+MrHospiceExcludedREV~2014-01-01~2014-12-31
+MrIneligibleContinuousEnrollmentGap~2014-01-01~2014-01-30
+MrIneligibleContinuousEnrollmentGap~2014-03-01~2014-03-30
 ;
 run;
 
-data M150_Tmp.outpharmacy_prm;
-    infile datalines delimiter = '~';
-    input
-        member_id         :$40.
-        prm_fromdate    :YYMMDD10.
-        NDC             :$20.
-        ;
-    format prm_fromdate :YYMMDDd10.;
-datalines;
-/* insert outpharmcy datalines here */
-;
-run;
+/* data M150_Tmp.outpharmacy_prm; */
+/*     infile datalines delimiter = '~'; */
+/*     input */
+/*         member_id         :$40. */
+/*         prm_fromdate    :YYMMDD10. */
+/*         NDC             :$20. */
+/*         ; */
+/*     format prm_fromdate :YYMMDDd10.; */
+/* datalines; */
+/* /1* insert outpharmcy datalines here *1/ */
+/* ; */
+/* run; */
 
 data M150_Tmp.outclaims_prm;
     infile datalines delimiter = '~' dsd;
     input
         Member_ID         :$40.
+	caseadmitid	:$40.
+	ClaimID :$40.
         prm_fromdate    :YYMMDD10.
+	prm_todate	:YYMMDD10.
+	prm_fromdate_case	:YYMMDD10.
+	prm_todate_case	:YYMMDD10.
         HCPCS             :$20.
         ICDDiag1         :$7.
         ICDDiag2         :$7.
         ICDDiag3         :$7.
         RevCode         :$20.
         PRM_Denied_YN     :$1.
-	ClaimID :$40.
 	Modifier :$2.
 	Modifier2 :$2.
 	POS :$2.
@@ -86,14 +114,17 @@ data M150_Tmp.outclaims_prm;
         ICDDiag4-ICDDiag15 $7.;
     ;
 datalines;
-/* insert outclaims_prm datalines here */
+MrTooYoung~TooYoungIndexEp~TYIEClaim1~~~~~~~~~~~~~
+MrHospiceExcludedCPT~hospcptindexep~hecptClaim1~~~~~~~~~~~~~
+MrHospiceExcludedREV~hosprevindexep~herevClaim1~~~~~~~~~~~~~
+MrIneligibleContinuousEnrollmentGap~ineligenrollindexep~iceClaim1~~~~~~~~~~~~~
 ;
 run;
 
 /**** Run the test with clean elig end ****/
 %let empirical_elig_date_end = %sysfunc(mdy(12,31,2014));
 %DeleteWorkAndResults()
-%include "%GetParentFolder()\Prod16_aod_init_engage.sas" / source2;
+%include "%sysget(OHA_INCENTIVE_MEASURES_HOME)\scripts\Prod16_aod_init_engage.sas" / source2;
 %CompareResults()
 
 %put System Return Code = &syscc.;

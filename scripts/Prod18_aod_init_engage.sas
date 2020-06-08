@@ -21,7 +21,7 @@ libname M030_Out "&M030_Out.";
 %CacheWrapperPRM(035,150);
 %CacheWrapperPRM(073,150);
 %FindICDFieldNames()
-%let Measure_Name = aod_init_engage;
+%let Measure_Name = aod;
 
 %let intake_period_start = %sysfunc(MDY(1, 1, %sysfunc(year(&measure_start))));
 %let intake_period_end = %sysfunc(MDY(11, 13, %sysfunc(year(&measure_start))));
@@ -191,8 +191,22 @@ quit;
 /* 	end */
 /* 	as Numerator */
 
+
+
 proc sql;
-	create table M150_Out.Results_&Measure_Name. as
+	create table M150_Out.Results_&Measure_Name._init as
+	select
+		members.Member_ID
+		,0 as Denominator
+		,0 as Numerator
+		,"No Qualifying Visit" as comment format = $128. length = 128
+		,&measure_end as comp_quality_date_actionable format = YYMMDDd10.
+	from members_ge_eighteen as members
+	;
+quit;
+
+proc sql;
+	create table M150_Out.Results_&Measure_Name._engage as
 	select
 		members.Member_ID
 		,0 as Denominator

@@ -46,17 +46,43 @@ data M150_Tmp.member;
 	input
 		member_id :$40.
 		DOB: :YYMMDD10.
-		anticipated_numerator :12.
-		anticipated_denominator :12.
+		anticipated_numerator_init :12.
+		anticipated_denominator_init :12.
+		anticipated_numerator_engage :12.
+		anticipated_denominator_engage :12.
 		;
 	format DOB :YYMMDDd10.;
 datalines;
-MrTooYoung~2016-01-01~0~0
-MrHospiceExcludedCPT~1988-01-01~0~0
-MrHospiceExcludedREV~1988-01-01~0~0
-MrIneligibleContinuousEnrollment~1988-01-01~0~0
+MrTooYoung~2016-01-01~0~0~0~0
+MrHospiceExcludedCPT~1988-01-01~0~0~0~0
+MrHospiceExcludedREV~1988-01-01~0~0~0~0
+MrIneligibleContinuousEnrollment~1988-01-01~0~0~0~0
 ;
 run;
+
+proc sql;
+	create table M150_Tmp.member_init as
+	select
+		members.member_id
+		,members.DOB
+		,members.anticipated_numerator_init as anticipated_numerator
+		,members.anticipated_denominator_init as anticipated_denominator
+	from M150_Tmp.member as members
+	;
+quit;
+
+proc sql;
+	create table M150_Tmp.member_engage as
+	select
+		members.member_id
+		,members.DOB
+		,members.anticipated_numerator_engage as anticipated_numerator
+		,members.anticipated_denominator_engage as anticipated_denominator
+	from M150_Tmp.member as members
+	;
+quit;
+
+
 /* MrBarelyYoungEnough */
 
 data M150_tmp.member_time;
@@ -124,8 +150,9 @@ run;
 /**** Run the test with clean elig end ****/
 %let empirical_elig_date_end = %sysfunc(mdy(12,31,2014));
 %DeleteWorkAndResults()
-%include "%sysget(OHA_INCENTIVE_MEASURES_HOME)\scripts\Prod16_aod_init_engage.sas" / source2;
-%CompareResults()
+%include "%sysget(OHA_INCENTIVE_MEASURES_HOME)\scripts\Prod18_aod_init_engage.sas" / source2;
+%CompareResults(dset_expected=M150_Tmp.member_init,dset_compare=M150_Out.Results_&Measure_Name._init)
+%CompareResults(dset_expected=M150_Tmp.member_engage,dset_compare=M150_Out.Results_&Measure_name._engage)
 
 %put System Return Code = &syscc.;
 

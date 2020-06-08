@@ -32,7 +32,7 @@ libname M030_Out "&M030_Out.";
 
 %let intake_period_minus_sixty = %sysfunc(INTNX(days,&intake_period_start.,&negative_diagnosis_history_days., same));
 %put intake_period_minus_sixty = %sysfunc(putn(&intake_period_minus_sixty, yymmddd10.));
-%let measure_elig_period = (prm_fromdate ge &intake_period_minus_sixty. and prm_fromdate le &intake_period_end.);
+%let measure_elig_period = (prm_fromdate ge &intake_period_minus_sixty. and prm_fromdate le &measure_end.);
 
 %let direct_transfer_days = le 1;
 %let age_stratefication = ge 18;
@@ -117,6 +117,14 @@ proc sql noprint;
 	;
 quit;
 
+proc sql;
+	create table outclaims_elig_period as
+	select
+		claims.*
+	from m150_tmp.outclaims_prm as claims
+	where &measure_elig_period.
+	;
+quit;
 
 proc sql;
     create table members_ge_eighteen as
@@ -136,7 +144,7 @@ proc sql;
     create view outclaims_prm as
     select
         claims.*
-    from m150_tmp.outclaims_prm as claims
+    from outclaims_elig_period as claims
     inner join members_ge_eighteen as ge_eighteen
     on ge_eighteen.member_id = claims.member_id
     where ge_eighteen.age_elig_flag = 1
@@ -153,6 +161,7 @@ proc sql;
 quit;
 
 %put &=measure_elig_period.;
+
 
 /* %macro flag_denom; */
 /* proc sql; */
@@ -173,7 +182,6 @@ quit;
 
 /* 		%end; */
 /*     from outclaims_prm */
-/*     where &measure_elig_period. */
 /*     ; */
 /* quit; */
 /* %mend flag_denom; */

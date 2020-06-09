@@ -22,3 +22,21 @@ well_child_visits,Hospice Encounter,hospice_encounter
 well_child_visits,Hospice Intervention,hospice_intervention
 well_child_visits,Telehealth Modifier,telehealth_modifier
 well_child_visits,Telehealth POS,telehealth_pos
+aod_init_engage,Alcohol Abuse and Dependence,alc_abuse_dependence
+aod_init_engage,AOD Abuse and Dependence,aod_abuse_dependence
+aod_init_engage,AOD Medication Treatment,aod_med_treatment
+aod_init_engage,Detoxification,detox
+aod_init_engage,ED,ED
+aod_init_engage,IET Visits Group 1,iet_visits_grp_1
+aod_init_engage,IET POS Group 1,iet_pos_grp_1
+aod_init_engage,IET Visits Group 2,iet_visits_grp_2
+aod_init_engage,IET POS Group 2,iet_pos_grp_2
+aod_init_engage,IET Stand Alone Visits,iet_standalone_visits
+aod_init_engage,Inpatient Stay,ip_stay
+aod_init_engage,Observation,observation
+aod_init_engage,Online Assessments,online_assessments
+aod_init_engage,Opioid Abuse and Dependence,opioid_abuse_dependence
+aod_init_engage,Other Drug Abuse and Dependence,other_abuse_dependence
+aod_init_engage,Telephone Visits,telephone_visits
+hosp_excl,Hospice Encounter,hospice_encounter
+hosp_excl,Hospice Intervention,hospice_intervention

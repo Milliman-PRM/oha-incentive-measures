@@ -1,3 +1,5 @@
 Measure,Medication List Name,Component
 diabetes_oral_eval,Diabetes Medications,diabetes_medications
 diabetes_oral_eval,Dementia Medications,dementia_medications
+aod_init_engage,Alcohol Use Disorder Treatment Medications,alcohol_treatment_meds
+aod_init_engage,Opioid Use Disorder Treatment Medications,opioid_treatment_meds

@@ -163,30 +163,59 @@ quit;
 %put &=measure_elig_period.;
 
 
-/* %macro flag_denom; */
-/* proc sql; */
-/*     create table denom_flags as */
-/*     select */
-/*         member_id */
-/*         ,prm_fromdate */
-/* 		,claimid */
-/* 		%let component_cnt = %eval(%sysfunc(countc(&list_components.,%str(~))) + 1); */
-/* 		%do i_component = 1 %to &component_cnt.; */
-/* 			%let component_current = %scan(&list_components.,&i_component.,%str(~)); */
-/* 	        ,case */
-/* 	            when (&&filter_&component_current.) */
-/* 	            then 1 */
-/* 	            else 0 */
-/* 	            end */
-/* 	            as &component_current. */
+%macro flag_denom;
+proc sql;
+    create table denom_flags as
+    select
+        member_id
+        ,prm_fromdate
+		,claimid
+		%let component_cnt = %eval(%sysfunc(countc(&list_components.,%str(~))) + 1);
+		%do i_component = 1 %to &component_cnt.;
+			%let component_current = %scan(&list_components.,&i_component.,%str(~));
+	        ,case
+	            when (&&filter_&component_current.)
+	            then 1
+	            else 0
+	            end
+	            as &component_current.
 
-/* 		%end; */
-/*     from outclaims_prm */
-/*     ; */
-/* quit; */
-/* %mend flag_denom; */
+		%end;
+    from outclaims_prm
+    ;
+quit;
+%mend flag_denom;
 
-/* %flag_denom; */
+%flag_denom;
+		
+proc sql noprint;
+	select
+		name
+	into
+		:orig_flags_list separated by ' '
+	from
+		sashelp.vcolumn
+	where
+		lowcase(memname) eq 'denom_flags'
+		and lowcase(type) eq 'num'
+		and lowcase(name) ne 'prm_fromdate'
+	;
+quit;
+%put &=orig_flags_list.;
+
+proc summary nway missing
+	data = denom_flags;
+	class
+		member_id
+		prm_fromdate
+		claimid
+	;
+	var &orig_flags_list.;
+	output
+		out=denom_flags_claims (drop = _type_ _freq_)
+		max=
+	;
+run;
 /* %put &=filter_detox.; */
 /* ,case */
 /* 	when denom.denom_included_yn eq 'Y' then 1 */

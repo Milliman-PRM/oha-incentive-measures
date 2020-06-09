@@ -1,7 +1,7 @@
 /*
 ### CODE OWNERS: Chas Busenburg
 
-### OBJECTIVE:
+## OBJECTIVE:
 	Tes the Initiation and engagement of Alcohol and Drug abuse measure
 
 ### DEVELOPER NOTES:
@@ -24,22 +24,6 @@ options compress = yes;
 /**** SETUP MOCKING ****/
 
 %SetupMockLibraries()
-
-data oha_ref.hedis_codes;
-	infile datalines delimiter = '~' missover dsd;
-	input
-		Measure :$24.
-		Component :$32.
-		CodeSystem :$16.
-		Code :$16.
-		Grouping_ID :$32.
-		Diag_Type :$16.
-		;
-datalines;
-hosp_excl~hospice_encounter~HCPCS~hosp_enc~~
-hosp_excl~hospice_intervention~CPT~hosp_int~~
-;
-run;
 
 data M150_Tmp.member;
 	infile datalines delimiter='~';
@@ -131,6 +115,9 @@ data M150_Tmp.outclaims_prm;
         ICDDiag1         :$7.
         ICDDiag2         :$7.
         ICDDiag3         :$7.
+	ICDProc1	:$7.
+	ICDProc2	:$7.
+	ICDProc3	:$7.
         RevCode         :$20.
         PRM_Denied_YN     :$1.
 	Modifier :$2.
@@ -139,7 +126,8 @@ data M150_Tmp.outclaims_prm;
         ;
     format
         prm_fromdate     YYMMDDd10.
-        ICDDiag4-ICDDiag15 $7.;
+        ICDDiag4-ICDDiag15 $7.
+	ICDProc4-ICDProc15 $7.;
     ;
 datalines;
 MrGood~GoodIndexEp~~~~~~~~~~~~~~

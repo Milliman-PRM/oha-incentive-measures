@@ -133,8 +133,8 @@ proc sql;
 		,floor(yrdif(dob, &measure_end., "age")) as age
         ,case
             when floor(yrdif(dob, &measure_end., "age")) &age_stratefication.
-            then 1
-            else 0
+            then "Y"
+            else "N"
             end
             as age_elig_flag
     from m150_tmp.member
@@ -147,7 +147,7 @@ proc sql;
     from outclaims_elig_period as claims
     inner join members_ge_eighteen as ge_eighteen
     on ge_eighteen.member_id = claims.member_id
-    where ge_eighteen.age_elig_flag = 1
+    where ge_eighteen.age_elig_flag = "Y"
     ;
 
     create view outpharmacy_prm as
@@ -156,7 +156,7 @@ proc sql;
     from m150_tmp.outpharmacy_prm as claims
     inner join members_ge_eighteen as ge_eighteen
     on ge_eighteen.member_id = claims.member_id
-    where ge_eighteen.age_elig_flag = 1
+    where ge_eighteen.age_elig_flag = "N"
     ;
 quit;
 
@@ -198,29 +198,73 @@ quit;
 /* 	else 0 */
 /* 	end */
 /* 	as Numerator */
+proc sql;
+	create table qualifying_visits as
+	select
+		members.member_id
+		,'Y' as numer_included_yn
+		,'Y' as denom_included_yn
+		
+	from members_ge_eighteen as members
+	where members.age_elig_flag eq "Y"
+	;
+quit;
 
+proc sql;
+	create table members_with_flags_init as
+	select visits.*
+	from m150_tmp.member as members
+	left join qualifying_visits as visits on 
+		members.member_id eq visits.member_id
+	;
+quit;
 
+proc sql;
+	create table members_with_flags_engage as
+	select visits.*
+	from m150_tmp.member as members
+	left join qualifying_visits as visits on 
+		members.member_id eq visits.member_id
+	;
+quit;
+		
 
 proc sql;
 	create table M150_Out.Results_&Measure_Name._init as
 	select
-		members.Member_ID
-		,0 as Denominator
-		,0 as Numerator
+		members_init.Member_ID
+		,case
+			when members_init.numer_included_yn eq 'Y' then 1
+			else 0
+			end
+			as Numerator
+		,case
+			when members_init.denom_included_yn eq 'Y' then 1
+			else 0
+			end
+			as Denominator
 		,"No Qualifying Visit" as comment format = $128. length = 128
 		,&measure_end as comp_quality_date_actionable format = YYMMDDd10.
-	from members_ge_eighteen as members
+	from members_with_flags_init as members_init
 	;
 quit;
 
 proc sql;
 	create table M150_Out.Results_&Measure_Name._engage as
 	select
-		members.Member_ID
-		,0 as Denominator
-		,0 as Numerator
+		members_engage.Member_ID
+		,case
+			when members_engage.numer_included_yn eq 'Y' then 1
+			else 0
+			end
+			as Numerator
+		,case
+			when members_engage.denom_included_yn eq 'Y' then 1
+			else 0
+			end
+			as Denominator
 		,"No Qualifying Visit" as comment format = $128. length = 128
 		,&measure_end as comp_quality_date_actionable format = YYMMDDd10.
-	from members_ge_eighteen as members
+	from members_with_flags_engage as members_engage
 	;
 quit;

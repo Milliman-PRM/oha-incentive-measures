@@ -53,12 +53,13 @@ data M150_Tmp.member;
 		;
 	format DOB :YYMMDDd10.;
 datalines;
+MrGood~1988-01-01~1~1~1~1
 MrTooYoung~2016-01-01~0~0~0~0
-MrHospiceExcludedCPT~1988-01-01~0~0~0~0
-MrHospiceExcludedREV~1988-01-01~0~0~0~0
-MrIneligibleContinuousEnrollment~1988-01-01~0~0~0~0
 ;
 run;
+/* MrHospiceExcludedCPT~1988-01-01~0~0~0~0 */
+/* MrHospiceExcludedREV~1988-01-01~0~0~0~0 */
+/* MrIneligibleContinuousEnrollment~1988-01-01~0~0~0~0 */
 
 proc sql;
 	create table M150_Tmp.member_init as
@@ -94,13 +95,14 @@ data M150_tmp.member_time;
 		;
 	format date        :YYMMDDd10.;
 datalines;
+MrGood~2014-01-01~2014-12-31
 MrTooYoung~2014-01-01~2014-12-31
-MrHospiceExcludedCPT~2014-01-01~2014-12-31
-MrHospiceExcludedREV~2014-01-01~2014-12-31
-MrIneligibleContinuousEnrollmentGap~2014-01-01~2014-01-30
-MrIneligibleContinuousEnrollmentGap~2014-03-01~2014-03-30
 ;
 run;
+/* MrHospiceExcludedCPT~2014-01-01~2014-12-31 */
+/* MrHospiceExcludedREV~2014-01-01~2014-12-31 */
+/* MrIneligibleContinuousEnrollmentGap~2014-01-01~2014-01-30 */
+/* MrIneligibleContinuousEnrollmentGap~2014-03-01~2014-03-30 */
 
 /* data M150_Tmp.outpharmacy_prm; */
 /*     infile datalines delimiter = '~'; */
@@ -140,12 +142,13 @@ data M150_Tmp.outclaims_prm;
         ICDDiag4-ICDDiag15 $7.;
     ;
 datalines;
+MrGood~GoodIndexEp~~~~~~~~~~~~~~
 MrTooYoung~TooYoungIndexEp~TYIEClaim1~~~~~~~~~~~~~
-MrHospiceExcludedCPT~hospcptindexep~hecptClaim1~~~~~~~~~~~~~
-MrHospiceExcludedREV~hosprevindexep~herevClaim1~~~~~~~~~~~~~
-MrIneligibleContinuousEnrollmentGap~ineligenrollindexep~iceClaim1~~~~~~~~~~~~~
 ;
 run;
+/* MrHospiceExcludedCPT~hospcptindexep~hecptClaim1~~~~~~~~~~~~~ */
+/* MrHospiceExcludedREV~hosprevindexep~herevClaim1~~~~~~~~~~~~~ */
+/* MrIneligibleContinuousEnrollmentGap~ineligenrollindexep~iceClaim1~~~~~~~~~~~~~ */
 
 /**** Run the test with clean elig end ****/
 %let empirical_elig_date_end = %sysfunc(mdy(12,31,2014));

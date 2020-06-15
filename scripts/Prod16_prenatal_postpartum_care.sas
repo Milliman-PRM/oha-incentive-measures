@@ -105,13 +105,12 @@ proc sql;
 	create table deliveries
 	as select distinct
 		member_id
-		,admitdate
-		,dischdate
+		,prm_todate
 	from m150_tmp.outclaims_prm
 	where 
 		(&filter_deliveries.)
-		and admitdate ge &intake_period_start.
-		and admitdate le &intake_period_end.
+		and prm_todate ge &intake_period_start.
+		and prm_todate le &intake_period_end.
 	;
 quit;
 

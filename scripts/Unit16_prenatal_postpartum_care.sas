@@ -29,22 +29,34 @@ data M150_Tmp.member;
     infile datalines delimiter = '~';
     input
         Member_ID :$40.
+        measure :$32.
         anticipated_numerator :12.
         anticipated_denominator :12.
         ;
     format DOB :YYMMDDd10.;
 datalines;
-no_birth~0~0
-denom_birth_only~0~1
-denom_excl_non_live_birth~0~0
-denom_excl_cont_enroll~0~0
-denom_excl_hospice~0~0
-denom_several_claims~0~0
-prenatal_care_219_280_days~1~1
-prenatal_care_lt_219_days~1~1
-postpartum_care~1~1
-postpartum_care_ip_excl~1~1
-both_numerators~1~1
+no_birth~prenatal_care~0~0
+no_birth~postpartum_care~0~0
+denom_birth_only~prenatal_care~0~1
+denom_birth_only~postpartum_care~0~1
+denom_excl_non_live_birth~prenatal_care~0~0
+denom_excl_non_live_birth~postpartum_care~0~0
+denom_excl_cont_enroll~prenatal_care~0~0
+denom_excl_cont_enroll~postpartum_care~0~0
+denom_excl_hospice~prenatal_care~0~0
+denom_excl_hospice~postpartum_care~0~0
+denom_several_claims~prenatal_care~0~1
+denom_several_claims~postpartum_care~0~1
+prenatal_care_219_280_days~prenatal_care~1~1
+prenatal_care_219_280_days~postpartum_care~0~1
+prenatal_care_lt_219_days~prenatal_care~1~1
+prenatal_care_lt_219_days~postpartum_care~0~1
+postpartum_care~prenatal_care~0~1
+postpartum_care~postpartum_care~1~1
+postpartum_care_ip_excl~prenatal_care~0~1
+postpartum_care_ip_excl~postpartum_care~0~1
+both_numerators~prenatal_care~1~1
+both_numerators~postpartum_care~1~1
 ;
 run;
 
@@ -72,6 +84,15 @@ denom_several_claims~2013-01-01~2013-12-31
 denom_several_claims~2014-01-01~2014-12-31
 prenatal_care_219_280_days~2013-01-01~2013-12-31
 prenatal_care_219_280_days~2014-01-01~2014-12-31
+prenatal_care_lt_219_days~2013-01-01~2013-05-31
+prenatal_care_lt_219_days~2013-12-01~2013-12-31
+prenatal_care_lt_219_days~2014-01-01~2014-12-31
+postpartum_care~2013-01-01~2013-12-31
+postpartum_care~2014-01-01~2014-12-31
+postpartum_care_ip_excl~2013-01-01~2013-12-31
+postpartum_care_ip_excl~2014-01-01~2014-12-31
+both_numerators~2013-01-01~2013-12-31
+both_numerators~2014-01-01~2014-12-31
 ;
 run;
 
@@ -85,6 +106,21 @@ proc sort
     ;
     run
     ;
+
+/* DEV TOOL FOR FINDING THE FIRST CODE IN EACH COMPONENT */
+/*
+	libname oha_ref "%sysget(OHA_INCENTIVE_MEASURES_PATHREF)" access=readonly;
+	proc sort nodupkey
+	data=oha_ref.hedis_codes
+	out = first_code
+	;
+	by
+		measure
+		component
+	;
+	where measure eq "prenatal_postpartum_care";
+run;
+*/
 
 data M150_Tmp.outclaims_prm;
     infile datalines delimiter = '~' dsd;
@@ -103,19 +139,29 @@ data M150_Tmp.outclaims_prm;
         ICDProc3 :$7.
         ;
     format
-        prm_fromdate     YYMMDDd10.
+        prm_fromdate YYMMDDd10.
+        prm_todate YYMMDDd10.
     ;
 datalines;
 denom_birth_only~2014-04-20~2014-04-25~59400~~~~~~~~
-denom_excl_non_live_birth~2014-04-20~2014-04-25~59400~~~~~~~~
+denom_excl_non_live_birth~2014-04-20~2014-04-25~59400~~~O000~~~~~
 denom_excl_cont_enroll~2014-04-20~2014-04-25~59400~~~~~~~~
 denom_excl_hospice~2014-04-20~2014-04-25~59400~~~~~~~~
-denom_several_claims~2014-04-20~2014-04-25~59400~~~~~~~~
+denom_excl_hospice~2014-09-20~2014-09-25~G9473~~~~~~~~
+denom_several_claims~2014-04-23~2014-04-23~59400~~~~~~~~
+denom_several_claims~2014-04-24~2014-04-24~59400~~~~~~~~
+denom_several_claims~2014-04-20~2014-04-30~59400~~~~~~10D00Z0~~
 prenatal_care_219_280_days~2014-04-20~2014-04-25~59400~~~~~~~~
+prenatal_care_219_280_days~2013-08-15~2013-08-15~99201~~~O0900~~~~~
 prenatal_care_lt_219_days~2014-04-20~2014-04-25~59400~~~~~~~~
+prenatal_care_lt_219_days~2013-12-22~2014-12-22~99201~~~O0900~~~~~
 postpartum_care~2014-04-20~2014-04-25~59400~~~~~~~~
+postpartum_care~2014-05-20~2014-05-20~57170~~~~~~~~
 postpartum_care_ip_excl~2014-04-20~2014-04-25~59400~~~~~~~~
+postpartum_care_ip_excl~2014-05-20~2014-05-20~57170~~21~~~~~~
 both_numerators~2014-04-20~2014-04-25~59400~~~~~~~~
+both_numerators~2013-08-15~2013-08-15~99201~~~O0900~~~~~
+both_numerators~2014-05-20~2014-05-20~57170~~~~~~~~
 ;
 run;
 

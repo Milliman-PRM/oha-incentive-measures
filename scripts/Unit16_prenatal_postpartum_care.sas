@@ -47,6 +47,8 @@ denom_excl_hospice~prenatal_care~0~0
 denom_excl_hospice~postpartum_care~0~0
 denom_several_claims~prenatal_care~0~1
 denom_several_claims~postpartum_care~0~1
+denom_multiple_births~prenatal_care~0~2
+denom_multiple_births~postpartum_care~0~2
 prenatal_care_219_280_days~prenatal_care~1~1
 prenatal_care_219_280_days~postpartum_care~0~1
 prenatal_care_lt_219_days~prenatal_care~1~1
@@ -82,6 +84,8 @@ denom_excl_hospice~2013-01-01~2013-12-31
 denom_excl_hospice~2014-01-01~2014-12-31
 denom_several_claims~2013-01-01~2013-12-31
 denom_several_claims~2014-01-01~2014-12-31
+denom_multiple_births~2013-01-01~2013-12-31
+denom_multiple_births~2014-01-01~2014-12-31
 prenatal_care_219_280_days~2013-01-01~2013-12-31
 prenatal_care_219_280_days~2014-01-01~2014-12-31
 prenatal_care_lt_219_days~2013-01-01~2013-05-31
@@ -96,8 +100,17 @@ both_numerators~2014-01-01~2014-12-31
 ;
 run;
 
+data member_time_cover_medical;
+	set member_time;
+
+	format
+		cover_medical $1.
+	;
+	cover_medical = 'Y';
+run;
+
 proc sort
-    data = member_time
+    data = member_time_cover_medical
     out = M150_Tmp.member_time
     ;
     by
@@ -151,6 +164,12 @@ denom_excl_hospice~2014-09-20~2014-09-25~G9473~~~~~~~~
 denom_several_claims~2014-04-23~2014-04-23~59400~~~~~~~~
 denom_several_claims~2014-04-24~2014-04-24~59400~~~~~~~~
 denom_several_claims~2014-04-20~2014-04-30~59400~~~~~~10D00Z0~~
+denom_multiple_births~2013-10-23~2013-10-23~59400~~~~~~~~
+denom_multiple_births~2013-10-24~2013-10-24~59400~~~~~~~~
+denom_multiple_births~2013-10-20~2013-10-30~59400~~~~~~10D00Z0~~
+denom_multiple_births~2014-09-23~2014-09-23~59400~~~~~~~~
+denom_multiple_births~2014-09-24~2014-09-24~59400~~~~~~~~
+denom_multiple_births~2014-09-20~2014-09-30~59400~~~~~~10D00Z0~~
 prenatal_care_219_280_days~2014-04-20~2014-04-25~59400~~~~~~~~
 prenatal_care_219_280_days~2013-08-15~2013-08-15~99201~~~O0900~~~~~
 prenatal_care_lt_219_days~2014-04-20~2014-04-25~59400~~~~~~~~

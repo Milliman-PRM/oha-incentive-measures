@@ -101,17 +101,163 @@ data _null_;
 	call execute(macro_call);
 run;
 
+proc sql noprint;
+	select
+		component
+	into
+		:list_components separated by '~'
+	from components
+	;
+quit;
+%put &=list_components;
+
+%macro flag_denom;
+proc sql;
+    create table denom_flags as
+    select
+        member_id
+        ,prm_fromdate
+		,prm_todate
+		%let component_cnt = %eval(%sysfunc(countc(&list_components.,%str(~))) + 1);
+		%do i_component = 1 %to &component_cnt.;
+			%let component_current = %scan(&list_components.,&i_component.,%str(~));
+	        ,case
+	            when (&&filter_&component_current.)
+	            then 1
+	            else 0
+	            end
+	            as &component_current.
+
+		%end;
+    from m150_tmp.outclaims_prm
+    ;
+quit;
+%mend flag_denom;
+%flag_denom;
+
 proc sql;
 	create table deliveries
 	as select distinct
 		member_id
+		,prm_fromdate
 		,prm_todate
-	from m150_tmp.outclaims_prm
+		,prm_todate + 60 as delivery_window_end format = yymmddd10.
+	from denom_flags
 	where 
-		(&filter_deliveries.)
+		deliveries eq 1
 		and prm_todate ge &intake_period_start.
 		and prm_todate le &intake_period_end.
+	order by
+		member_id
+		,prm_fromdate
+		,prm_todate
 	;
 quit;
 
+data delivery_ids;
+	set deliveries;
+	by
+		member_id
+		prm_fromdate
+		prm_todate
+	;
+
+	format
+		delivery_id 12.
+		retain_window_end yymmddd10.
+	;
+	retain
+		delivery_id
+		retain_window_end
+	;
+	if first.member_id then do;
+		delivery_id = 0;
+		retain_window_end = delivery_window_end;
+	end;
+
+	if (
+		not first.member_id
+		and prm_todate gt retain_window_end
+	)
+	then do;
+		delivery_id = delivery_id + 1;
+		retain_window_end = delivery_window_end;
+	end;
+run;
+
+proc summary nway missing
+	data = delivery_ids;
+	class
+		member_id
+		delivery_id
+	;
+	var
+		prm_todate
+	;
+	output
+		out = delivery_dates (rename = (prm_todate = delivery_date))
+		max=
+	;
+run;
+
+data cont_enroll_deliveries;
+	set delivery_dates;
+
+	format
+		ce_start_date yymmddd10.
+		ce_end_date yymmddd10.
+	;
+	ce_start_date = prm_todate - 43;
+	ce_end_date = prm_todate + 60;
+run;
+
+proc sql;
+	create table delivery_member_time
+	as select
+		deliveries.*
+		,member_time.date_start
+		,member_time.date_end
+	from cont_enroll_deliveries as deliveries
+	left join m150_tmp.member_time on
+		deliveries.member_id eq member_time.member_id
+	where
+		member_time.cover_medical eq 'Y'
+	order by
+		deliveries.member_id
+		,deliveries.delivery_date
+		,member_time.date_start
+	;
+quit;
+
+%FindEligGaps(
+	delivery_member_time
+	,delivery_elig_gaps
+	,varname_member_date_start=ce_start_date
+	,varname_member_date_end=ce_end_date
+	,extra_by_variables=delivery_date
+);
+
+proc sql;
+	create table denom_delivery_gaps
+	as select
+		denom.*
+		,delivery.delivery_date
+		,delivery.gap_cnt
+	from denom_flags as denom
+	left join delivery_elig_gaps as delivery on
+		denom.member_id eq delivery.member_id
+	;
+quit;
+
+
+data denom_derived_flags;
+	set denom_flags;
+
+	format
+		live_birth 12.
+		prenatal_visit 12.
+		postpartum_visit 12.
+		hospice 12.
+	;
+run;
 %put System Return Code = &syscc.;

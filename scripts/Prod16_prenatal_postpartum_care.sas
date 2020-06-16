@@ -358,7 +358,7 @@ data prenatal_postpartum_dates;
 
 	else do;
 		prenatal_care_start_date = delivery_date - 280;
-		prenatal_care_end_date = delivery_date - 219;
+		prenatal_care_end_date = delivery_date - 176;
 	end;
 
 

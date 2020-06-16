@@ -282,6 +282,53 @@ proc sql;
 	;
 quit;
 
+data last_enrollment_segment;
+	set delivery_member_time;
+	by
+		member_id
+		delivery_date
+		date_start
+	;
+	format
+		enrollment_segment_id 12.
+		last_date_end yymmddd10.
+	;
+	retain
+		enrollment_segment_id
+		last_date_end
+	;
+	if first.delivery_date then do;
+		enrollment_segment_id = 0;
+		last_date_end = .;
+	end;
+
+	if (
+		not first.delivery_date
+		and (date_start - last_date_end) ne 1
+	)
+	then enrollment_segment_id = enrollment_segment_id + 1;
+
+	last_date_end = date_end;
+run;
+
+proc summary nway missing
+	data = last_enrollment_segment;
+	class
+		member_id
+		delivery_date
+		enrollment_segment_id
+	;
+	var
+		date_start
+		date_end
+	;
+	output
+		out = enrollment_segment_windows
+		min(date_start)=enrollment_segment_start
+		max(date_end)=enrollment_segment_end
+	;
+run;
+
 %FindEligGaps(
 	delivery_member_time
 	,delivery_elig_gaps
@@ -291,14 +338,78 @@ quit;
 );
 
 proc sql;
+	create table prenatal_last_enrollment_prep
+	as select
+		delivery.*
+		,delivery.delivery_date - 280 as prenatal_start_date format = yymmddd10.
+		,enroll.enrollment_segment_start
+		,enroll.enrollment_segment_end
+	from delivery_elig_gaps as delivery
+	left join enrollment_segment_windows as enroll on
+		delivery.member_id eq enroll.member_id
+		and delivery.delivery_date eq enroll.delivery_date
+	where
+		enroll.enrollment_segment_start le delivery.delivery_date
+		and enroll.enrollment_segment_end ge calculated prenatal_start_date
+	order by
+		delivery.member_id
+		,delivery.delivery_date
+		,enroll.enrollment_segment_start
+	;
+quit;
+
+data prenatal_postpartum_dates;
+	set prenatal_last_enrollment_prep;
+	by
+		member_id
+		delivery_date
+		enrollment_segment_start
+	;
+	if last.delivery_date;
+
+	format
+		prenatal_care_start_date yymmddd10.
+		prenatal_care_end_date yymmddd10.
+	;
+
+	if (
+		(delivery_date - enrollment_segment_start) le 219
+	)
+	then do;
+		prenatal_care_start_date = enrollment_segment_start;
+		prenatal_care_end_date = enrollment_segment_start + 42;
+	end;
+
+	else do;
+		prenatal_care_start_date = delivery_date - 280;
+		prenatal_care_end_date = delivery_date - 219;
+	end;
+
+
+	format
+		postpartum_care_start_date yymmddd10.
+		postpartum_care_end_date yymmddd10.
+	;
+	postpartum_care_start_date = delivery_date + 7;
+	postpartum_care_end_date = delivery_date + 84;
+run;
+
+proc sql;
 	create table denom_delivery_gaps
 	as select
 		denom.*
 		,delivery.delivery_date
 		,delivery.gap_cnt
+		,dates.prenatal_care_start_date
+		,dates.prenatal_care_end_date
+		,dates.postpartum_care_start_date
+		,dates.postpartum_care_end_date
 	from denom_flags as denom
 	left join delivery_elig_gaps as delivery on
 		denom.member_id eq delivery.member_id
+	left join prenatal_postpartum_dates as dates on
+		denom.member_id eq dates.member_id
+		and delivery.delivery_date eq dates.delivery_date
 	;
 quit;
 

@@ -164,30 +164,6 @@ data pregnancy_diags;
 run;
 %AssertNoNulls(pregnancy_diags, icdversion);
 
-data denom_pregnancy_flag;
-	set denom_flags;
-
-	call missing(pregnancy_diagnosis);
-	if _n_ = 1 then do;
- 		declare hash hash_diag (dataset:  "pregnancy_diags", duplicate:  "ERROR");
- 		rc_diag = hash_diag.DefineKey("code", "icdversion");
- 		rc_diag = hash_diag.DefineData("pregnancy_diagnosis");
- 		rc_diag = hash_diag.DefineDone();
- 	end;
-
- 	/*Hash on diag*/
-	array icddiags icddiag:;
-
- 	do over icddiags;
- 		if icddiags ne "" then do;
- 			code = icddiags;
- 			rc_diag = hash_diag.find();
- 		end;
- 	end;
-
-	pregnancy_diagnosis = coalesce(pregnancy_diagnosis, 0);
-run;
-
 proc sql;
 	create table deliveries
 	as select distinct
@@ -260,8 +236,8 @@ data cont_enroll_deliveries;
 		ce_start_date yymmddd10.
 		ce_end_date yymmddd10.
 	;
-	ce_start_date = prm_todate - 43;
-	ce_end_date = prm_todate + 60;
+	ce_start_date = delivery_date - 43;
+	ce_end_date = delivery_date + 60;
 run;
 
 proc sql;
@@ -394,6 +370,30 @@ data prenatal_postpartum_dates;
 	postpartum_care_end_date = delivery_date + 84;
 run;
 
+data denom_pregnancy_flag;
+	set denom_flags;
+
+	call missing(pregnancy_diagnosis);
+	if _n_ = 1 then do;
+ 		declare hash hash_diag (dataset:  "pregnancy_diags", duplicate:  "ERROR");
+ 		rc_diag = hash_diag.DefineKey("code", "icdversion");
+ 		rc_diag = hash_diag.DefineData("pregnancy_diagnosis");
+ 		rc_diag = hash_diag.DefineDone();
+ 	end;
+
+ 	/*Hash on diag*/
+	array icddiags icddiag:;
+
+ 	do over icddiags;
+ 		if icddiags ne "" then do;
+ 			code = icddiags;
+ 			rc_diag = hash_diag.find();
+ 		end;
+ 	end;
+
+	pregnancy_diagnosis = coalesce(pregnancy_diagnosis, 0);
+run;
+
 proc sql;
 	create table denom_delivery_gaps
 	as select
@@ -404,7 +404,7 @@ proc sql;
 		,dates.prenatal_care_end_date
 		,dates.postpartum_care_start_date
 		,dates.postpartum_care_end_date
-	from denom_flags as denom
+	from denom_pregnancy_flag as denom
 	left join delivery_elig_gaps as delivery on
 		denom.member_id eq delivery.member_id
 	left join prenatal_postpartum_dates as dates on
@@ -415,13 +415,170 @@ quit;
 
 
 data denom_derived_flags;
-	set denom_flags;
+	set denom_delivery_gaps;
 
 	format
-		live_birth 12.
+		denom_non_live_births 12.
 		prenatal_visit 12.
 		postpartum_visit 12.
+		numerator_prenatal_visit 12.
+		numerator_postpartum_visit 12.
 		hospice 12.
 	;
+	if (
+		non_live_births
+		and (
+			prm_todate ge (delivery_date - 10)
+			or prm_todate le (delivery_date + 10)
+		)
+	)
+	then denom_non_live_births = 1;
+	else denom_non_live_births = 0;
+
+	if (
+		prenatal_bundled
+		or standalone_prenatal
+		or (prenatal_visits and pregnancy_diagnosis)
+	)
+	then prenatal_visit = 1;
+	else prenatal_visit = 0;
+
+	if (
+		(
+			postpartum_visits
+			or cervical_cytology_lab
+/*			or cervical_cytology_result*/
+			or postpartum_bundled
+		)
+		and not (
+			acute_inpatient
+			or acute_inpatient_pos
+		)
+	)
+	then postpartum_visit = 1;
+	else postpartum_visit = 0;
+
+	if (
+		prenatal_visit
+		and prm_todate ge prenatal_care_start_date
+		and prm_todate le prenatal_care_end_date
+	)
+	then numerator_prenatal_visit = 1;
+	else numerator_prenatal_visit = 0;
+
+	if (
+		postpartum_visit
+		and prm_todate ge postpartum_care_start_date
+		and prm_todate le postpartum_care_end_date
+	)
+	then numerator_postpartum_visit = 1;
+	else numerator_postpartum_visit = 0;
+
+	if (
+		hospice_encounter
+		or hospice_intervention
+	)
+	then hospice = 1;
+	else hospice = 0;
+
 run;
+
+proc summary nway missing
+	data = denom_derived_flags;
+	class
+		member_id
+		delivery_date
+	;
+	var
+		denom_non_live_births
+		numerator_prenatal_visit
+		numerator_postpartum_visit
+		hospice
+	;
+	output
+		out = summ_denom_flags
+		max=
+	;
+run;
+
+proc sql;
+	create table measure_results
+	as select
+		denom.*
+		,results.denom_non_live_births
+		,results.numerator_prenatal_visit
+		,results.numerator_postpartum_visit
+		,results.hospice
+	from prenatal_postpartum_dates as denom
+	left join summ_denom_flags as results on
+		denom.member_id eq results.member_id
+		and denom.delivery_date eq results.delivery_date
+	;
+quit;
+
+data measure_results_long;
+	set measure_results;
+
+	format
+		denominator 12.
+	;
+
+	if (
+		denom_non_live_births
+		or gap_cnt
+		or hospice
+	)
+	then denominator = 0;
+	else denominator = 1;
+
+	format
+		measure $32.
+		numerator 12.
+	;
+	measure = 'prenatal_care';
+	numerator = coalesce(numerator_prenatal_visit, 0);
+	output;
+
+	measure = 'postpartum_care';
+	numerator = coalesce(numerator_postpartum_visit, 0);
+	output;
+run;
+
+proc summary nway missing
+	data = measure_results_long;
+	class
+		member_id
+		measure
+	;
+	var
+		denominator
+		numerator
+	;
+	output
+		out = measure_results_summ (drop = _type_ _freq_)
+		sum=
+	;
+run;
+
+data
+	m150_out.results_prenatal_care
+	m150_out.results_postpartum_care
+;
+	set measure_results_summ;
+
+	format
+		comments $128.
+		comp_quality_date_actionable yymmddd10.
+	;
+	call missing(
+		comments
+		,comp_quality_date_actionable
+	);
+
+	if measure eq 'prenatal_care' then output m150_out.results_prenatal_care;
+	if measure eq 'postpartum_care' then output m150_out.results_postpartum_care;
+run;
+	
+
+
 %put System Return Code = &syscc.;

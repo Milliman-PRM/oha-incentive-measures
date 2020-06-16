@@ -192,7 +192,27 @@ run;
 %let empirical_elig_date_end = %sysfunc(mdy(12,31,2014));
 %DeleteWorkAndResults()
 %include "%GetParentFolder(0)\Prod16_prenatal_postpartum_care.sas" / source2;
-%CompareResults()
+
+
+proc sql;
+	create table mismatches
+	as select
+		coalesce(actual.member_id, expected.member_id) as member_id
+		,actual.measure
+		,actual.denominator
+		,actual.numerator
+		,expected.anticipated_denominator
+		,expected.anticipated_numerator
+	from measure_results_summ as actual
+	full outer join m150_tmp.member as expected on
+		actual.member_id eq expected.member_id
+		and actual.measure eq expected.measure
+	where
+		numerator ne anticipated_numerator
+		or denominator ne anticipated_denominator
+	;
+quit;
+%AssertDataSetNotPopulated(mismatches, ReturnMessage=The &Measure_Name. results are not as expected.  Aborting...);
 
 
 %put System Return Code = &syscc.;

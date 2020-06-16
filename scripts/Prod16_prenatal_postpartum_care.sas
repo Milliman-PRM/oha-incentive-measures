@@ -118,6 +118,8 @@ proc sql;
         member_id
         ,prm_fromdate
 		,prm_todate
+		,icdversion
+		,&diag_fields_select.
 		%let component_cnt = %eval(%sysfunc(countc(&list_components.,%str(~))) + 1);
 		%do i_component = 1 %to &component_cnt.;
 			%let component_current = %scan(&list_components.,&i_component.,%str(~));
@@ -134,6 +136,57 @@ proc sql;
 quit;
 %mend flag_denom;
 %flag_denom;
+
+data pregnancy_diags;
+	set oha_ref.hedis_codes;
+
+	where
+		measure eq 'prenatal_postpartum_care'
+		and component eq 'pregnancy_diagnosis'
+		and codesystem eq: 'ICD'
+	;
+
+	format
+		icdversion $2.
+	;
+	if codesystem eq 'ICD10CM-Diag' then icdversion = '10';
+
+	format
+		pregnancy_diagnosis 12.
+	;
+	pregnancy_diagnosis = 1;
+
+	keep
+		icdversion
+		code
+		pregnancy_diagnosis
+	;
+run;
+%AssertNoNulls(pregnancy_diags, icdversion);
+
+data denom_pregnancy_flag;
+	set denom_flags;
+
+	call missing(pregnancy_diagnosis);
+	if _n_ = 1 then do;
+ 		declare hash hash_diag (dataset:  "pregnancy_diags", duplicate:  "ERROR");
+ 		rc_diag = hash_diag.DefineKey("code", "icdversion");
+ 		rc_diag = hash_diag.DefineData("pregnancy_diagnosis");
+ 		rc_diag = hash_diag.DefineDone();
+ 	end;
+
+ 	/*Hash on diag*/
+	array icddiags icddiag:;
+
+ 	do over icddiags;
+ 		if icddiags ne "" then do;
+ 			code = icddiags;
+ 			rc_diag = hash_diag.find();
+ 		end;
+ 	end;
+
+	pregnancy_diagnosis = coalesce(pregnancy_diagnosis, 0);
+run;
 
 proc sql;
 	create table deliveries

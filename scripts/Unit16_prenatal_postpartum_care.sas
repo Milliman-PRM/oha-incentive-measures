@@ -144,6 +144,7 @@ data M150_Tmp.outclaims_prm;
         HCPCS :$20.
         RevCode :$20.
         POS :$2.
+        ICDVersion :$2.
         ICDDiag1 :$7.
         ICDDiag2 :$7.
         ICDDiag3 :$7.
@@ -156,31 +157,31 @@ data M150_Tmp.outclaims_prm;
         prm_todate YYMMDDd10.
     ;
 datalines;
-denom_birth_only~2014-04-20~2014-04-25~59400~~~~~~~~
-denom_excl_non_live_birth~2014-04-20~2014-04-25~59400~~~O000~~~~~
-denom_excl_cont_enroll~2014-04-20~2014-04-25~59400~~~~~~~~
-denom_excl_hospice~2014-04-20~2014-04-25~59400~~~~~~~~
-denom_excl_hospice~2014-09-20~2014-09-25~G9473~~~~~~~~
-denom_several_claims~2014-04-23~2014-04-23~59400~~~~~~~~
-denom_several_claims~2014-04-24~2014-04-24~59400~~~~~~~~
-denom_several_claims~2014-04-20~2014-04-30~59400~~~~~~10D00Z0~~
-denom_multiple_births~2013-10-23~2013-10-23~59400~~~~~~~~
-denom_multiple_births~2013-10-24~2013-10-24~59400~~~~~~~~
-denom_multiple_births~2013-10-20~2013-10-30~59400~~~~~~10D00Z0~~
-denom_multiple_births~2014-09-23~2014-09-23~59400~~~~~~~~
-denom_multiple_births~2014-09-24~2014-09-24~59400~~~~~~~~
-denom_multiple_births~2014-09-20~2014-09-30~59400~~~~~~10D00Z0~~
-prenatal_care_219_280_days~2014-04-20~2014-04-25~59400~~~~~~~~
-prenatal_care_219_280_days~2013-08-15~2013-08-15~99201~~~O0900~~~~~
-prenatal_care_lt_219_days~2014-04-20~2014-04-25~59400~~~~~~~~
-prenatal_care_lt_219_days~2013-12-22~2014-12-22~99201~~~O0900~~~~~
-postpartum_care~2014-04-20~2014-04-25~59400~~~~~~~~
-postpartum_care~2014-05-20~2014-05-20~57170~~~~~~~~
-postpartum_care_ip_excl~2014-04-20~2014-04-25~59400~~~~~~~~
-postpartum_care_ip_excl~2014-05-20~2014-05-20~57170~~21~~~~~~
-both_numerators~2014-04-20~2014-04-25~59400~~~~~~~~
-both_numerators~2013-08-15~2013-08-15~99201~~~O0900~~~~~
-both_numerators~2014-05-20~2014-05-20~57170~~~~~~~~
+denom_birth_only~2014-04-20~2014-04-25~59400~~~10~~~~~~
+denom_excl_non_live_birth~2014-04-20~2014-04-25~59400~~~10~O000~~~~~
+denom_excl_cont_enroll~2014-04-20~2014-04-25~59400~~~10~~~~~~
+denom_excl_hospice~2014-04-20~2014-04-25~59400~~~10~~~~~~
+denom_excl_hospice~2014-09-20~2014-09-25~G9473~~~10~~~~~~
+denom_several_claims~2014-04-23~2014-04-23~59400~~~10~~~~~~
+denom_several_claims~2014-04-24~2014-04-24~59400~~~10~~~~~~
+denom_several_claims~2014-04-20~2014-04-30~59400~~~10~~~~10D00Z0~~
+denom_multiple_births~2013-10-23~2013-10-23~59400~~~10~~~~~~
+denom_multiple_births~2013-10-24~2013-10-24~59400~~~10~~~~~~
+denom_multiple_births~2013-10-20~2013-10-30~59400~~~10~~~~10D00Z0~~
+denom_multiple_births~2014-09-23~2014-09-23~59400~~~10~~~~~~
+denom_multiple_births~2014-09-24~2014-09-24~59400~~~10~~~~~~
+denom_multiple_births~2014-09-20~2014-09-30~59400~~~10~~~~10D00Z0~~
+prenatal_care_219_280_days~2014-04-20~2014-04-25~59400~~~10~~~~~~
+prenatal_care_219_280_days~2013-08-15~2013-08-15~99201~~~10~O0900~~~~~
+prenatal_care_lt_219_days~2014-04-20~2014-04-25~59400~~~10~~~~~~
+prenatal_care_lt_219_days~2013-12-22~2014-12-22~99201~~~10~O0900~~~~~
+postpartum_care~2014-04-20~2014-04-25~59400~~~10~~~~~~
+postpartum_care~2014-05-20~2014-05-20~57170~~~10~~~~~~
+postpartum_care_ip_excl~2014-04-20~2014-04-25~59400~~~10~~~~~~
+postpartum_care_ip_excl~2014-05-20~2014-05-20~57170~~21~10~~~~~~
+both_numerators~2014-04-20~2014-04-25~59400~~~10~~~~~~
+both_numerators~2013-08-15~2013-08-15~99201~~~10~XXXXX~O0900~XXXXX~~~
+both_numerators~2014-05-20~2014-05-20~57170~~~10~~~~~~
 ;
 run;
 

@@ -71,8 +71,6 @@ data member_time;
         ;
     format date        :YYMMDDd10.;
 datalines;
-no_birth~2013-01-01~2013-12-31
-no_birth~2014-01-01~2014-12-31
 denom_birth_only~2013-01-01~2013-12-31
 denom_birth_only~2014-01-01~2014-12-31
 denom_excl_non_live_birth~2013-01-01~2013-12-31
@@ -174,7 +172,7 @@ denom_multiple_births~2014-09-20~2014-09-30~59400~~~10~~~~10D00Z0~~
 prenatal_care_219_280_days~2014-04-20~2014-04-25~59400~~~10~~~~~~
 prenatal_care_219_280_days~2013-08-15~2013-08-15~99201~~~10~O0900~~~~~
 prenatal_care_lt_219_days~2014-04-20~2014-04-25~59400~~~10~~~~~~
-prenatal_care_lt_219_days~2013-12-22~2014-12-22~99201~~~10~O0900~~~~~
+prenatal_care_lt_219_days~2013-12-22~2013-12-22~99201~~~10~O0900~~~~~
 postpartum_care~2014-04-20~2014-04-25~59400~~~10~~~~~~
 postpartum_care~2014-05-20~2014-05-20~57170~~~10~~~~~~
 postpartum_care_ip_excl~2014-04-20~2014-04-25~59400~~~10~~~~~~

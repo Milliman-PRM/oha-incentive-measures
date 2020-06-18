@@ -39,6 +39,8 @@ data M150_Tmp.member;
 datalines;
 MrGood~1988-01-01~1~1~1~1
 MrTooYoung~2016-01-01~0~0~0~0
+MrHospice~1988-01-01~1~0~1~0
+MrNegativeHistory~1988-01-01~1~0~1~0
 ;
 run;
 /* MrHospiceExcludedCPT~1988-01-01~0~0~0~0 */
@@ -81,6 +83,8 @@ data M150_tmp.member_time;
 datalines;
 MrGood~2014-01-01~2014-12-31
 MrTooYoung~2014-01-01~2014-12-31
+MrHospice~2014-01-01~2014-12-31
+MrNegativeHistory~2014-01-01~2014-12-31
 ;
 run;
 /* MrHospiceExcludedCPT~2014-01-01~2014-12-31 */
@@ -130,8 +134,13 @@ data M150_Tmp.outclaims_prm;
 	ICDProc4-ICDProc15 $7.;
     ;
 datalines;
-MrGood~GoodIndexEp~~~~~~~~~~~~~~
-MrTooYoung~TooYoungIndexEp~TYIEClaim1~~~~~~~~~~~~~
+MrGood~GoodIndexEp~GIEClaim1~2014-03-15~2014-03-15~2014-03-15~2014-03-15~G0176~F1010~~~~~~~~~~
+MrTooYoung~TooYoungIndexEp~TYIEClaim1~2014-03-15~2014-03-15~2014-03-15~2014-03-15~G0176~F1010~~~~~~~~~~
+MrHospice~HospiceIndexEp~HospiceClaim1~2014-03-15~2014-03-15~2014-03-15~2014-03-15~G0176~F1010~~~~~~~~~~
+MrHospice~HospiceEp2~HospiceClaim2~2014-12-15~2014-12-15~2014-12-15~2014-12-15~G9473~~~~~~~~~~~
+MrNegativeHistory~NegativeHistEp~NegHistClaim1~2013-12-15~2013-12-15~2013-12-15~2013-12-15~G0176~F1010~~~~~~~~~~
+MrNegativeHistory~NegativeHistIndexEp~NegHistClaim2~2014-01-15~2014-01-15~2014-01-15~2014-01-15~G0176~F1010~~~~~~~~~~
+
 ;
 run;
 /* MrHospiceExcludedCPT~hospcptindexep~hecptClaim1~~~~~~~~~~~~~ */

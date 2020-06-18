@@ -38,5 +38,5 @@ aod,Online Assessments,online_assessments
 aod,Opioid Abuse and Dependence,opioid_abuse_dependence
 aod,Other Drug Abuse and Dependence,other_abuse_dependence
 aod,Telephone Visits,telephone_visits
-hosp_excl,Hospice Encounter,hospice_encounter
-hosp_excl,Hospice Intervention,hospice_intervention
+aod,Hospice Encounter,hospice_encounter
+aod,Hospice Intervention,hospice_intervention

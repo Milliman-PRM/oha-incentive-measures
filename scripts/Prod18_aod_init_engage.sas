@@ -33,6 +33,7 @@ libname M030_Out "&M030_Out.";
 %let intake_period_minus_sixty = %sysfunc(INTNX(days,&intake_period_start.,&negative_diagnosis_history_days., same));
 %put intake_period_minus_sixty = %sysfunc(putn(&intake_period_minus_sixty, yymmddd10.));
 %let measure_elig_period = (prm_fromdate ge &intake_period_minus_sixty. and prm_fromdate le &measure_end.);
+%let measure_year_period = (prm_fromdate_case ge &measure_start. and prm_fromdate_case le &measure_end.);
 
 %let direct_transfer_days = le 1;
 %let age_stratefication = ge 18;
@@ -137,6 +138,7 @@ proc sql;
             else "N"
             end
             as age_elig_flag
+	,dob
     from m150_tmp.member
     order by member_id
     ;
@@ -156,7 +158,7 @@ proc sql;
     from m150_tmp.outpharmacy_prm as claims
     inner join members_ge_eighteen as ge_eighteen
     on ge_eighteen.member_id = claims.member_id
-    where ge_eighteen.age_elig_flag = "N"
+    where ge_eighteen.age_elig_flag = "Y"
     ;
 quit;
 
@@ -167,9 +169,13 @@ quit;
 proc sql;
     create table denom_flags as
     select
-        member_id
-        ,prm_fromdate
-		,claimid
+        outclaims_prm.member_id
+	,outclaims_prm.caseadmitid
+        ,outclaims_prm.prm_fromdate
+	,outclaims_prm.prm_fromdate_case
+	,outclaims_prm.prm_todate_case
+	,intck('days', &intake_period_start., prm_todate_case) as days_since_ips
+	,claimid
 		%let component_cnt = %eval(%sysfunc(countc(&list_components.,%str(~))) + 1);
 		%do i_component = 1 %to &component_cnt.;
 			%let component_current = %scan(&list_components.,&i_component.,%str(~));
@@ -182,6 +188,7 @@ proc sql;
 
 		%end;
     from outclaims_prm
+    order by outclaims_prm.member_id asc, outclaims_prm.prm_fromdate_case asc, outclaims_prm.prm_todate_case asc 
     ;
 quit;
 %mend flag_denom;
@@ -198,7 +205,7 @@ proc sql noprint;
 	where
 		lowcase(memname) eq 'denom_flags'
 		and lowcase(type) eq 'num'
-		and lowcase(name) ne 'prm_fromdate'
+		and lowcase(name) ne 'prm_fromdate_case'
 	;
 quit;
 %put &=orig_flags_list.;
@@ -207,7 +214,7 @@ proc summary nway missing
 	data = denom_flags;
 	class
 		member_id
-		prm_fromdate
+		prm_fromdate_case
 		claimid
 	;
 	var &orig_flags_list.;
@@ -216,25 +223,150 @@ proc summary nway missing
 		max=
 	;
 run;
-/* %put &=filter_detox.; */
-/* ,case */
-/* 	when denom.denom_included_yn eq 'Y' then 1 */
-/* 	else 0 */
-/* 	end */
-/* 	as Denominator */
-/* ,case */
-/* 	when numer.numer_included_yn eq 'Y' then 1 */
-/* 	else 0 */
-/* 	end */
-/* 	as Numerator */
+
+data episodes;
+	set denom_flags_claims;
+	format
+		alc_episode 12.
+		opioid_episode 12.
+		other_episode 12.
+	;
+
+	if (
+		alc_abuse_dependence
+		and (
+			iet_standalone_visits
+			or (iet_visits_grp_1 and iet_pos_grp_1)
+			or (iet_visits_grp_2 and iet_pos_grp_2)
+			or detox
+			or ed
+			or observation
+			or ip_stay
+			or telephone_visits
+			or online_assessments
+		)
+	) 
+	then alc_episode = 1;
+	else alc_episode = 0;
+
+	if (
+		opioid_abuse_dependence
+		and (
+			iet_standalone_visits
+			or (iet_visits_grp_1 and iet_pos_grp_1)
+			or (iet_visits_grp_2 and iet_pos_grp_2)
+			or detox
+			or ed
+			or observation
+			or ip_stay
+			or telephone_visits
+			or online_assessments
+		)
+	)
+	then opioid_episode = 1;
+	else opioid_episode = 0;
+
+	if (
+		other_abuse_dependence
+		and (
+			iet_standalone_visits
+			or (iet_visits_grp_1 and iet_pos_grp_1)
+			or (iet_visits_grp_2 and iet_pos_grp_2)
+			or detox
+			or ed
+			or observation
+			or ip_stay
+			or telephone_visits
+			or online_assessments
+		)
+	)
+	then other_episode = 1;
+	else other_episode = 0;
+			
+
+run;
+
+data  index_episodes;
+	set episodes;
+	where (alc_episode eq 1) or (opioid_episode eq 1) or (other_episode eq 1);
+	by member_id;
+	
+	if first.member_id then index_bool = 0;
+
+	if (days_since_ips ge 0) and (index_bool eq 0)	
+	then 
+		do;
+			index_episode = 1; 
+			index_bool = 1;
+		end;
+	else index_episode = 0;
+
+	/* if index_episode eq 1; */
+	;
+
+run;
+
+
+data AOD_abuse_dep_meds;
+	set denom_flags_claims;
+	where (aod_abuse_dependence eq 1) or (aod_med_treatment eq 1);
+	;
+run;
+proc sql;
+	create table hospice_members as
+	select distinct member_id
+	from denom_flags_claims
+	where ((hospice_encounter eq 1) or (hospice_intervention eq 1)) and &measure_year_period.;
+	;
+quit;
+
+data only_index_episodes;
+	set index_episodes;
+	where index_episode eq 1;
+	;
+run;
+
+proc sql;
+	create table negative_history_members as
+	select distinct only_index_episodes.member_id
+	from only_index_episodes as index_eps
+	left join AOD_abuse_dep_meds on 
+		only_index_episodes.member_id eq AOD_abuse_dep_meds.member_id
+	where 
+		(intck('days',only_index_episodes.prm_fromdate_case, AOD_abuse_dep_meds.prm_fromdate_case) lt 60) 
+		and (intck('days',only_index_episodes.prm_fromdate_case, AOD_abuse_dep_meds.prm_fromdate_case) gt 0);
+	;
+quit;
+
+proc sql;
+	create table denom_med_members as
+	select distinct only_index_episodes.member_id
+		,1 as denom_med
+		,negative_history_members.member_id as neg_hist_member_id
+		,hospice_members.member_id as hosp_member_id
+	from only_index_episodes
+	left join negative_history_members on
+		only_index_episodes.member_id eq negative_history_members.member_id
+	left join hospice_members on
+		only_index_episodes.member_id eq hospice_members.member_id
+	where negative_history_members.member_id eq '' and hospice_members.member_id eq ''
+	;
+quit;
+
+	
 proc sql;
 	create table qualifying_visits as
 	select
 		members.member_id
 		,'Y' as numer_included_yn
-		,'Y' as denom_included_yn
-		
+		,case
+			when denom_med_members.denom_med eq 1 then 'Y'
+			else 'N'
+			end
+			as denom_included_yn
 	from members_ge_eighteen as members
+	left join denom_med_members
+		on members.member_id eq denom_med_members.member_id
 	where members.age_elig_flag eq "Y"
 	;
 quit;

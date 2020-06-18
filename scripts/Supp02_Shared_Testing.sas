@@ -26,9 +26,10 @@
 %macro CompareResults(
 	dset_expected=m150_tmp.member
 	,dset_compare=m150_out.Results_&Measure_Name.
+	,unexpected_out=unexpected_results
 	);
 	proc sql noprint;
-		create table Unexpected_results as
+		create table &unexpected_out. as
 			select
 				exp.*
 				,coalesce(act.Denominator, 0) as Actual_Denominator
@@ -42,7 +43,7 @@
 		;
 	quit;
 
-	%AssertDataSetNotPopulated(Unexpected_results, ReturnMessage=The &Measure_Name. results are not as expected.  Aborting...)
+	%AssertDataSetNotPopulated(&unexpected_out., ReturnMessage=The &Measure_Name. results are not as expected.  Aborting...)
 %mend;
 
 %macro DeleteWorkAndResults();

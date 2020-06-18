@@ -142,8 +142,8 @@ run;
 %let empirical_elig_date_end = %sysfunc(mdy(12,31,2014));
 %DeleteWorkAndResults()
 %include "%sysget(OHA_INCENTIVE_MEASURES_HOME)\scripts\Prod18_aod_init_engage.sas" / source2;
-%CompareResults(dset_expected=M150_Tmp.member_init,dset_compare=M150_Out.Results_&Measure_Name._init)
-%CompareResults(dset_expected=M150_Tmp.member_engage,dset_compare=M150_Out.Results_&Measure_name._engage)
+%CompareResults(dset_expected=M150_Tmp.member_init,dset_compare=M150_Out.Results_&Measure_Name._init,unexpected_out=unexpected_results_init)
+%CompareResults(dset_expected=M150_Tmp.member_engage,dset_compare=M150_Out.Results_&Measure_name._engage,unexpected_out=unexpected_results_engage)
 
 %put System Return Code = &syscc.;
 

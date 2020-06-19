@@ -291,6 +291,8 @@ data  index_episodes;
 	where (alc_episode eq 1) or (opioid_episode eq 1) or (other_episode eq 1);
 	by member_id;
 	
+	retain index_bool;
+
 	if first.member_id then index_bool = 0;
 
 	if (days_since_ips ge 0) and (index_bool eq 0)	
@@ -333,8 +335,8 @@ proc sql;
 	left join AOD_abuse_dep_meds on 
 		only_index_episodes.member_id eq AOD_abuse_dep_meds.member_id
 	where 
-		(intck('days',only_index_episodes.prm_fromdate_case, AOD_abuse_dep_meds.prm_fromdate_case) lt 60) 
-		and (intck('days',only_index_episodes.prm_fromdate_case, AOD_abuse_dep_meds.prm_fromdate_case) gt 0);
+		(intck('days',AOD_abuse_dep_meds.prm_fromdate_case,only_index_episodes.prm_fromdate_case) lt 60) 
+		and (intck('days', AOD_abuse_dep_meds.prm_fromdate_case,only_index_episodes.prm_fromdate_case) gt 0);
 	;
 quit;
 

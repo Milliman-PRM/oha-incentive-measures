@@ -41,11 +41,11 @@ MrGood~1988-01-01~1~1~1~1
 MrTooYoung~2016-01-01~0~0~0~0
 MrHospice~1988-01-01~1~0~1~0
 MrNegativeHistory~1988-01-01~1~0~1~0
+MrIneligibleContinuousEnrollment~1988-01-01~1~0~1~0
 ;
 run;
 /* MrHospiceExcludedCPT~1988-01-01~0~0~0~0 */
 /* MrHospiceExcludedREV~1988-01-01~0~0~0~0 */
-/* MrIneligibleContinuousEnrollment~1988-01-01~0~0~0~0 */
 
 proc sql;
 	create table M150_Tmp.member_init as
@@ -85,12 +85,12 @@ MrGood~2014-01-01~2014-12-31
 MrTooYoung~2014-01-01~2014-12-31
 MrHospice~2014-01-01~2014-12-31
 MrNegativeHistory~2014-01-01~2014-12-31
+MrIneligibleContinuousEnrollmentGap~2014-01-01~2014-01-30
+MrIneligibleContinuousEnrollmentGap~2014-03-01~2014-03-30
 ;
 run;
 /* MrHospiceExcludedCPT~2014-01-01~2014-12-31 */
 /* MrHospiceExcludedREV~2014-01-01~2014-12-31 */
-/* MrIneligibleContinuousEnrollmentGap~2014-01-01~2014-01-30 */
-/* MrIneligibleContinuousEnrollmentGap~2014-03-01~2014-03-30 */
 
 /* data M150_Tmp.outpharmacy_prm; */
 /*     infile datalines delimiter = '~'; */
@@ -111,19 +111,19 @@ data M150_Tmp.outclaims_prm;
         Member_ID         :$40.
 	caseadmitid	:$40.
 	ClaimID :$40.
-        prm_fromdate    :YYMMDD10.
+	prm_fromdate    :YYMMDD10.
 	prm_todate	:YYMMDD10.
 	prm_fromdate_case	:YYMMDD10.
 	prm_todate_case	:YYMMDD10.
-        HCPCS             :$20.
-        ICDDiag1         :$7.
-        ICDDiag2         :$7.
-        ICDDiag3         :$7.
+	HCPCS		:$20.
+	ICDDiag1	:$7.
+	ICDDiag2	:$7.
+	ICDDiag3	:$7.
 	ICDProc1	:$7.
 	ICDProc2	:$7.
 	ICDProc3	:$7.
-        RevCode         :$20.
-        PRM_Denied_YN     :$1.
+	RevCode         :$20.
+	PRM_Denied_YN     :$1.
 	Modifier :$2.
 	Modifier2 :$2.
 	POS :$2.
@@ -140,7 +140,7 @@ MrHospice~HospiceIndexEp~HospiceClaim1~2014-03-15~2014-03-15~2014-03-15~2014-03-
 MrHospice~HospiceEp2~HospiceClaim2~2014-12-15~2014-12-15~2014-12-15~2014-12-15~G9473~~~~~~~~~~~
 MrNegativeHistory~NegativeHistEp~NegHistClaim1~2013-12-15~2013-12-15~2013-12-15~2013-12-15~G0176~F1010~~~~~~~~~~
 MrNegativeHistory~NegativeHistIndexEp~NegHistClaim2~2014-01-15~2014-01-15~2014-01-15~2014-01-15~G0176~F1010~~~~~~~~~~
-
+MrIneligibleContinuousEnrollment~IneligIndexEp~IneligContClaim1~2014-03-15~2014-03-15~2014-03-15~2014-03-15~G0176~F1010~~~~~~~~~~
 ;
 run;
 /* MrHospiceExcludedCPT~hospcptindexep~hecptClaim1~~~~~~~~~~~~~ */

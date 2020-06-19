@@ -341,6 +341,31 @@ proc sql;
 quit;
 
 proc sql;
+	create table member_time_index_eps as
+	select
+		index_eps.*
+		,member_time.date_start
+		,member_time.date_end
+		,index_eps.prm_todate_case - 60 as cont_elig_start
+		,index_eps.prm_todate_case + 48 as cont_elig_end
+	from only_index_episodes as index_eps
+	left join M150_tmp.member_time as member_time
+		on member_time.member_id eq index_eps.member_id
+	order by index_eps.member_id, index_eps.prm_todate_case,member_time.date_start
+	;
+quit;
+	
+
+%FindEligGaps(
+	member_time_index_eps
+	,index_eps_elig_gaps
+	,varname_member_date_start=cont_elig_start
+	,varname_member_date_end=cont_elig_end
+	,extra_by_variables=prm_todate_case
+)
+
+
+proc sql;
 	create table denom_med_members as
 	select distinct only_index_episodes.member_id
 		,1 as denom_med
@@ -351,7 +376,9 @@ proc sql;
 		only_index_episodes.member_id eq negative_history_members.member_id
 	left join hospice_members on
 		only_index_episodes.member_id eq hospice_members.member_id
-	where negative_history_members.member_id eq '' and hospice_members.member_id eq ''
+	left join index_eps_elig_gaps on
+		only_index_episodes.member_id eq index_eps_elig_gaps.member_id
+	where negative_history_members.member_id eq '' and hospice_members.member_id eq '' and index_eps_elig_gaps.gap_cnt eq 0
 	;
 quit;
 

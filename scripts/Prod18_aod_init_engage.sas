@@ -248,6 +248,24 @@ data episodes;
 	) 
 	then alc_episode = 1;
 	else alc_episode = 0;
+	
+	if (
+		(alc_abuse_dependence
+		and (
+			iet_standalone_visits
+			or (iet_visits_grp_1 and iet_pos_grp_1)
+			or (iet_visits_grp_2 and iet_pos_grp_2)
+			or observation
+			or ip_stay
+			or telephone_visits
+			or online_assessments
+		))
+		or
+		aod_med_treatment
+		
+	) 
+	then alc_init_treatment = 1;
+	else alc_init_treatment = 0;
 
 	if (
 		opioid_abuse_dependence
@@ -267,6 +285,24 @@ data episodes;
 	else opioid_episode = 0;
 
 	if (
+		(opioid_abuse_dependence
+		and (
+			iet_standalone_visits
+			or (iet_visits_grp_1 and iet_pos_grp_1)
+			or (iet_visits_grp_2 and iet_pos_grp_2)
+			or observation
+			or ip_stay
+			or telephone_visits
+			or online_assessments
+		))
+		or
+		aod_med_treatment
+		
+	) 
+	then opioid_init_treatment = 1;
+	else opioid_init_treatment = 0;
+
+	if (
 		other_abuse_dependence
 		and (
 			iet_standalone_visits
@@ -282,7 +318,22 @@ data episodes;
 	)
 	then other_episode = 1;
 	else other_episode = 0;
-			
+
+	if (
+		other_abuse_dependence
+		and (
+			iet_standalone_visits
+			or (iet_visits_grp_1 and iet_pos_grp_1)
+			or (iet_visits_grp_2 and iet_pos_grp_2)
+			or observation
+			or ip_stay
+			or telephone_visits
+			or online_assessments
+		)
+	) 
+	then other_init_treatment = 1;
+	else other_init_treatment = 0;
+		
 
 run;
 
@@ -371,6 +422,10 @@ proc sql;
 		,1 as denom_med
 		,negative_history_members.member_id as neg_hist_member_id
 		,hospice_members.member_id as hosp_member_id
+		,only_index_episodes.prm_todate_case as iesd
+		,only_index_episodes.alc_episode
+		,only_index_episodes.opioid_episode
+		,only_index_episodes.other_episode
 	from only_index_episodes
 	left join negative_history_members on
 		only_index_episodes.member_id eq negative_history_members.member_id
@@ -382,12 +437,46 @@ proc sql;
 	;
 quit;
 
+proc sql;
+	create table numer_members_init as
+	select 
+		denom_med_members.*
+		,index_episodes.prm_fromdate - denom_med_members.iesd as days_since_iesd
+		,case
+			when denom_med_members.alc_episode and index_episodes.alc_init_treatment
+			then 1
+			when denom_med_members.opioid_episode and index_episodes.opioid_init_treatment
+			then 1
+			when denom_med_members.other_episode and index_episodes.other_init_treatment
+			then 1
+			else 0
+		end as init_treatment
+		,case
+			when 
+				calculated init_treatment 
+				and (calculated days_since_iesd lt 14 and calculated days_since_iesd gt 0) 
+				and (index_episodes.index_episode ne 1)
+			then 1
+			else 0
+		end as numer_init_treatment
+	from denom_med_members
+	left join index_episodes
+		on index_episodes.member_id eq denom_med_members.member_id
+	where calculated numer_init_treatment eq 1
+	;
+quit;
+
 	
 proc sql;
 	create table qualifying_visits as
 	select
 		members.member_id
-		,'Y' as numer_included_yn
+		,members.age_elig_flag
+		,case
+			when numer_members_init.numer_init_treatment eq 1 then 'Y'
+			else 'N'
+			end
+			as numer_init_treatment
 		,case
 			when denom_med_members.denom_med eq 1 then 'Y'
 			else 'N'
@@ -396,13 +485,18 @@ proc sql;
 	from members_ge_eighteen as members
 	left join denom_med_members
 		on members.member_id eq denom_med_members.member_id
+	left join numer_members_init
+		on members.member_id eq numer_members_init.member_id
 	where members.age_elig_flag eq "Y"
 	;
 quit;
 
 proc sql;
 	create table members_with_flags_init as
-	select visits.*
+	select 
+		members.member_id
+		,numer_init_treatment as numer_included_yn
+		,denom_included_yn
 	from m150_tmp.member as members
 	left join qualifying_visits as visits on 
 		members.member_id eq visits.member_id
@@ -411,7 +505,10 @@ quit;
 
 proc sql;
 	create table members_with_flags_engage as
-	select visits.*
+	select 
+		members.member_id
+		,'Y' as numer_included_yn
+		,denom_included_yn
 	from m150_tmp.member as members
 	left join qualifying_visits as visits on 
 		members.member_id eq visits.member_id

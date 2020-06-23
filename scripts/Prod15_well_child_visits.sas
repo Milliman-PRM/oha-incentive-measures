@@ -1,5 +1,5 @@
 /*
-### Code Owners: Ben Copeland
+### Code Owners: Ben Copeland, Matthew Hawthorne
  
 ### Objective:
   Calculate the Well Child Visits measure and provide a list of members inlcuded in the measure. 
@@ -208,7 +208,7 @@ proc sql;
 					end
 				)
 			else "No qualifying visit"
-			end as comment format = $128. length = 128
+			end as comments format = $128. length = 128
 		,case calculated numerator
 			when 0 then &measure_end.
 			else .

@@ -353,8 +353,6 @@ data  index_episodes;
 			index_bool = 1;
 		end;
 	else index_episode = 0;
-
-	/* if index_episode eq 1; */
 	;
 
 run;
@@ -419,6 +417,7 @@ quit;
 proc sql;
 	create table denom_med_members as
 	select distinct only_index_episodes.member_id
+		,only_index_episodes.claimid
 		,1 as denom_med
 		,negative_history_members.member_id as neg_hist_member_id
 		,hospice_members.member_id as hosp_member_id
@@ -441,13 +440,15 @@ proc sql;
 	create table numer_members_init as
 	select 
 		denom_med_members.*
-		,index_episodes.prm_fromdate - denom_med_members.iesd as days_since_iesd
+		,episodes.prm_fromdate_case
+		,episodes.prm_todate_case
+		,episodes.prm_fromdate - denom_med_members.iesd as days_since_iesd
 		,case
-			when denom_med_members.alc_episode and index_episodes.alc_init_treatment
+			when denom_med_members.alc_episode and episodes.alc_init_treatment
 			then 1
-			when denom_med_members.opioid_episode and index_episodes.opioid_init_treatment
+			when denom_med_members.opioid_episode and episodes.opioid_init_treatment
 			then 1
-			when denom_med_members.other_episode and index_episodes.other_init_treatment
+			when denom_med_members.other_episode and episodes.other_init_treatment
 			then 1
 			else 0
 		end as init_treatment
@@ -455,25 +456,48 @@ proc sql;
 			when 
 				calculated init_treatment 
 				and (calculated days_since_iesd lt 14 and calculated days_since_iesd gt 0) 
-				and (index_episodes.index_episode ne 1)
+				and (episodes.claimid ne denom_med_members.claimid)
 			then 1
 			else 0
 		end as numer_init_treatment
 	from denom_med_members
-	left join index_episodes
-		on index_episodes.member_id eq denom_med_members.member_id
+	left join episodes
+		on episodes.member_id eq denom_med_members.member_id
 	where calculated numer_init_treatment eq 1
+	order by denom_med_members.member_id
+		,episodes.prm_fromdate_case
+		,episodes.prm_todate_case desc
 	;
 quit;
 
+data  numer_members_init_distinct;
+	set numer_members_init;
+	by member_id;
 	
+	if first.member_id;
+	;
+run;
+
+proc sql;
+	create table numer_init_results as
+	select
+		denom_med_members.*
+		,numer_members_init_distinct.prm_todate_case as engage_start_date
+		,coalesce(numer_members_init_distinct.numer_init_treatment,0) as numer_init_treatment
+	from denom_med_members
+	left join numer_members_init_distinct
+		on denom_med_members.member_id eq numer_members_init_distinct.member_id
+	;
+quit;
+		
+
 proc sql;
 	create table qualifying_visits as
 	select
 		members.member_id
 		,members.age_elig_flag
 		,case
-			when numer_members_init.numer_init_treatment eq 1 then 'Y'
+			when numer_init_results.numer_init_treatment eq 1 then 'Y'
 			else 'N'
 			end
 			as numer_init_treatment
@@ -485,8 +509,8 @@ proc sql;
 	from members_ge_eighteen as members
 	left join denom_med_members
 		on members.member_id eq denom_med_members.member_id
-	left join numer_members_init
-		on members.member_id eq numer_members_init.member_id
+	left join numer_init_results
+		on members.member_id eq numer_init_results.member_id
 	where members.age_elig_flag eq "Y"
 	;
 quit;

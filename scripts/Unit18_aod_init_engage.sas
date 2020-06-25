@@ -43,6 +43,8 @@ MrTooYoung~2016-01-01~0~0~0~0
 MrHospice~1988-01-01~0~0~0~0
 MrNegativeHistory~1988-01-01~0~0~0~0
 MrIneligibleContinuousEnrollment~1988-01-01~0~0~0~0
+MrGoodRxInitiation~1988-01-01~1~1~1~1
+MrBadEngageRxInitiation~1988-01-01~1~1~0~1
 ;
 run;
 /* MrHospiceExcludedCPT~1988-01-01~0~0~0~0 */
@@ -89,23 +91,30 @@ MrHospice~2014-01-01~2014-12-31
 MrNegativeHistory~2014-01-01~2014-12-31
 MrIneligibleContinuousEnrollmentGap~2014-01-01~2014-01-30
 MrIneligibleContinuousEnrollmentGap~2014-03-01~2014-03-30
+MrGoodRxInitiation~2014-01-01~2014-12-31
+MrBadEngageRxInitiation~2014-01-01~2014-12-31
 ;
 run;
 /* MrHospiceExcludedCPT~2014-01-01~2014-12-31 */
 /* MrHospiceExcludedREV~2014-01-01~2014-12-31 */
 
-/* data M150_Tmp.outpharmacy_prm; */
-/*     infile datalines delimiter = '~'; */
-/*     input */
-/*         member_id         :$40. */
-/*         prm_fromdate    :YYMMDD10. */
-/*         NDC             :$20. */
-/*         ; */
-/*     format prm_fromdate :YYMMDDd10.; */
-/* datalines; */
-/* /1* insert outpharmcy datalines here *1/ */
-/* ; */
-/* run; */
+data M150_Tmp.outpharmacy_prm;
+    infile datalines delimiter = '~';
+    input
+        member_id         :$40.
+        claimid			:$40.
+        prm_fromdate    :YYMMDD10.
+        NDC             :$20.
+        ;
+    format prm_fromdate :YYMMDDd10.;
+datalines;
+MrGoodRxInitiation~AlcRxInitClaim1~2014-03-20~00054035613
+MrGoodRxInitiation~AlcRxEngageClaim1~2014-03-25~00054035613
+MrBadEngageRxInitiation~AlcRxInitClaim1~2014-03-20~00054035613
+MrBadEngageRxInitiation~AlcRxEngageClaim1~2014-03-25~00054035613
+MrBadEngageRxInitiation~AlcRxEngageClaim2~2014-03-30~00054035613
+; 
+run; 
 
 data M150_Tmp.outclaims_prm;
     infile datalines delimiter = '~' dsd;
@@ -148,6 +157,9 @@ MrHospice~HospiceEp2~HospiceClaim2~2014-12-15~2014-12-15~2014-12-15~2014-12-15~G
 MrNegativeHistory~NegativeHistEp~NegHistClaim1~2013-12-15~2013-12-15~2013-12-15~2013-12-15~G0176~F1010~~~~~~~~~~
 MrNegativeHistory~NegativeHistIndexEp~NegHistClaim2~2014-01-15~2014-01-15~2014-01-15~2014-01-15~G0176~F1010~~~~~~~~~~
 MrIneligibleContinuousEnrollment~IneligIndexEp~IneligContClaim1~2014-03-15~2014-03-15~2014-03-15~2014-03-15~G0176~F1010~~~~~~~~~~
+MrGoodRxInitiation~GoodRxIndexEp~GRxIEClaim1~2014-03-15~2014-03-15~2014-03-15~2014-03-15~G0176~F1010~~~~~~~~~~
+MrGoodRxInitiation~GoodInitEngageEp2~GRxIEClaim3~2014-03-22~2014-03-22~2014-03-22~2014-03-22~G0176~F1010~~~~~~~~~~
+MrBadEngageRxInitiation~BadRxEngageIndexEp~BRxEIEClaim1~2014-03-15~2014-03-15~2014-03-15~2014-03-15~G0176~F1010~~~~~~~~~~
 ;
 run;
 /* MrHospiceExcludedCPT~hospcptindexep~hecptClaim1~~~~~~~~~~~~~ */

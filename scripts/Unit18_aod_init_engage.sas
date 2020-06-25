@@ -38,11 +38,11 @@ data M150_Tmp.member;
 	format DOB :YYMMDDd10.;
 datalines;
 MrGood~1988-01-01~1~1~1~1
-MrBadInitiation~1988-01-01~0~1~1~1
-MrTooYoung~2016-01-01~0~0~1~0
-MrHospice~1988-01-01~0~0~1~0
-MrNegativeHistory~1988-01-01~0~0~1~0
-MrIneligibleContinuousEnrollment~1988-01-01~0~0~1~0
+MrBadInitiation~1988-01-01~0~1~0~0
+MrTooYoung~2016-01-01~0~0~0~0
+MrHospice~1988-01-01~0~0~0~0
+MrNegativeHistory~1988-01-01~0~0~0~0
+MrIneligibleContinuousEnrollment~1988-01-01~0~0~0~0
 ;
 run;
 /* MrHospiceExcludedCPT~1988-01-01~0~0~0~0 */
@@ -138,7 +138,8 @@ data M150_Tmp.outclaims_prm;
 datalines;
 MrGood~GoodIndexEp~GIEClaim1~2014-03-15~2014-03-15~2014-03-15~2014-03-15~G0176~F1010~~~~~~~~~~
 MrGood~GoodInitEp~GIEClaim2~2014-03-20~2014-03-20~2014-03-20~2014-03-20~G0176~F1010~~~~~~~~~~
-MrGood~GoodInitEp2~GIEClaim3~2014-03-22~2014-03-22~2014-03-22~2014-03-22~G0176~F1010~~~~~~~~~~
+MrGood~GoodInitEngageEp2~GIEClaim3~2014-03-22~2014-03-22~2014-03-22~2014-03-22~G0176~F1010~~~~~~~~~~
+MrGood~GoodEngageEp2~GIEClaim4~2014-03-25~2014-03-25~2014-03-25~2014-03-25~G0176~F1010~~~~~~~~~~
 MrBadInitiation~BIGoodIndexEp~BIEClaim1~2014-03-15~2014-03-15~2014-03-15~2014-03-15~G0176~F1010~~~~~~~~~~
 MrBadInitiation~BIInitEp~BIEClaim2~2014-04-20~2014-04-20~2014-04-20~2014-04-20~G0176~F1010~~~~~~~~~~
 MrTooYoung~TooYoungIndexEp~TYIEClaim1~2014-03-15~2014-03-15~2014-03-15~2014-03-15~G0176~F1010~~~~~~~~~~

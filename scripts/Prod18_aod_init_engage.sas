@@ -260,12 +260,9 @@ data episodes;
 			or telephone_visits
 			or online_assessments
 		))
-		or
-		aod_med_treatment
-		
 	) 
-	then alc_init_treatment = 1;
-	else alc_init_treatment = 0;
+	then alc_treatment = 1;
+	else alc_treatment = 0;
 
 	if (
 		opioid_abuse_dependence
@@ -295,12 +292,9 @@ data episodes;
 			or telephone_visits
 			or online_assessments
 		))
-		or
-		aod_med_treatment
-		
 	) 
-	then opioid_init_treatment = 1;
-	else opioid_init_treatment = 0;
+	then opioid_treatment = 1;
+	else opioid_treatment = 0;
 
 	if (
 		other_abuse_dependence
@@ -331,9 +325,17 @@ data episodes;
 			or online_assessments
 		)
 	) 
-	then other_init_treatment = 1;
-	else other_init_treatment = 0;
-		
+	then other_treatment = 1;
+	else other_treatment = 0;
+
+	if  aod_med_treatment
+	then alc_rx_treatment = 1;
+	else alc_rx_treatment = 0;
+
+	if aod_med_treatment
+	then opioid_rx_treatment = 1;
+	else opioid_rx_treatment = 0;
+
 
 run;
 
@@ -359,8 +361,12 @@ run;
 
 
 data AOD_abuse_dep_meds;
-	set denom_flags_claims;
-	where (aod_abuse_dependence eq 1) or (aod_med_treatment eq 1);
+	set episodes;
+	where 
+		(aod_abuse_dependence eq 1) 
+		or (aod_med_treatment eq 1) 
+		or (alc_rx_treatment eq 1)
+		or (opioid_rx_treatment eq 1)
 	;
 run;
 proc sql;
@@ -444,11 +450,21 @@ proc sql;
 		,episodes.prm_todate_case
 		,episodes.prm_fromdate - denom_med_members.iesd as days_since_iesd
 		,case
-			when denom_med_members.alc_episode and episodes.alc_init_treatment
+			when 
+				denom_med_members.alc_episode 
+				and (
+					episodes.alc_treatment 
+					or episodes.alc_rx_treatment
+				)
 			then 1
-			when denom_med_members.opioid_episode and episodes.opioid_init_treatment
+			when 
+				denom_med_members.opioid_episode 
+				and (
+					episodes.opioid_treatment
+					or episodes.alc_rx_treatment
+				)
 			then 1
-			when denom_med_members.other_episode and episodes.other_init_treatment
+			when denom_med_members.other_episode and episodes.other_treatment
 			then 1
 			else 0
 		end as init_treatment
@@ -460,6 +476,11 @@ proc sql;
 			then 1
 			else 0
 		end as numer_init_treatment
+		,episodes.alc_treatment
+		,episodes.opioid_treatment
+		,episodes.other_treatment
+		,episodes.alc_rx_treatment
+		,episodes.opioid_rx_treatment
 	from denom_med_members
 	left join episodes
 		on episodes.member_id eq denom_med_members.member_id
@@ -484,12 +505,99 @@ proc sql;
 		denom_med_members.*
 		,numer_members_init_distinct.prm_todate_case as engage_start_date
 		,coalesce(numer_members_init_distinct.numer_init_treatment,0) as numer_init_treatment
+		,numer_members_init_distinct.alc_treatment
+		,numer_members_init_distinct.opioid_treatment
+		,numer_members_init_distinct.other_treatment
+		,numer_members_init_distinct.alc_rx_treatment
+		,numer_members_init_distinct.opioid_rx_treatment
 	from denom_med_members
 	left join numer_members_init_distinct
 		on denom_med_members.member_id eq numer_members_init_distinct.member_id
 	;
 quit;
-		
+
+
+data denom_members_engage;
+	set numer_init_results;
+	where numer_init_treatment eq 1;
+run;
+
+proc sql;
+	create table time_limited_engage as
+	select
+		episodes.*
+		,episodes.prm_fromdate_case - denom_members_engage.engage_start_date as days_since_init
+	from denom_members_engage
+	left join episodes
+		on denom_members_engage.member_id eq episodes.member_id
+	where calculated days_since_init gt 0 and calculated days_since_init le 34
+	;
+quit;
+
+proc sql;
+	create table numer_engage_agg as
+	select
+		time_limited_engage.member_id
+		,sum(time_limited_engage.alc_rx_treatment) as sum_alc_rx
+		,sum(time_limited_engage.opioid_rx_treatment) as sum_opioid_rx
+		,sum(time_limited_engage.alc_treatment) as sum_alc_treatment
+		,sum(time_limited_engage.opioid_treatment) as sum_opioid_treatment
+		,sum(time_limited_engage.other_treatment) as sum_other_treatment
+	from time_limited_engage
+	group by time_limited_engage.member_id
+	;
+quit;
+
+proc sql;
+	create table numer_engage_results as
+	select
+		denom_members_engage.member_id
+		,case 
+			when denom_members_engage.alc_episode
+			then numer_engage_agg.sum_alc_treatment
+
+			when denom_members_engage.opioid_episode
+			then numer_engage_agg.sum_opioid_treatment
+
+			when denom_members_engage.other_episode
+			then numer_engage_agg.sum_other_treatment
+
+			else 0
+			end as numer_engage_visits
+		,case
+			when denom_members_engage.alc_episode
+			then numer_engage_agg.sum_alc_rx
+
+			when denom_members_engage.opioid_episode
+			then numer_engage_agg.sum_opioid_rx
+
+			else 0
+			end as numer_engage_medications
+		,case 
+			when 
+				denom_members_engage.alc_rx_treatment 
+				or denom_members_engage.opioid_rx_treatment
+			then 1
+			else 0
+			end as rx_event
+		,case
+			when 
+				calculated rx_event 
+				and (calculated numer_engage_visits ge 1) 
+				and ((calculated numer_engage_visits + calculated numer_engage_medications) ge 2)
+			then 1
+			when
+				(calculated numer_engage_medications ge 1)	
+				or (calculated numer_engage_visits ge 2)
+			then 1
+			else 0
+		end as numer_engage_treatment
+	from denom_members_engage
+	left join numer_engage_agg
+		on denom_members_engage.member_id eq numer_engage_agg.member_id
+	;
+quit;
+	
 
 proc sql;
 	create table qualifying_visits as
@@ -500,17 +608,31 @@ proc sql;
 			when numer_init_results.numer_init_treatment eq 1 then 'Y'
 			else 'N'
 			end
-			as numer_init_treatment
+			as numer_included_yn_init
 		,case
 			when denom_med_members.denom_med eq 1 then 'Y'
 			else 'N'
 			end
-			as denom_included_yn
+			as denom_included_yn_init
+		,case 
+			when denom_members_engage.numer_init_treatment eq 1 then 'Y'
+			else 'N'
+			end
+			as denom_included_yn_engage
+		,case when numer_engage_results.numer_engage_treatment eq 1 then 'Y'
+			else 'N'
+			end
+			as numer_included_yn_engage
+		
 	from members_ge_eighteen as members
 	left join denom_med_members
 		on members.member_id eq denom_med_members.member_id
 	left join numer_init_results
 		on members.member_id eq numer_init_results.member_id
+	left join denom_members_engage
+		on members.member_id eq denom_members_engage.member_id
+	left join numer_engage_results
+		on members.member_id eq numer_engage_results.member_id
 	where members.age_elig_flag eq "Y"
 	;
 quit;
@@ -519,8 +641,8 @@ proc sql;
 	create table members_with_flags_init as
 	select 
 		members.member_id
-		,numer_init_treatment as numer_included_yn
-		,denom_included_yn
+		,numer_included_yn_init as numer_included_yn
+		,denom_included_yn_init as denom_included_yn
 	from m150_tmp.member as members
 	left join qualifying_visits as visits on 
 		members.member_id eq visits.member_id
@@ -531,8 +653,8 @@ proc sql;
 	create table members_with_flags_engage as
 	select 
 		members.member_id
-		,'Y' as numer_included_yn
-		,denom_included_yn
+		,numer_included_yn_engage as numer_included_yn
+		,denom_included_yn_engage as denom_included_yn
 	from m150_tmp.member as members
 	left join qualifying_visits as visits on 
 		members.member_id eq visits.member_id

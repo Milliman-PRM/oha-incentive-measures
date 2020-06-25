@@ -75,7 +75,7 @@ data components;
 			in = medication
 		)
 	;
-	where measure eq "&measure_name." or measure eq "hosp_excl";
+	where measure eq "&measure_name." or measure eq "aod_init_engage" or measure eq "hosp_excl";
 	format source $32.;
 	if hedis then source = 'oha_ref.hedis_codes';
 	else if medication then source = 'oha_ref.medications';
@@ -194,6 +194,29 @@ quit;
 %mend flag_denom;
 
 %flag_denom;
+
+proc sql;
+    create table denom_flags_rxclaims as
+    select
+        member_id
+		,claimid
+		,prm_fromdate
+        ,prm_fromdate as prm_fromdate_case
+        ,prm_fromdate as prm_todate_case
+		,ndc
+		,case
+			when (&filter_alcohol_treatment_meds.)
+			then 1
+			else 0
+		end as alcohol_rx_treatment
+		,case
+			when (&filter_opioid_treatment_meds.)
+			then 1
+			else 0
+		end as opioid_rx_treatment
+    from outpharmacy_prm
+	;
+quit;
 		
 proc sql noprint;
 	select
@@ -225,12 +248,18 @@ proc summary nway missing
 run;
 
 data episodes;
-	set denom_flags_claims;
+	set
+		denom_flags_claims (in = med)
+		denom_flags_rxclaims (in = rx)
+	;
 	format
+		claim_source $4.
 		alc_episode 12.
 		opioid_episode 12.
 		other_episode 12.
 	;
+	if med then claim_source = 'med';
+	else claim_source = 'rx';
 
 	if (
 		alc_abuse_dependence
@@ -328,14 +357,19 @@ data episodes;
 	then other_treatment = 1;
 	else other_treatment = 0;
 
-	if  aod_med_treatment
+	if (
+		aod_med_treatment
+		or alcohol_rx_treatment
+	)
 	then alc_rx_treatment = 1;
 	else alc_rx_treatment = 0;
 
-	if aod_med_treatment
+	if (
+		aod_med_treatment
+		or opioid_rx_treatment
+	)
 	then opioid_rx_treatment = 1;
 	else opioid_rx_treatment = 0;
-
 
 run;
 
@@ -587,8 +621,11 @@ proc sql;
 				and ((calculated numer_engage_visits + calculated numer_engage_medications) ge 2)
 			then 1
 			when
-				(calculated numer_engage_medications ge 1)	
-				or (calculated numer_engage_visits ge 2)
+				not calculated rx_event
+				and (
+					(calculated numer_engage_medications ge 1)	
+					or (calculated numer_engage_visits ge 2)
+				)
 			then 1
 			else 0
 		end as numer_engage_treatment

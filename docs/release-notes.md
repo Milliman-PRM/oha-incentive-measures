@@ -11,6 +11,7 @@ A non-exhaustive list of what has changed in a more readable form than a commit 
     - Oral Evaluation for Adults with Diabetes
     - Disparity Measure: Emergency Department Utilization for Individuals Experiencing Mental Illness
     - Assessments for Children in DHS Custody
+    - Initiation and Engagement of Alcohol and Other Drug Abuse or Dependence Treatment
 
 ### v1.4.4
   - Fixes the calculation of the DHS Assessment measure start date to be November 1 of the year prior to the measurement year.

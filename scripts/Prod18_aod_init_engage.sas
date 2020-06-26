@@ -213,7 +213,7 @@ proc sql;
 			when (&filter_opioid_treatment_meds.)
 			then 1
 			else 0
-		end as opioid_rx_treatment
+		end as opioid_rxclaim_treatment
     from outpharmacy_prm
 	;
 quit;
@@ -367,7 +367,7 @@ data episodes;
 
 	if (
 		aod_med_treatment
-		or opioid_rx_treatment
+		or opioid_rxclaim_treatment
 	)
 	then opioid_rx_treatment = 1;
 	else opioid_rx_treatment = 0;

@@ -601,7 +601,7 @@ proc sql;
 		,case
 			when 
 				calculated init_treatment 
-				and (calculated days_since_iesd lt 14 and calculated days_since_iesd gt 0) 
+				and (calculated days_since_iesd lt 14 and calculated days_since_iesd ge 0) 
 				and (episodes.claimid ne denom_med_members.claimid)
 			then 1
 			when denom_med_members.ip_stay

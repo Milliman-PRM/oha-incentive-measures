@@ -342,7 +342,36 @@ class WellChildVisits(PRMSASTask): # pragma: no cover
         program = PATH_SCRIPTS / "Prod15_well_child_visits.sas"
         super().run(
             program,
-            path_log=build_logfile_name(program, PRM_META[(150, 'log')] / "OHA_Incentive_Measures"),
+            path_log=build_logfile_name(
+                program, PRM_META[(150, "log")] / "OHA_Incentive_Measures"
+            ),
+            create_folder=True,
+        )
+
+
+class AODInitEngage(PRMSASTask):  # pragma: no cover
+    """ Run Prod18_aod_init_engage.sas"""
+
+    requirements = RequirementsContainer(
+        ImportReferences,
+        staging_membership.DeriveParamsFromMembership,
+        poweruser_detail_datamart.ExportSAS,
+    )
+
+    def output(self):
+        names_output = {"results_aod_init.sas7bdat" "results_aod_engage.sas7bdat"}
+        return [
+            IndyPyLocalTarget(PRM_META[(150, "out")] / name) for name in names_output
+        ]
+
+    def run(self):  # pylint: disable=arguments-differ
+        """Run the Luigi job"""
+        program = PATH_SCRIPTS / "Prod18_aod_init_engage.sas"
+        super().run(
+            program,
+            path_log=build_logfile_name(
+                program, PRM_META[(150, "log")] / "OHA_Incentive_Measures"
+            ),
             create_folder=True,
         )
 
@@ -359,6 +388,7 @@ class InjectCustomMeasures(PRMSASTask):  # pragma: no cover
         EffectiveContraceptive,
         EDVisitsMI,
         WellChildVisits,
+        AODInitEngage,
     )
 
     def output(self):

@@ -45,6 +45,7 @@ MrNegativeHistory~1988-01-01~0~0~0~0
 MrIneligibleContinuousEnrollment~1988-01-01~0~0~0~0
 MrGoodRxInitiation~1988-01-01~1~1~1~1
 MrBadEngageRxInitiation~1988-01-01~1~1~0~1
+MrGoodIPTransferInitiation~1988-01-01~1~1~1~1
 ;
 run;
 /* MrHospiceExcludedCPT~1988-01-01~0~0~0~0 */
@@ -93,6 +94,7 @@ MrIneligibleContinuousEnrollmentGap~2014-01-01~2014-01-30
 MrIneligibleContinuousEnrollmentGap~2014-03-01~2014-03-30
 MrGoodRxInitiation~2014-01-01~2014-12-31
 MrBadEngageRxInitiation~2014-01-01~2014-12-31
+MrGoodIPTransferInitiation~2014-01-01~2014-12-31
 ;
 run;
 /* MrHospiceExcludedCPT~2014-01-01~2014-12-31 */
@@ -160,6 +162,11 @@ MrIneligibleContinuousEnrollment~IneligIndexEp~IneligContClaim1~2014-03-15~2014-
 MrGoodRxInitiation~GoodRxIndexEp~GRxIEClaim1~2014-03-15~2014-03-15~2014-03-15~2014-03-15~G0176~F1010~~~~~~~~~~
 MrGoodRxInitiation~GoodInitEngageEp2~GRxIEClaim3~2014-03-22~2014-03-22~2014-03-22~2014-03-22~G0176~F1010~~~~~~~~~~
 MrBadEngageRxInitiation~BadRxEngageIndexEp~BRxEIEClaim1~2014-03-15~2014-03-15~2014-03-15~2014-03-15~G0176~F1010~~~~~~~~~~
+MrGoodIPTransferInitiation~GoodIPIndexEp~GIPIEClaim1~2014-03-15~2014-03-20~2014-03-15~2014-03-20~~F1010~~~~~~0111~~~~
+MrGoodIPTransferInitiation~GoodIPIndexEpTransfer~GIPIEClaim2~2014-03-20~2014-03-30~2014-03-20~2014-03-30~~XXXXX~~~~~~0111~~~~
+MrGoodIPTransferInitiation~GoodIPIndexEpNotTransfer~GIPIENotTransfer~2014-05-15~2014-05-30~2014-05-15~2014-05-30~~XXXXX~~~~~~0111~~~~
+MrGoodIPTransferInitiation~GoodIPEngageEp1~GIPIEngageClaim1~2014-05-01~2014-05-01~2014-05-01~2014-05-01~G0176~F1010~~~~~~~~~~
+MrGoodIPTransferInitiation~GoodIPEngageEp2~GIPIEngageClaim2~2014-05-02~2014-05-02~2014-05-02~2014-05-02~G0176~F1010~~~~~~~~~~
 ;
 run;
 /* MrHospiceExcludedCPT~hospcptindexep~hecptClaim1~~~~~~~~~~~~~ */

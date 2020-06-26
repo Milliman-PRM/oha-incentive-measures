@@ -228,7 +228,7 @@ proc sql noprint;
 	where
 		lowcase(memname) eq 'denom_flags'
 		and lowcase(type) eq 'num'
-		and lowcase(name) ne 'prm_fromdate_case'
+		and lowcase(name) not in ('prm_fromdate_case', 'prm_todate_case')
 	;
 quit;
 %put &=orig_flags_list.;
@@ -238,6 +238,7 @@ proc summary nway missing
 	class
 		member_id
 		prm_fromdate_case
+		prm_todate_case
 		claimid
 	;
 	var &orig_flags_list.;
@@ -373,8 +374,102 @@ data episodes;
 
 run;
 
-data  index_episodes;
-	set episodes;
+proc sort
+	data = episodes
+	out = episodes_sorted
+	;
+	by
+		member_id
+		prm_fromdate_case
+		prm_todate_case
+	;
+run;
+
+data episodes_ip_transfers;
+	set episodes_sorted;
+	where ip_stay eq 1;
+	by
+		member_id
+		prm_fromdate_case
+		prm_todate_case
+	;
+
+	retain
+		ip_stay_id
+		prior_todate_case
+	;
+
+	if first.member_id then do;
+		ip_stay_id = 0;
+		prior_todate_case = .;
+	end;
+
+	if (
+		prior_todate_case ne .
+		and (prm_fromdate_case - prior_todate_case gt 1)
+	)
+	then ip_stay_id = ip_stay_id + 1;
+
+	prior_todate_case = prm_todate_case;
+
+	rename
+		prm_fromdate_case = prm_fromdate_case_orig
+		prm_todate_case = prm_todate_case_orig
+	;
+run;
+
+proc summary nway missing
+	data = episodes_ip_transfers;
+	class
+		member_id
+		ip_stay_id
+	;
+	var
+		prm_fromdate_case_orig
+		prm_todate_case_orig
+	;
+	output
+		out = episodes_ip_transfer_dates (drop = _type_ _freq_)
+		min(prm_fromdate_case_orig) = prm_fromdate_case
+		max(prm_todate_case_orig) = prm_todate_case
+	;
+run;
+
+proc sql;
+	create table episodes_ip_transfer_case_dates
+	as select
+		episodes_ip_transfers.*
+		,dates.prm_fromdate_case
+		,dates.prm_todate_case
+	from episodes_ip_transfers
+	left join episodes_ip_transfer_dates as dates on
+		episodes_ip_transfers.member_id eq dates.member_id
+		and episodes_ip_transfers.ip_stay_id eq dates.ip_stay_id
+	;
+quit;
+
+data potential_index_episodes;
+	set
+		episodes_ip_transfer_case_dates
+		episodes (
+			where = (ip_stay ne 1)
+		)
+	;
+run;
+
+proc sort
+	data = potential_index_episodes
+	out = potential_index_episodes_sorted
+	;
+	by
+		member_id
+		prm_fromdate_case
+		descending prm_todate_case
+	;
+run;
+
+data index_episodes;
+	set potential_index_episodes_sorted;
 	where (alc_episode eq 1) or (opioid_episode eq 1) or (other_episode eq 1);
 	by member_id;
 	
@@ -465,6 +560,7 @@ proc sql;
 		,only_index_episodes.alc_episode
 		,only_index_episodes.opioid_episode
 		,only_index_episodes.other_episode
+		,only_index_episodes.ip_stay
 	from only_index_episodes
 	left join negative_history_members on
 		only_index_episodes.member_id eq negative_history_members.member_id
@@ -477,7 +573,7 @@ proc sql;
 quit;
 
 proc sql;
-	create table numer_members_init as
+	create table numer_members_init_non_ip as
 	select 
 		denom_med_members.*
 		,episodes.prm_fromdate_case
@@ -508,6 +604,8 @@ proc sql;
 				and (calculated days_since_iesd lt 14 and calculated days_since_iesd gt 0) 
 				and (episodes.claimid ne denom_med_members.claimid)
 			then 1
+			when denom_med_members.ip_stay
+			then 1
 			else 0
 		end as numer_init_treatment
 		,episodes.alc_treatment
@@ -518,15 +616,58 @@ proc sql;
 	from denom_med_members
 	left join episodes
 		on episodes.member_id eq denom_med_members.member_id
-	where calculated numer_init_treatment eq 1
-	order by denom_med_members.member_id
-		,episodes.prm_fromdate_case
-		,episodes.prm_todate_case desc
+	where calculated numer_init_treatment eq 1 and denom_med_members.ip_stay ne 1
 	;
 quit;
 
+data numer_members_init_ip;
+	set denom_med_members;
+	where ip_stay eq 1;
+
+	numer_init_treatment = 1;
+
+	if alc_episode
+	then alc_treatment = 1;
+	else alc_treatment = 0;
+
+	if opioid_episode
+	then opioid_treatment = 1;
+	else opioid_treatment = 0;
+
+	if other_episode
+	then other_treatment = 1;
+	else other_treatment = 0;
+
+	alc_rx_treatment = 0;
+	opioid_rx_treatment = 0;
+
+	prm_fromdate_case = iesd;
+	prm_todate_case = iesd;
+
+run;
+
+data numer_members_init;
+	set
+		numer_members_init_non_ip
+		numer_members_init_ip
+	;
+run;
+
+proc sort
+	data = numer_members_init
+	out = numer_members_init_sorted
+	;
+	
+	by 
+		member_id
+		prm_fromdate_case
+		descending prm_todate_case
+	;
+run;
+
+
 data  numer_members_init_distinct;
-	set numer_members_init;
+	set numer_members_init_sorted;
 	by member_id;
 	
 	if first.member_id;

@@ -22,3 +22,5 @@ SBIRT_Screen,"SBIRT - Screening","#,##0.0%",Binary
 SBIRT_Intervention,"SBIRT - Intervention and Follow-Up","#,##0.0%",Binary
 diabetes_oral_eval,Oral Evaluation for Adults with Diabetes,"#,##0.0%",Binary
 well_child_visits,"Well-Child Visits in the Third, Fourth, Fifth and Sixth Years of Life","#,##0.0%",Binary
+aod_init,"Initiation of Alcohol and Other Drug Abuse or Dependence Treatment","#,##0.0%",Binary
+aod_engage,"Engagement of Alcohol and Other Drug Abuse or Dependence Treatment","#,##0.0%",Binary

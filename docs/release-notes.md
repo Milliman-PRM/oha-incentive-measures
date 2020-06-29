@@ -6,6 +6,13 @@ A non-exhaustive list of what has changed in a more readable form than a commit 
   - Added measure calculation and supporting files for:
     - `Well Child Visits for Ages 3-6`
     - `Preventive Dental Services Ages 1-5`, `Preventive Dental Services Ages 6-14`
+  - Retired measure calculations that are no longer incentivized:
+    - Adolescent Well Care Visits
+    - Colorectal Cancer Screening
+    - ED Visits Utilization
+    - Dental Sealants for Children
+    - Development Screening in first 36 months
+    - Effective Contraceptive Use
 
 ### v1.5.0
   - Added testing of reference data compilation as part of CI via `run_tests.bat`

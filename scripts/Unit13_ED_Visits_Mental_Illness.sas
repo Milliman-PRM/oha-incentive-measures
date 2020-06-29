@@ -87,7 +87,7 @@ diag_denom|1920-07-01
 diag_denom|1920-07-01
 run;
 
-data M150_out.results_ed_visits;
+data M150_out.ed_visits_all;
   infile
     datalines
     dsd

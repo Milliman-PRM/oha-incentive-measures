@@ -64,7 +64,7 @@ def assert_references(refs: typing.Mapping) -> None:
             raise
 
     reported_measures = [row.measure_abbreviation for row in refs['oha_abbreviations'].collect()]
-    measure_categories = ['dental_services']
+    measure_categories = ['dental_services', 'ED_Visits']
 
     try:
         refs['oha_codes'].validate.assert_values({

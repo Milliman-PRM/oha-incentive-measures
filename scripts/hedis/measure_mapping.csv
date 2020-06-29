@@ -36,3 +36,21 @@ prenatal_postpartum_care,Cervical Cytology Result or Finding,cervical_cytology_r
 prenatal_postpartum_care,Postpartum Bundled Services,postpartum_bundled
 prenatal_postpartum_care,Acute Inpatient,acute_inpatient
 prenatal_postpartum_care,Acute Inpatient POS,acute_inpatient_pos
+aod,Alcohol Abuse and Dependence,alc_abuse_dependence
+aod,AOD Abuse and Dependence,aod_abuse_dependence
+aod,AOD Medication Treatment,aod_med_treatment
+aod,Detoxification,detox
+aod,ED,ED
+aod,IET Visits Group 1,iet_visits_grp_1
+aod,IET POS Group 1,iet_pos_grp_1
+aod,IET Visits Group 2,iet_visits_grp_2
+aod,IET POS Group 2,iet_pos_grp_2
+aod,IET Stand Alone Visits,iet_standalone_visits
+aod,Inpatient Stay,ip_stay
+aod,Observation,observation
+aod,Online Assessments,online_assessments
+aod,Opioid Abuse and Dependence,opioid_abuse_dependence
+aod,Other Drug Abuse and Dependence,other_abuse_dependence
+aod,Telephone Visits,telephone_visits
+aod,Hospice Encounter,hospice_encounter
+aod,Hospice Intervention,hospice_intervention

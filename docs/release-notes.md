@@ -3,7 +3,9 @@
 A non-exhaustive list of what has changed in a more readable form than a commit history.
 
 ### v1.6.0
-  - Added measure calculation and supporting files for `Well Child Visits for Ages 3-6`
+  - Added measure calculation and supporting files for:
+    - `Well Child Visits for Ages 3-6`
+    - `Preventive Dental Services Ages 1-5`, `Preventive Dental Services Ages 6-14`
 
 ### v1.5.0
   - Added testing of reference data compilation as part of CI via `run_tests.bat`

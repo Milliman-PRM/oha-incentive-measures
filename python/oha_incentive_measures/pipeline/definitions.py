@@ -362,10 +362,8 @@ class DentalServices(PRMSASTask):  # pragma: no cover
             create_folder=True,
         )
 
-
-class PrenatalPostpartumCare(PRMSASTask):  # pragma: no cover
-    """ Run Prod16_prenatal_postpartum_care.sas"""
-
+class PrenatalPostpartumCare(PRMSASTask): # pragma: no cover
+    """ Run Prod17_prenatal_postpartum_care.sas"""
     requirements = RequirementsContainer(
         ImportReferences,
         staging_membership.DeriveParamsFromMembership,
@@ -383,7 +381,7 @@ class PrenatalPostpartumCare(PRMSASTask):  # pragma: no cover
 
     def run(self):  # pylint: disable=arguments-differ
         """Run the Luigi job"""
-        program = PATH_SCRIPTS / "Prod16_prenatal_postpartum_care.sas"
+        program = PATH_SCRIPTS / "Prod17_prenatal_postpartum_care.sas"
         super().run(
             program,
             path_log=build_logfile_name(

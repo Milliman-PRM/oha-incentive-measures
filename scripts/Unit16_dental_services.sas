@@ -2,7 +2,7 @@
 ### CODE OWNERS: Ben Copeland, Chas Busenburg
 
 ### OBJECTIVE:
-    Test the Dental Services Utilization measures
+	Test the Dental Services Utilization measures
 
 ### DEVELOPER NOTES:
 */
@@ -53,16 +53,16 @@ run;
 
 
 data M030_Out.InpDental;
-    infile datalines delimiter = '~' missover dsd;
-    input
-        Member_ID :$40.
-        fromdate :YYMMDD10.
+	infile datalines delimiter = '~' missover dsd;
+	input
+		Member_ID :$40.
+		fromdate :YYMMDD10.
 		providerid :$40.
-        HCPCS :$5.
-        ;
-    format
-        fromdate YYMMDD10.
-    ;
+		HCPCS :$5.
+		;
+	format
+		fromdate YYMMDD10.
+	;
 datalines;
 prev_1_to_5~2020-05-15~dental_prv~PREVX
 prev_1_to_5_non_dental_prv~2020-05-15~non_dental_prv~PREVX
@@ -79,11 +79,11 @@ run;
 
 
 data M025_out.providers;
-    infile datalines delimiter = '~' missover dsd;
-    input
-        prv_id :$40.
-        prv_taxonomy_cd :$10.
-        ;
+	infile datalines delimiter = '~' missover dsd;
+	input
+		prv_id :$40.
+		prv_taxonomy_cd :$10.
+		;
 datalines;
 dental_prv~DENTAL_TAX
 non_dental_prv~OTHER_TAX
@@ -91,12 +91,12 @@ non_dental_prv~OTHER_TAX
 run;
 
 data M150_Tmp.member;
-    infile datalines delimiter = '~';
-    input
-        Member_ID :$40.
-        DOB :YYMMDD10.
+	infile datalines delimiter = '~';
+	input
+		Member_ID :$40.
+		DOB :YYMMDD10.
 	;
-    format DOB :YYMMDDd10.;
+	format DOB :YYMMDDd10.;
 datalines;
 prev_1_to_5~2017-01-01
 prev_1_to_5_no_cont_elig~2017-01-01
@@ -111,13 +111,13 @@ multiple_services_26_to_65~1980-01-01
 run;
 
 data member_time;
-    infile datalines delimiter = '~';
-    input
-        Member_ID     :$40.
-        date_start     :YYMMDD10.
-        date_end     :YYMMDD10.
-        ;
-    format date_start date_end :YYMMDDd10.;
+	infile datalines delimiter = '~';
+	input
+		Member_ID	 :$40.
+		date_start	 :YYMMDD10.
+		date_end	 :YYMMDD10.
+		;
+	format date_start date_end :YYMMDDd10.;
 datalines;
 prev_1_to_5~2020-01-01~2020-3-31
 prev_1_to_5~2020-04-01~2020-12-31
@@ -139,9 +139,9 @@ data expected_results;
 	input
 		member_id :$40.
 		measure :$32.
-        anticipated_numerator :12.
-        anticipated_denominator :12.
-    ;
+		anticipated_numerator :12.
+		anticipated_denominator :12.
+	;
 datalines;
 prev_1_to_5~any_dental_1_to_5~1~1
 prev_1_to_5~diag_dental_1_to_5~0~1
@@ -179,15 +179,15 @@ multiple_services_26_to_65~treat_dental_26_to_65~1~1
 run;
 
 proc sort
-    data = member_time
-    out = M150_Tmp.member_time
-    ;
-    by
-        Member_ID
-        date_end
-    ;
-    run
-    ;
+	data = member_time
+	out = M150_Tmp.member_time
+	;
+	by
+		Member_ID
+		date_end
+	;
+	run
+	;
 
 
 

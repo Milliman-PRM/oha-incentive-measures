@@ -58,90 +58,6 @@ class ImportReferences(PRMPythonTask):  # pragma: no cover
         # pylint: enable=arguments-differ
 
 
-class AdolescentWellCare(PRMSASTask):  # pragma: no cover
-    """Run Prod02_Adolescent_Well_Care.sas"""
-
-    requirements = RequirementsContainer(
-        ImportReferences,
-        staging_membership.DeriveParamsFromMembership,
-        poweruser_detail_datamart.ExportSAS,
-    )
-
-    def output(self):
-        names_output = {"results_adolescent_well_care.sas7bdat"}
-        return [
-            IndyPyLocalTarget(PRM_META[(150, "out")] / name) for name in names_output
-        ]
-
-    def run(self):  # pylint: disable=arguments-differ
-        """Run the Luigi job"""
-        program = PATH_SCRIPTS / "Prod02_Adolescent_Well_Care.sas"
-        super().run(
-            program,
-            path_log=build_logfile_name(
-                program, PRM_META[(150, "log")] / "OHA_Incentive_Measures"
-            ),
-            create_folder=True,
-        )
-        # pylint: enable=arguments-differ
-
-
-class ColorectralCancerScreening(PRMSASTask):  # pragma: no cover
-    """Run Prod03_Colorectal_Cancer_Screening.sas"""
-
-    requirements = RequirementsContainer(
-        ImportReferences,
-        staging_membership.DeriveParamsFromMembership,
-        poweruser_detail_datamart.ExportSAS,
-    )
-
-    def output(self):
-        names_output = {"results_crc_screening.sas7bdat"}
-        return [
-            IndyPyLocalTarget(PRM_META[(150, "out")] / name) for name in names_output
-        ]
-
-    def run(self):  # pylint: disable=arguments-differ
-        """Run the Luigi job"""
-        program = PATH_SCRIPTS / "Prod03_Colorectal_Cancer_Screening.sas"
-        super().run(
-            program,
-            path_log=build_logfile_name(
-                program, PRM_META[(150, "log")] / "OHA_Incentive_Measures"
-            ),
-            create_folder=True,
-        )
-        # pylint: enable=arguments-differ
-
-
-class DevelopmentalScreening(PRMSASTask):  # pragma: no cover
-    """Run Prod04_Developmental_Screening.sas"""
-
-    requirements = RequirementsContainer(
-        ImportReferences,
-        staging_membership.DeriveParamsFromMembership,
-        poweruser_detail_datamart.ExportSAS,
-    )
-
-    def output(self):
-        names_output = {"results_dev_screening.sas7bdat"}
-        return [
-            IndyPyLocalTarget(PRM_META[(150, "out")] / name) for name in names_output
-        ]
-
-    def run(self):  # pylint: disable=arguments-differ
-        """Run the Luigi job"""
-        program = PATH_SCRIPTS / "Prod04_Developmental_Screening.sas"
-        super().run(
-            program,
-            path_log=build_logfile_name(
-                program, PRM_META[(150, "log")] / "OHA_Incentive_Measures"
-            ),
-            create_folder=True,
-        )
-        # pylint: enable=arguments-differ
-
-
 class EDVisits(PRMSASTask):  # pragma: no cover
     """Run Prod05_ED_Visits.sas"""
 
@@ -152,7 +68,9 @@ class EDVisits(PRMSASTask):  # pragma: no cover
     )
 
     def output(self):
-        names_output = {"results_ed_visits.sas7bdat"}
+        names_output = {
+            'ed_visits_all.sas7bdat'
+        }
         return [
             IndyPyLocalTarget(PRM_META[(150, "out")] / name) for name in names_output
         ]
@@ -168,35 +86,6 @@ class EDVisits(PRMSASTask):  # pragma: no cover
             create_folder=True,
         )
         # pylint: enable=arguments-differ
-
-
-class EffectiveContraceptive(PRMSASTask):  # pragma: no cover
-    """Run Prod06_Effective_Contraceptive.sas"""
-
-    requirements = RequirementsContainer(
-        ImportReferences,
-        staging_membership.DeriveParamsFromMembership,
-        poweruser_detail_datamart.ExportSAS,
-    )
-
-    def output(self):
-        names_output = {"results_eff_contra.sas7bdat"}
-        return [
-            IndyPyLocalTarget(PRM_META[(150, "out")] / name) for name in names_output
-        ]
-
-    def run(self):  # pylint: disable=arguments-differ
-        """Run the Luigi job"""
-        program = PATH_SCRIPTS / "Prod06_Effective_Contraceptive.sas"
-        super().run(
-            program,
-            path_log=build_logfile_name(
-                program, PRM_META[(150, "log")] / "OHA_Incentive_Measures"
-            ),
-            create_folder=True,
-        )
-        # pylint: enable=arguments-differ
-
 
 class AssessmentsForDHSChildren(PRMSASTask):  # pragma: no cover
     """Run Prod08_Assessments_for_DHS_children.sas"""
@@ -249,36 +138,7 @@ class EDVisitsMI(PRMSASTask):  # pragma: no cover
         )
         # pylint: enable=arguments-differ
 
-
-class DentalSealant(PRMSASTask):  # pragma: no cover
-    """Run Prod12_Dental_Sealant.sas"""
-
-    requirements = RequirementsContainer(
-        ImportReferences,
-        staging_membership.DeriveParamsFromMembership,
-        poweruser_detail_datamart.ExportSAS,
-    )
-
-    def output(self):
-        names_output = {"results_Dental_Sealants.sas7bdat"}
-        return [
-            IndyPyLocalTarget(PRM_META[(150, "out")] / name) for name in names_output
-        ]
-
-    def run(self):  # pylint: disable=arguments-differ
-        """Run the Luigi job"""
-        program = PATH_SCRIPTS / "Prod12_Dental_Sealant.sas"
-        super().run(
-            program,
-            path_log=build_logfile_name(
-                program, PRM_META[(150, "log")] / "OHA_Incentive_Measures"
-            ),
-            create_folder=True,
-        )
-        # pylint: enable=arguments-differ
-
-
-class DiabetesOralEval(PRMSASTask):  # pragma: no cover
+class DiabetesOralEval(PRMSASTask): # pragma: no cover
     """ Run Prod14_Diabetes_Oral_Eval.sas"""
 
     requirements = RequirementsContainer(
@@ -426,11 +286,6 @@ class InjectCustomMeasures(PRMSASTask):  # pragma: no cover
     requirements = RequirementsContainer(
         ImportReferences,
         ancillary_inputs.Validation,
-        AdolescentWellCare,
-        ColorectralCancerScreening,
-        DevelopmentalScreening,
-        EDVisits,
-        EffectiveContraceptive,
         EDVisitsMI,
         WellChildVisits,
         PrenatalPostpartumCare,
@@ -490,7 +345,8 @@ def inject_dhs_assessments():  # pragma: no cover
 def inject_dental_measures():  # pragma: no cover
     """Inject Dental tasks into InjectCustomMeasures"""
     InjectCustomMeasures.add_requirements(
-        DentalSealant, DiabetesOralEval, DentalServices
+        DiabetesOralEval,
+        DentalServices,
     )
 
 

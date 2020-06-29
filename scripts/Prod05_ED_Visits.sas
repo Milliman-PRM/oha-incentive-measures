@@ -349,7 +349,7 @@ data members_numerator;
 run;
 
 proc sql;
-	create table m150_out.results_&measure_name. as
+	create table m150_out.ed_visits_all as
 	select
 		denom.member_id
 		,case
@@ -385,7 +385,7 @@ proc sql;
 		on denom.member_id eq numer.member_id
 	;
 quit;
-%LabelDataSet(M150_out.results_&measure_name.)
+%LabelDataSet(M150_out.ed_visits_all)
 
 proc sql noprint;
 	select
@@ -399,7 +399,7 @@ proc sql noprint;
 	into :sum_numerator trimmed
 		,:sum_denominator trimmed
 		,:measure_rate trimmed
-	from M150_out.results_&measure_name.
+	from M150_out.ed_visits_all
 	;
 quit;
 %put sum_numerator = &sum_numerator.;

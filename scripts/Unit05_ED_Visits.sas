@@ -238,12 +238,28 @@ quit;
 %symdel pct_members_prediction_comments;
 
 %include "%GetParentFolder(0)Prod05_ED_Visits.sas" / source2;
-%CompareResults()
+
+proc sql noprint;
+    create table Unexpected_results as
+        select
+            exp.*
+            ,coalesce(act.Denominator, 0) as Actual_Denominator
+            ,coalesce(act.Numerator, 0) as Actual_Numerator
+    from &dset_expected. as exp
+    left join M150_Out.ed_visits_all as act
+        on exp.member_ID = act.member_ID
+    where 
+        round(exp.anticipated_denominator,.0001) ne round(calculated Actual_Denominator,.0001)
+        or round(exp.anticipated_numerator,.0001) ne round(calculated Actual_Numerator,.0001)
+    ;
+quit;
+
+%AssertDataSetNotPopulated(Unexpected_results, ReturnMessage=The &Measure_Name. results are not as expected.  Aborting...)
 
 proc sql noprint;
 	select round(avg(case when prxmatch("/Probability of ED Visit Next 6 Months:/",strip(comments)) ne 0 then 1 else 0 end),0.001)
 	into :pct_members_prediction_comments trimmed
-	from M150_out.results_&measure_name.
+	from M150_out.ed_visits_all
 	;
 quit;
 %put &=pct_members_prediction_comments.;

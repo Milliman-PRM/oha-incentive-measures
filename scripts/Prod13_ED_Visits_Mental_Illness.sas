@@ -80,7 +80,7 @@ proc sql;
 		,ed.comments
 		,ed.comp_quality_date_actionable
 	from members_denominator as denom
-	inner join M150_Out.results_ed_visits as ed
+	inner join M150_Out.ed_visits_all as ed
 		on denom.member_id eq ed.member_id
 	;
 quit;

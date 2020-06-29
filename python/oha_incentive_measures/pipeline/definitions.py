@@ -78,7 +78,7 @@ class EDVisits(PRMSASTask):  # pragma: no cover
 
     def output(self):
         names_output = {
-            'results_ed_visits.sas7bdat'
+            'ed_visits_all.sas7bdat'
         }
         return [
             IndyPyLocalTarget(PRM_META[(150, 'out')] / name)

@@ -22,3 +22,35 @@ well_child_visits,Hospice Encounter,hospice_encounter
 well_child_visits,Hospice Intervention,hospice_intervention
 well_child_visits,Telehealth Modifier,telehealth_modifier
 well_child_visits,Telehealth POS,telehealth_pos
+prenatal_postpartum_care,Deliveries,deliveries
+prenatal_postpartum_care,Non-live Births,non_live_births
+prenatal_postpartum_care,Hospice Encounter,hospice_encounter
+prenatal_postpartum_care,Hospice Intervention,hospice_intervention
+prenatal_postpartum_care,Prenatal Bundled Services,prenatal_bundled
+prenatal_postpartum_care,Stand Alone Prenatal Visits,standalone_prenatal
+prenatal_postpartum_care,Prenatal Visits,prenatal_visits
+prenatal_postpartum_care,Pregnancy Diagnosis,pregnancy_diagnosis
+prenatal_postpartum_care,Postpartum Visits,postpartum_visits
+prenatal_postpartum_care,Cervical Cytology Lab Test,cervical_cytology_lab
+prenatal_postpartum_care,Cervical Cytology Result or Finding,cervical_cytology_result
+prenatal_postpartum_care,Postpartum Bundled Services,postpartum_bundled
+prenatal_postpartum_care,Acute Inpatient,acute_inpatient
+prenatal_postpartum_care,Acute Inpatient POS,acute_inpatient_pos
+aod,Alcohol Abuse and Dependence,alc_abuse_dependence
+aod,AOD Abuse and Dependence,aod_abuse_dependence
+aod,AOD Medication Treatment,aod_med_treatment
+aod,Detoxification,detox
+aod,ED,ED
+aod,IET Visits Group 1,iet_visits_grp_1
+aod,IET POS Group 1,iet_pos_grp_1
+aod,IET Visits Group 2,iet_visits_grp_2
+aod,IET POS Group 2,iet_pos_grp_2
+aod,IET Stand Alone Visits,iet_standalone_visits
+aod,Inpatient Stay,ip_stay
+aod,Observation,observation
+aod,Online Assessments,online_assessments
+aod,Opioid Abuse and Dependence,opioid_abuse_dependence
+aod,Other Drug Abuse and Dependence,other_abuse_dependence
+aod,Telephone Visits,telephone_visits
+aod,Hospice Encounter,hospice_encounter
+aod,Hospice Intervention,hospice_intervention

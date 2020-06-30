@@ -857,6 +857,7 @@ proc sql;
 		,"No Qualifying Visit" as comment format = $128. length = 128
 		,&measure_end as comp_quality_date_actionable format = YYMMDDd10.
 	from members_with_flags_init as members_init
+	where members_init.denom_included_yn eq 'Y'
 	;
 quit;
 
@@ -877,5 +878,6 @@ proc sql;
 		,"No Qualifying Visit" as comment format = $128. length = 128
 		,&measure_end as comp_quality_date_actionable format = YYMMDDd10.
 	from members_with_flags_engage as members_engage
+	where members_engage.denom_included_yn eq 'Y'
 	;
 quit;

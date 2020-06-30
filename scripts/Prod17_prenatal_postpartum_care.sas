@@ -565,6 +565,7 @@ data
 	m150_out.results_postpartum_care
 ;
 	set measure_results_summ;
+	where denominator ne 0;
 
 	format
 		comments $128.

@@ -2,6 +2,20 @@
 
 A non-exhaustive list of what has changed in a more readable form than a commit history.
 
+### v1.6.0
+  - Retired measure calculations that are no longer incentivized:
+    - Adolescent Well Care Visits
+    - Colorectal Cancer Screening
+    - ED Visits Utilization
+    - Dental Sealants for Children
+    - Development Screening in first 36 months
+    - Effective Contraceptive Use
+  - Added measure calculation and supporting files for:
+    - Well Child Visits for Ages 3-6
+    - Preventive Dental Services Ages 1-5, Preventive Dental Services Ages 6-14
+    - Prenatal and Postpartum Care
+    - Initiation and Engagement of Alcohol and Other Drug Abuse or Dependence Treatment
+
 ### v1.5.0
   - Added testing of reference data compilation as part of CI via `run_tests.bat`
   - Updated calculations to meet 2020 specifications:

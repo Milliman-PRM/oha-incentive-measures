@@ -1,11 +1,6 @@
 Measure_Abbreviation,Measure_Description,Measure_Format,Measure_Calculation_Type
 Alcohol_SBIRT,Alcohol and Drug Misuse (SBIRT),"#,##0.0%",Binary
-Adolescent_Well_Care,Adolescent Well Care Visits,"#,##0.0%",Binary
-CRC_Screening,Colorectal Cancer Screening,"#,##0.0%",Binary
-Dev_Screening,Developmental Screening 0-36 Months,"#,##0.0%",Binary
-ED_Visits,Ambulatory Care: Emergency Dept Utilization,"#,##0.0",Rate
 ED_Visits_MI,ED Utilization Among Members with Mental Illness,"#,##0.0",Rate
-Eff_Contra,Effective Contraceptive Use,"#,##0.0%",Binary
 DHS_assessments,Assessments within 60 Days for Children in DHS Custody,"#,##0.0%",Binary
 Hypertension,Controlling High Blood Pressure,"#,##0.0%",Binary
 Diabetes_HbA1c,Diabetes: HbA1c Poor Control,"#,##0.0%",Binary
@@ -17,7 +12,13 @@ Childhood_Obesity_BMI,"Weight Assessment (BMI) in Children and Adolescents","#,#
 Childhood_Obesity_Nutr,Counseling for Nutrition in Children and Adolescents,"#,##0.0%",Binary
 Childhood_Obesity_Phys,Counseling for Phys. Activity in Children and Adolescents,"#,##0.0%",Binary
 BMI_Screening,Body Mass Index (BMI) Screening and Follow-Up Plan,"#,##0.0%",Binary
-Dental_Sealants,Dental Sealants,"#,##0.0%",Binary
 SBIRT_Screen,"SBIRT - Screening","#,##0.0%",Binary
 SBIRT_Intervention,"SBIRT - Intervention and Follow-Up","#,##0.0%",Binary
 diabetes_oral_eval,Oral Evaluation for Adults with Diabetes,"#,##0.0%",Binary
+well_child_visits,"Well-Child Visits in the Third, Fourth, Fifth and Sixth Years of Life","#,##0.0%",Binary
+prev_dental_1_to_5,Preventive Dental Services Ages 1-5,"#,##0.0%",Binary
+prev_dental_6_to_14,Preventive Dental Services Ages 6-14,"#,##0.0%",Binary
+prenatal_care,Prenatal Care,"#,##0.0%",Binary
+postpartum_care,Postpartum Care,"#,##0.0%",Binary
+aod_init,"Initiation of Alcohol and Other Drug Abuse or Dependence Treatment","#,##0.0%",Binary
+aod_engage,"Engagement of Alcohol and Other Drug Abuse or Dependence Treatment","#,##0.0%",Binary

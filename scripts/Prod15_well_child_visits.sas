@@ -1,8 +1,8 @@
 /*
-### Code Owners: Shea Parkes, Aaron Hoch, Neil Schneider
+### Code Owners: Ben Copeland, Matthew Hawthorne
  
 ### Objective:
-  Calculate the Adolescent Well-Care measure and provide a list of members inlcuded in the measure. 
+  Calculate the Well Child Visits measure and provide a list of members inlcuded in the measure. 
 
 Developer Notes:
 
@@ -21,15 +21,37 @@ libname M150_Tmp "&M150_Tmp.";
 %CacheWrapperPRM(073,150);
 %FindICDFieldNames()
 
-%let Measure_Name = Adolescent_Well_Care;
-%let Age_Adolescent_Between = 12 and 21;
-%CodeGenClaimsFilter(&Measure_Name.,Component = Numerator,Reference_Source=oha_ref.oha_codes)
+%let Measure_Name = well_child_visits;
+%let filter_age_between = 3 and 6;
 %CodeGenClaimsFilter(
-	&measure_name.
-	,name_output_var=denom_excl_hospice
-	,component=Denom_Exclusion_Hospice
-	,Reference_Source=oha_ref.oha_codes
-	);
+	&Measure_Name.
+	,Component = well_care
+	,Reference_Source=oha_ref.hedis_codes
+);
+%CodeGenClaimsFilter(
+	&Measure_Name.
+	,Component = hospice_encounter
+	,Reference_Source=oha_ref.hedis_codes
+	,name_output_var=hospice_encounter
+);
+%CodeGenClaimsFilter(
+	&Measure_Name.
+	,Component = hospice_intervention
+	,Reference_Source=oha_ref.hedis_codes
+	,name_output_var=hospice_intervention
+);
+%CodeGenClaimsFilter(
+	&Measure_Name.
+	,Component = telehealth_modifier
+	,Reference_Source=oha_ref.hedis_codes
+	,name_output_var=telehealth_modifier
+);
+%CodeGenClaimsFilter(
+	&Measure_Name.
+	,Component = telehealth_pos
+	,Reference_Source=oha_ref.hedis_codes
+	,name_output_var=telehealth_pos
+);
 
 /**** LIBRARIES, LOCATIONS, LITERALS, ETC. GO ABOVE HERE ****/
 
@@ -43,7 +65,10 @@ proc sql;
 	where
 		fromdate ge &measure_start.
 		and fromdate le &measure_end.
-		and &denom_excl_hospice.
+		and (
+			(&hospice_encounter.)
+			or (&hospice_intervention.)
+		)
 	;
 quit;
 
@@ -61,7 +86,7 @@ proc sql;
 	from M150_Tmp.Member_Time as time
 	inner join M150_Tmp.Member as mem on
 		time.Member_ID eq mem.Member_ID
-	where intck('year', mem.dob, &Measure_End., 'c') between &Age_Adolescent_Between.
+	where intck('year', mem.dob, &Measure_End., 'c') between &filter_age_between.
 	order by
 		time.member_id
 		,time.date_end
@@ -151,22 +176,12 @@ proc sql;
 				else 0
 				end
 		) as numerator
-		,case
-			when elig.denom_excluded_yn eq 'Y' then 'Excluded due to hospice status'
-			else cat(
-				'Most recent visit performed '
-				,put(calculated most_recent_visit,MMDDYYs10.)
-				,case
-					when not (calculated most_recent_visit between &Measure_Start. and &Measure_End.) then " (not in performance year)"
-					else ""
-					end
-				)
-			end
-			as comment format = $128. length = 128
 	from M150_Tmp.outclaims_prm as outclaims_prm
-	inner join members_denominator as elig
-		on outclaims_prm.member_ID = elig.member_ID
-	where (&claims_filter_numerator.)
+	where (
+		(&claims_filter_well_care.)
+		and not (&telehealth_modifier.)
+		and not (&telehealth_pos.)
+	)
 	group by
 		outclaims_prm.Member_ID
 	;
@@ -184,12 +199,16 @@ proc sql;
 		,coalesce(visits.numerator,0) as numerator
 		,case
 			when denom.denom_excluded_yn eq 'Y' then 'Excluded due to hospice status'
-			else coalesce(
-				visits.comment
-				,"No qualifying visit"
+			when visits.most_recent_visit ne . then cat(
+				'Most recent visit performed '
+				,put(most_recent_visit,MMDDYYs10.)
+				,case
+					when not (most_recent_visit between &Measure_Start. and &Measure_End.) then " (not in performance year)"
+					else ""
+					end
 				)
-			end
-			as comments format = $128. length = 128
+			else "No qualifying visit"
+			end as comments format = $128. length = 128
 		,case calculated numerator
 			when 0 then &measure_end.
 			else .

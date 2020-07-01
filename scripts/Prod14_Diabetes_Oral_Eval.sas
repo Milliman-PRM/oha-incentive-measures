@@ -48,18 +48,21 @@ libname M030_Out "&M030_Out.";
     ,Reference_Source=oha_ref.oha_codes
 );
 
-proc import
-	file = "&path_hedis_components."
-	out = hedis_components
-	dbms = csv
-	replace
+data hedis_components;
+	infile "&path_hedis_components." delimiter=',' TRUNCOVER DSD firstobs=2;
+	input 
+		Measure :$32.
+		Value_Set_Name :$256.
+		Component :$25.
 	;
 run;
-proc import
-	file = "&path_medication_components."
-	out = medication_components
-	dbms = csv
-	replace
+
+data medication_components;
+	infile "&path_medication_components." delimiter=',' TRUNCOVER DSD firstobs=2;
+	input 
+		Measure :$32.
+		Medication_List_Name :$256.
+		Component :$25.
 	;
 run;
 
@@ -74,6 +77,7 @@ data components;
 			in = medication
 		)
 	;
+	where measure eq "&measure_name.";
 	format source $32.;
 	if hedis then source = 'oha_ref.hedis_codes';
 	else if medication then source = 'oha_ref.medications';

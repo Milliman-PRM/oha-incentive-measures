@@ -263,7 +263,7 @@ class AODInitEngage(PRMSASTask):  # pragma: no cover
     )
 
     def output(self):
-        names_output = {"results_aod_init.sas7bdat" "results_aod_engage.sas7bdat"}
+        names_output = {"results_aod_init.sas7bdat", "results_aod_engage.sas7bdat"}
         return [
             IndyPyLocalTarget(PRM_META[(150, "out")] / name) for name in names_output
         ]

@@ -318,7 +318,7 @@ class CombineAll(PRMSASTask):  # pragma: no cover
 
     def output(self):
         names_output = {
-            "oha_stacked_results_raw.sas7bdat" "ref_quality_measures.sas7bdat"
+            "oha_stacked_results_raw.sas7bdat", "ref_quality_measures.sas7bdat"
         }
         return [
             IndyPyLocalTarget(PRM_META[(150, "out")] / name) for name in names_output

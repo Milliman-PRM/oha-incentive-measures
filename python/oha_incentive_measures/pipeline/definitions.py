@@ -1,5 +1,5 @@
 """
-### CODE OWNERS: Ben Copeland, Chas Busenburg
+### CODE OWNERS: Ben Copeland, Chas Busenburg, Sam Miller
 
 ### OBJECTIVE:
   Define tasks for OHA quality metrics
@@ -68,9 +68,7 @@ class EDVisits(PRMSASTask):  # pragma: no cover
     )
 
     def output(self):
-        names_output = {
-            'ed_visits_all.sas7bdat'
-        }
+        names_output = {"ed_visits_all.sas7bdat"}
         return [
             IndyPyLocalTarget(PRM_META[(150, "out")] / name) for name in names_output
         ]
@@ -86,6 +84,7 @@ class EDVisits(PRMSASTask):  # pragma: no cover
             create_folder=True,
         )
         # pylint: enable=arguments-differ
+
 
 class AssessmentsForDHSChildren(PRMSASTask):  # pragma: no cover
     """Run Prod08_Assessments_for_DHS_children.sas"""
@@ -138,7 +137,8 @@ class EDVisitsMI(PRMSASTask):  # pragma: no cover
         )
         # pylint: enable=arguments-differ
 
-class DiabetesOralEval(PRMSASTask): # pragma: no cover
+
+class DiabetesOralEval(PRMSASTask):  # pragma: no cover
     """ Run Prod14_Diabetes_Oral_Eval.sas"""
 
     requirements = RequirementsContainer(
@@ -318,7 +318,8 @@ class CombineAll(PRMSASTask):  # pragma: no cover
 
     def output(self):
         names_output = {
-            "oha_stacked_results_raw.sas7bdat", "ref_quality_measures.sas7bdat"
+            "oha_stacked_results_raw.sas7bdat",
+            "ref_quality_measures.sas7bdat",
         }
         return [
             IndyPyLocalTarget(PRM_META[(150, "out")] / name) for name in names_output
@@ -344,10 +345,7 @@ def inject_dhs_assessments():  # pragma: no cover
 
 def inject_dental_measures():  # pragma: no cover
     """Inject Dental tasks into InjectCustomMeasures"""
-    InjectCustomMeasures.add_requirements(
-        DiabetesOralEval,
-        DentalServices,
-    )
+    InjectCustomMeasures.add_requirements(DiabetesOralEval, DentalServices)
 
 
 def inject_emr_measures():  # pragma: no cover

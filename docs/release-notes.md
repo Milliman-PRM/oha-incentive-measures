@@ -2,6 +2,9 @@
 
 A non-exhaustive list of what has changed in a more readable form than a commit history.
 
+### v1.6.1
+  - Fixes missing comma in `names_output` for the `CombineAll` task
+
 ### v1.6.0
   - Retired measure calculations that are no longer incentivized:
     - Adolescent Well Care Visits

@@ -1,5 +1,5 @@
 """
-### CODE OWNERS: Ben Copeland, Chas Busenburg , Sam Miller
+### CODE OWNERS: Ben Copeland, Chas Busenburg, Samuel Miller
 
 ### OBJECTIVE:
   Define tasks for OHA quality metrics
